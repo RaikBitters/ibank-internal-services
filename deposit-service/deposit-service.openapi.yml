@@ -1,0 +1,287 @@
+openapi: '3.0.2'
+info:
+  title: Deposit service
+  version: '1.0'
+  description: |
+    ### Сервис для работы с депозитами клиентов интернет-банка
+    Позволяет решать задачи управления депозитами физических и юридических лиц.
+
+    Содержит в себе всю необходимую функциональность:
+    * открытие или закрытие депозита;
+    * получение списка продуктовых предложений по депозитам;
+    * получение списка открытых и закрытых депозитов;
+    * получение операций по группе депозитов.
+
+servers:
+  - url: https://api.example.com
+    description: SwaggerHub API Auto Mocking
+  - url: '{protocol}://{server}:{port}'
+    description: Local server
+    variables:
+      protocol:
+        default: 'http'
+      server:
+        default: 'localhost'
+      port:
+        default: '7019'
+paths:
+  /customers/private/rates:
+    get:
+      summary: Получить доступные к открытию депозиты для ФЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: A list of deposit offers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositOffer'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/private/{dboId}/deposits:
+    get:
+      summary: Получить текущие депозиты ФЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK             
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/private/{dboId}/place:
+    post:
+      summary: Открыть депозит ФЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/private/{dboId}/close/{depositId}:
+    post:
+      summary: Закрыть депозит ФЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/sole-proprietor/rates:
+    get:
+      summary: Получить доступные к открытию депозиты ИП
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/corporate/rates:
+    get:
+      summary: Получить доступные к открытию депозиты ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/corporate/{dboId}/deposits:
+    get:
+      summary: Получить текущие депозиты ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/corporate/{dboId}/transactions:
+    get:
+      summary: Получить операции по депозиту ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/corporate/{dboId}/place:
+    post:
+      summary: Открыть вклад ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+  /customers/corporate/{dboId}/close/{depositId}:
+    post:
+      summary: Закрыть вклад ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/Unexpected'
+components:
+  schemas:
+    DepositOffer:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 'ID схемы начисления процентов для 
+                        определенного вида депозитного договора.'
+        typeCode:
+          type: string
+          description: 'Код вида депозитного договора в ЦФТ.'
+        parentTypeCode:
+          type: string
+          description: 'Код вида вклада для доп. вложения.'
+        type:
+          type: string
+          description: 'Наименование вклада.'
+        termsUrl:
+          type: string
+          description: 'Ссылка на страницу ИБ с 
+                        подробным описанием депозита.'
+        online:
+          type: boolean
+          description: 'Признак возможности открытия вклада 
+                        online в ИБ.'
+        customPeriod:
+          type: boolean
+          description: 'Вернёт "true", если у вида вклада в АБС 
+                        есть ссылка на справочник «СПБ. Депозиты 
+                        особые условия».'
+        topupAllowed:
+          type: boolean
+          description: 'Признак возможности 
+                        пополнения/дополнительных взносов.'
+        reinvestInterest:
+          type: boolean
+          description: 'Признак реинвестирования накопленных 
+                        процентов.'
+        isCancellationAllowed:
+          type: boolean
+          description: 'Признак возможности досрочного закрытия 
+                        вклада.'
+        isTopupWithdrawAllowed:
+          type: boolean
+          description: 'Возвращаемое значение сервиса не 
+                        используется. Будет удалено.'
+          deprecated: true
+        isInitialAmountWithdrawAllowed:
+          type: boolean
+          description: 'Признак возможности снятия средств с 
+                        депозитного договора.'
+        prolongationAllowed:
+          type: boolean
+          description: 'Признак возможности снятия накопленных 
+                        процентов.'
+        hidden:
+          type: boolean
+          description: 'Возвращается "true", если typeCode 
+                        1621, 1622 или 300.'
+        interestsPayments:
+          type: string
+          example: 'MONTHLY'
+          description: 'Период выплаты процентов. Значения:
+                        MONTHLY, QUARTERLY, MATURITY.'
+        currency:
+          type: string  
+          description: 'Валюта вклада.'
+        minAmount:
+          type: integer
+          description: 'Минимальная сумма вклада.'
+        maxAmount:
+          type: integer
+          description: 'Максимальная сумма вклада.'
+        minTopUpAmount:
+          type: number
+          description: 'Минимальная сумма пополнения депозита.'
+        minDays:
+          type: integer
+          description: 'Минимальный срок вклада для случаев вручную 
+                        указываемого срока или свободного срока.'
+        rate:
+          type: integer
+          description: 'Ставка, % годовых.'
+        dynamicRatesDescription:
+          type: string
+          description: 'dynamicRatesDescription.'
+        cancellationPenalties:
+          type: object
+          description: 'Штрафная процентная ставка при досрочном 
+                        закрытии вклада.'
+        validSince:
+          type: string
+          format: date-time
+          description: 'Дата, с которой можно открывать вклад.'
+        prolongationTypeCode:
+          type: string
+          description: 'Код вида договора для автоматической 
+                        пролонгации.'
+        raised:
+          type: boolean
+          example: false
+          description: 'Всегда возвращает false.'
+  parameters:
+    X-Request-ID:
+      in: header
+      name: RequestId
+      schema:
+       type: string
+       format: uuid
+      required: true
+  responses:
+    BadRequest:
+      description: Bad request. Object ID must be an integer and larger than 0.
+    NotFound:
+      description: A object with the specified ID was not found.
+    Unexpected:
+      description: Unexpected error.
