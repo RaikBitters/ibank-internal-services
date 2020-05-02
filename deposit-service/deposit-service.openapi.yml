@@ -38,7 +38,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DepositOffer'
+                  $ref: '#/components/schemas/DepositPrivateOffer'
         '5XX':
           $ref: '#/components/responses/Unexpected'
   /customers/private/{dboId}/deposits:
@@ -169,7 +169,7 @@ paths:
           $ref: '#/components/responses/Unexpected'
 components:
   schemas:
-    DepositOffer:
+    DepositPrivateOffer:
       type: object
       properties:
         id:
