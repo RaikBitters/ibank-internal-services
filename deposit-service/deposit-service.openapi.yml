@@ -6,8 +6,8 @@ info:
     ### Сервис для работы с депозитами клиентов интернет-банка
     Позволяет решать задачи управления депозитами физических и юридических лиц.
 
-    Содержит в себе всю необходимую функциональность:
-    * открытие или закрытие депозита;
+    Предоставляет функциональность:
+    * открытие и закрытие депозита;
     * получение списка продуктовых предложений по депозитам;
     * получение списка открытых и закрытых депозитов;
     * получение операций по группе депозитов.
@@ -27,7 +27,7 @@ servers:
 paths:
   /customers/private/rates:
     get:
-      summary: Получить доступные к открытию депозиты для ФЛ
+      summary: Получить доступные к открытию депозиты для пользователя.
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
@@ -38,7 +38,62 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DepositPrivateOffer'
+                  $ref: '#/components/schemas/DepositRate'
+              examples:
+                Private:
+                  value:
+                    id: 800936587281
+                    typeCode: "1610"
+                    parentTypeCode: "1610"
+                    type: "Пенсионный online"
+                    termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
+                    online: true
+                    customPeriod: false
+                    topupAllowed: true
+                    reinvestInterest: true
+                    cancellationAllowed: false
+                    initialAmountWithdrawAllowed: false
+                    interestWithdrawAllowed: false
+                    prolongationAllowed: true
+                    hidden: false
+                    interestsPayments: "MONTHLY"
+                    currency: "RUB"
+                    minAmount: 1000.00
+                    maxAmount: 100000000.00
+                    minTopUpAmount: 0.01
+                    minDays: 367
+                    rate: 4.0
+                    dynamicRatesDescription: ""
+                    cancellationPenalties: {}
+                    validSince: "2019-07-15T00:00:00.000"
+                    prolongationTypeCode: "1611"
+                    raised: false
+                Сorporate:
+                  value:
+                    id : 672108579681
+                    typeCode: "5201"
+                    type: "Срочный депозит"
+                    termsUrl: ""
+                    online: false
+                    customPeriod: true
+                    topupAllowed: false
+                    reinvestInterest: false
+                    cancellationAllowed: false
+                    initialAmountWithdrawAllowed: false
+                    interestWithdrawAllowed: false
+                    prolongationAllowed: false
+                    hidden: false
+                    interestsPayments: "MATURITY"
+                    currency: "RUB"
+                    minAmount: 10000.00
+                    maxAmount: 100000000.00
+                    minTopUpAmount: 0.00
+                    minDays: 1096
+                    rate: 6.90
+                    dynamicRatesDescription: ""
+                    cancellationPenalties: { "0": 0.01 }
+                    validSince: "2018-09-03T00:00:00.000"
+                    raised: false
         '5XX':
           $ref: '#/components/responses/Unexpected'
   /customers/private/{dboId}/deposits:
@@ -169,95 +224,134 @@ paths:
           $ref: '#/components/responses/Unexpected'
 components:
   schemas:
-    DepositPrivateOffer:
+    DepositRate:
+      title: Deposit Rate Object
       type: object
       properties:
         id:
           type: integer
           description: 'ID схемы начисления процентов для 
-                        определенного вида депозитного договора.'
+          определенного вида депозитного договора.'
+          nullable: true
+          example: 800936587281
         typeCode:
           type: string
           description: 'Код вида депозитного договора в ЦФТ.'
+          nullable: true
+          example: "1610"
         parentTypeCode:
           type: string
           description: 'Код вида вклада для доп. вложения.'
+          nullable: true
+          example: "1610"
         type:
           type: string
           description: 'Наименование вклада.'
+          nullable: true
+          example: "Пенсионный online"
         termsUrl:
           type: string
           description: 'Ссылка на страницу ИБ с 
-                        подробным описанием депозита.'
+          подробным описанием депозита.'
+          nullable: true
+          example: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
         online:
           type: boolean
           description: 'Признак возможности открытия вклада 
-                        online в ИБ.'
+          online в ИБ.'
+          example: true
         customPeriod:
           type: boolean
           description: 'Вернёт "true", если у вида вклада в АБС 
-                        есть ссылка на справочник «СПБ. Депозиты 
-                        особые условия».'
+          есть ссылка на справочник «СПБ. Депозиты особые условия».'
+          example: false
         topupAllowed:
           type: boolean
           description: 'Признак возможности 
-                        пополнения/дополнительных взносов.'
+          пополнения/дополнительных взносов.'
+          example: true
         reinvestInterest:
           type: boolean
           description: 'Признак реинвестирования накопленных 
-                        процентов.'
-        isCancellationAllowed:
+          процентов.'
+          example: true
+        cancellationAllowed:
           type: boolean
           description: 'Признак возможности досрочного закрытия 
-                        вклада.'
+          вклада.'
+          example: false
         isTopupWithdrawAllowed:
           type: boolean
           description: 'Возвращаемое значение сервиса не 
-                        используется. Будет удалено.'
+          используется. Удалено.'
           deprecated: true
-        isInitialAmountWithdrawAllowed:
+          example: false
+        initialAmountWithdrawAllowed:
           type: boolean
           description: 'Признак возможности снятия средств с 
-                        депозитного договора.'
-        prolongationAllowed:
+          депозитного договора.'
+          example: false
+        interestWithdrawAllowed:
           type: boolean
           description: 'Признак возможности снятия накопленных 
-                        процентов.'
+          процентов.'
+          example: false
+        prolongationAllowed:
+          type: boolean
+          description: 'Признак возможности пролонгации депозита.'
+          example: true
         hidden:
           type: boolean
           description: 'Возвращается "true", если typeCode 
-                        1621, 1622 или 300.'
+          1621, 1622 или 300.'
+          example: false
         interestsPayments:
           type: string
-          example: 'MONTHLY'
           description: 'Период выплаты процентов. Значения:
-                        MONTHLY, QUARTERLY, MATURITY.'
+          MONTHLY, QUARTERLY, MATURITY.'
+          example: 'MONTHLY'
         currency:
-          type: string  
+          type: string
           description: 'Валюта вклада.'
+          example: "RUB"
         minAmount:
-          type: integer
+          type: number
           description: 'Минимальная сумма вклада.'
+          example: 1000.00
         maxAmount:
-          type: integer
+          type: number
           description: 'Максимальная сумма вклада.'
+          example: 5000000.00
         minTopUpAmount:
           type: number
           description: 'Минимальная сумма пополнения депозита.'
+          example: 0.01
+        maxTopUpAmount:
+          type: number
+          description: 'Максимальная сумма пополнения депозита.'
+          deprecated: true
+          example: 5000000.00
         minDays:
           type: integer
           description: 'Минимальный срок вклада для случаев вручную 
-                        указываемого срока или свободного срока.'
+          указываемого срока или свободного срока.'
+          example: 367
         rate:
-          type: integer
+          type: number
           description: 'Ставка, % годовых.'
+          example: 4.0
+        rateExtra:
+          type: number
+          description: 'Значение уточняется.'
+          deprecated: true
+          example: 4.0
         dynamicRatesDescription:
           type: string
           description: 'dynamicRatesDescription.'
+          example: "Ставка LIBOR overnight - 1.4%"
         cancellationPenalties:
-          type: object
           description: 'Штрафная процентная ставка при досрочном 
-                        закрытии вклада.'
+          закрытии вклада.'
         validSince:
           type: string
           format: date-time
@@ -265,11 +359,12 @@ components:
         prolongationTypeCode:
           type: string
           description: 'Код вида договора для автоматической 
-                        пролонгации.'
+          пролонгации.'
+          example: "1611"
         raised:
           type: boolean
-          example: false
           description: 'Всегда возвращает false.'
+          example: false
   parameters:
     X-Request-ID:
       in: header
