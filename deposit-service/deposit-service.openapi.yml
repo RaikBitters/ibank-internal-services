@@ -25,11 +25,27 @@ servers:
       port:
         default: '7019'
 paths:
-  /customers/private/rates:
+  /customers/{client-type}/rates:
     get:
       summary: Получить доступные к открытию депозиты для пользователя.
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - in: path
+          name: client-type
+          required: true
+          schema:
+            type: string
+            enum:
+              - private
+              - sole-proprietor
+              - customer
+          description: |
+            Параметр оперделяет доступные продукт для:
+            * `private` - юридического лица
+
+            * `sole-proprietor` - индивидуального предпринимателя
+            
+            * `customer` - физического лица
       responses:
         '200':
           description: A list of deposit offers
@@ -127,34 +143,6 @@ paths:
   /customers/private/{dboId}/close/{depositId}:
     post:
       summary: Закрыть депозит ФЛ
-      parameters:
-        - $ref: '#/components/parameters/X-Request-ID'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
-  /customers/sole-proprietor/rates:
-    get:
-      summary: Получить доступные к открытию депозиты ИП
-      parameters:
-        - $ref: '#/components/parameters/X-Request-ID'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
-  /customers/corporate/rates:
-    get:
-      summary: Получить доступные к открытию депозиты ЮЛ
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
@@ -369,6 +357,7 @@ components:
     X-Request-ID:
       in: header
       name: RequestId
+      description: UUID для логгирования запроса.
       schema:
        type: string
        format: uuid
