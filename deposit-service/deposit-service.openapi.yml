@@ -27,7 +27,7 @@ servers:
 paths:
   /customers/{client-type}/rates:
     get:
-      summary: Получить доступные к открытию депозиты для пользователя.
+      summary: Получить доступные к открытию депозиты для пользователя
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - in: path
@@ -40,15 +40,15 @@ paths:
               - sole-proprietor
               - customer
           description: |
-            Параметр оперделяет доступные продукт для:
-            * `private` - юридического лица
+            Категория продуктов для:
+            * `corporate` - юридического лица
 
             * `sole-proprietor` - индивидуального предпринимателя
             
-            * `customer` - физического лица
+            * `private` - физического лица
       responses:
         '200':
-          description: A list of deposit offers
+          description: A list of deposit rates
           content:
             application/json:
               schema:
@@ -110,22 +110,42 @@ paths:
                     cancellationPenalties: { "0": 0.01 }
                     validSince: "2018-09-03T00:00:00.000"
                     raised: false
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
   /customers/private/{dboId}/deposits:
     get:
       summary: Получить текущие депозиты ФЛ
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - in: path
+          name: dboId
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ДБО ИД Клиента
+        - in: query
+          name: close
+          schema:
+            type: boolean
+            example: false
       responses:
         '200':
-          description: OK             
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
+          description: OK
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+  /customers/private/{dboId}/transactions:
+    get:
+      summary: Получить операции по депозиту ФЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
   /customers/private/{dboId}/place:
     post:
       summary: Открыть депозит ФЛ
@@ -134,12 +154,6 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
   /customers/private/{dboId}/close/{depositId}:
     post:
       summary: Закрыть депозит ФЛ
@@ -148,12 +162,6 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
   /customers/corporate/{dboId}/deposits:
     get:
       summary: Получить текущие депозиты ЮЛ
@@ -162,12 +170,6 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
   /customers/corporate/{dboId}/transactions:
     get:
       summary: Получить операции по депозиту ЮЛ
@@ -176,12 +178,6 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
   /customers/corporate/{dboId}/place:
     post:
       summary: Открыть вклад ЮЛ
@@ -190,12 +186,6 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
   /customers/corporate/{dboId}/close/{depositId}:
     post:
       summary: Закрыть вклад ЮЛ
@@ -204,16 +194,10 @@ paths:
       responses:
         '200':
           description: OK
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '5XX':
-          $ref: '#/components/responses/Unexpected'
 components:
   schemas:
     DepositRate:
-      title: Deposit Rate Object
+      title: Deposit Rate
       type: object
       properties:
         id:
@@ -250,7 +234,7 @@ components:
           example: true
         customPeriod:
           type: boolean
-          description: 'Вернёт "true", если у вида вклада в АБС 
+          description: 'Вернёт "true", если у вида вклада в АБС
           есть ссылка на справочник «СПБ. Депозиты особые условия».'
           example: false
         topupAllowed:
@@ -267,12 +251,6 @@ components:
           type: boolean
           description: 'Признак возможности досрочного закрытия 
           вклада.'
-          example: false
-        isTopupWithdrawAllowed:
-          type: boolean
-          description: 'Возвращаемое значение сервиса не 
-          используется. Удалено.'
-          deprecated: true
           example: false
         initialAmountWithdrawAllowed:
           type: boolean
@@ -317,7 +295,6 @@ components:
         maxTopUpAmount:
           type: number
           description: 'Максимальная сумма пополнения депозита.'
-          deprecated: true
           example: 5000000.00
         minDays:
           type: integer
@@ -353,19 +330,34 @@ components:
           type: boolean
           description: 'Всегда возвращает false.'
           example: false
+    Error:
+      title: Default Error
+      type: object
+      properties:
+        massage:
+          type: string
   parameters:
     X-Request-ID:
       in: header
       name: RequestId
-      description: UUID для логгирования запроса.
       schema:
        type: string
        format: uuid
+       example: 
       required: true
+      description: UUID для логгирования запроса.
   responses:
-    BadRequest:
-      description: Bad request. Object ID must be an integer and larger than 0.
-    NotFound:
-      description: A object with the specified ID was not found.
-    Unexpected:
-      description: Unexpected error.
+    GatewayTimeout:
+      description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            massage: "Remote services are unavailable"
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
