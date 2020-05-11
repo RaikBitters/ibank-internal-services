@@ -48,7 +48,7 @@ paths:
             * `private` - физического лица
       responses:
         '200':
-          description: A list of deposit rates
+          description: OK
           content:
             application/json:
               schema:
@@ -110,8 +110,6 @@ paths:
                     cancellationPenalties: { "0": 0.01 }
                     validSince: "2018-09-03T00:00:00.000"
                     raised: false
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
   /customers/private/{dboId}/deposits:
@@ -119,21 +117,17 @@ paths:
       summary: Получить текущие депозиты ФЛ
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
-        - in: path
-          name: dboId
-          required: true
-          schema:
-            type: integer
-            format: int64
-          description: ДБО ИД Клиента
-        - in: query
-          name: close
-          schema:
-            type: boolean
-            example: false
+        - $ref: '#/components/parameters/DBO-ID'
+        - $ref: '#/components/parameters/CloseFilter'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deposit'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
@@ -143,6 +137,8 @@ paths:
       summary: Получить операции по депозиту ФЛ
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
+        - $ref: '#/components/parameters/Deposit-IDs'
       responses:
         '200':
           description: OK
@@ -202,9 +198,9 @@ components:
       properties:
         id:
           type: integer
+          format: int64
           description: 'ID схемы начисления процентов для 
           определенного вида депозитного договора.'
-          nullable: true
           example: 800936587281
         typeCode:
           type: string
@@ -330,6 +326,243 @@ components:
           type: boolean
           description: 'Всегда возвращает false.'
           example: false
+    Deposit:
+      title: User's deposit
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 'ID депозита.'
+          example: 136339851112
+        amount:
+          type: number
+          description: 'Текущая сумма вклада.'
+          example: 71759.4
+        until:
+          type: string
+          format: date-time
+          description: 'Дата закрытия/пролонгации депозита.'
+          nullable: true
+          example: "2020-01-25T00:00:00.000"
+        orderDate:
+          type: string
+          format: date-time
+          description: 'Дата создания вклада.'
+          example: "2019-01-23T00:00:00.000"
+        startDate:
+          type: string
+          format: date-time
+          description: 'Дата начала действия вклада.'
+          example: "2015-01-16T18:47:00.000"
+        days:
+          type: integer
+          description: 'Срок, на который открыт депозит.'
+          nullable: true
+          example: 367
+        type:
+          type: string
+          description: 'Наименование вклада.'
+          example: "Престиж online c пролонгацией"
+        typeCode:
+          type: string
+          description: 'Код вида депозитного договора в ЦФТ.'
+          example: "1521"
+        currency:
+          type: string
+          description: 'Валюта депозита'
+          example: "RUB"
+        topupAllowed:
+          type: boolean
+          description: 'Признак возможности пополнения.'
+          example: true
+        WithdrawAllowed:
+          type: boolean
+          description: 'Признак возможности снятия средств с депозита.'
+          example: true
+        prolongation:
+          type: boolean
+          description: 'Признак пролонгации'
+          example: true
+        cancellationDate:
+          type: string
+          format: date-time
+          description: 'ToDo уточнить!'
+          nullable: true
+          example:
+          deprecated: true
+        # Параметра нет в описании к API. #ToDo: уточнить!
+        cancellationReason:
+          type: string
+          description: ''
+          nullable: true
+          example:
+          deprecated: true
+        interestPayoutPeriod:
+          type: string
+          description: 'Период выплаты процентов.'
+          nullable: true
+          example: "Ежеквартально"
+        interestPayoutToDepositAccount:
+          type: boolean
+          description: 'Признак "Перечислять проценты".'
+          example: true
+        interestPayoutToServiceAccount:
+          type: boolean
+          description: 'Признак "Выплачивать проценты".'
+          example: false
+        topupAllowedFromDay:
+          type: string
+          description: 'Период и единица измерения доп. взноса от начала 
+          вклада.'
+          nullable: true
+          example: "0 Дни"
+        topupAllowedUntilDay:
+          type: string
+          description: 'Период и единица измерения доп. взноса от конца вклада.'
+          nullable: true
+          example: "1 Дни"
+        topupMinAmount:
+          type: number
+          description: 'Минимальная сумма пополнения/доп. взноса депозита.'
+          nullable: true
+          example: 10000.00
+        partialPayoutAllowedFromDay:
+          type: string
+          description: 'Период и единица измерения для изъятия от начала 
+          вклада.'
+          nullable: true
+          example: "30 Дни"
+        partialPayoutAllowedUntilDay:
+          type: string
+          description: 'Период и единица измерения для изъятия от конца вклада.'
+          nullable: true
+          example: "90 Дни"
+        partialPayoutMaxAmount:
+          type: string
+          description: 'Условие выполнений операций по договору.'
+          nullable: true
+          example: "Общий размер изъятий не более 50% от суммы вклада на момент 
+          открытия"
+        prematureEnd:
+          type: string
+          description: 'Период применения штрафной ставки.'
+          nullable: true
+          example: "С даты начала действия/последней пролонгации"
+        status:
+          type: string
+          description: 'Текущий статус вклада. Доступны значения: PENDING, 
+          ACTIVE, CLOSED, REJECTED, CLOSING, UNKNOWN'
+          example: "CLOSING"
+        agreementNumber:
+          type: string
+          description: 'Номер депозитного договора.'
+          nullable: true
+          example: "55/1521/15-00062878"
+        nextInterestPaymentDay:
+          type: string
+          format: date-time
+          description: 'Дата следующей выплаты % по вкладу.'
+          nullable: true
+          example: "2019-07-23T00:00:00.000"
+        description:
+          type: string
+          description: 'Наименование вклада.'
+          nullable: true
+          example: "Престиж online c пролонгацией"
+        # Параметра нет в описании к API. #ToDo: уточнить!
+        minAmount:
+          type: number
+          description: ''
+          nullable: true
+          example:
+          deprecated: true
+        onlineWithdrawAllowed:
+          type: boolean
+          description: 'Признак, что online - списание доступно только для 
+          активных вкладов с typeCode = PremiumUprav'
+          example: false
+        closeableOnline:
+          type: boolean
+          description: 'Признак возможности закрытия депозита через ИБ online.'
+          example: false
+        account:
+          $ref: '#/components/schemas/Account'
+          description: 'Счет депозита.'
+        serviceAccount:
+          $ref: '#/components/schemas/Account'
+          description: 'Обслуживающий счет.'
+          nullable: true
+        # Параметра нет в описании к API. #ToDo: уточнить!
+        minBalanceForPeriod:
+          type: number
+          description: ''
+          nullable: true
+          deprecated: true
+        periodInterestAmount:
+          type: number
+          description: 'Проценты по вкладу за период.'
+          nullable: true
+          example: 1866.14
+        rate:
+          type: number
+          description: 'Ставка по вкладу.'
+          example: 6.9
+        # Параметра нет в описании к API. #ToDo: уточнить!
+        rateExtra:
+          type: number
+          description: ''
+          nullable: true
+          deprecated: true
+        # Параметра нет в описании к API. #ToDo: уточнить!
+        thresholdAmount:
+          type: number
+          description: ''
+          nullable: true
+          deprecated: true
+        history:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: 'Массив фактических операций.'
+    Account:
+      title: User's account
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 'ID счёта в ЦФТ.'
+          example: 86185712766
+        bic:
+          type: string
+          description: 'Банковский идентификационный код.'
+          nullable: true
+          example: "044030790"
+        number:
+          type: string
+          description: 'Номер счёта.'
+          example: "40817810190550019977"
+        currency:
+          type: string
+          description: 'Валюта счёта.'
+          example: "RUB"
+        type:
+          type: string
+          description: 'Тип счёта. Значения: CURRENT, DEPOSIT, LOAN, 
+          MARGIN, BROKER, SAVINGS'
+          example: "CURRENT"
+        balance:
+          type: number
+          description: 'Текущий баланс счёта.'
+          example: 100.00
+        # Параметра нет в описании к API. #ToDo: уточнить!
+        description:
+          type: string
+          description: 'Название счёта.'
+          nullable: true
+          example: "Счёт клиента банка."
+          deprecated: true
     Error:
       title: Default Error
       type: object
@@ -343,9 +576,40 @@ components:
       schema:
        type: string
        format: uuid
-       example: 
+       example: 123e4567-e89b-12d3-a456-426655440000
       required: true
       description: UUID для логгирования запроса.
+    DBO-ID:
+      in: path
+      name: dboId
+      schema:
+        type: integer
+        format: int64
+      required: true
+      description: Номер ID ДБО клиента.
+    CloseFilter:
+      in: query
+      name: close
+      schema:
+        type: boolean
+        default: false
+      required: false
+      description: |
+        Фильтрация депозитов по статусу:
+        * `false`- возвращает открытые депозиты Клиента.
+
+        * `true` - возвращает закрытые депозиты Клиента.
+    Deposit-IDs:
+      in: query
+      name: depositIds
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int64
+        minItems: 1
+      explode: false
+      required: true
   responses:
     GatewayTimeout:
       description: Gateway Timeout
