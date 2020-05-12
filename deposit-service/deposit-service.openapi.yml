@@ -128,6 +128,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Deposit'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
@@ -142,6 +144,18 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositTransaction'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
   /customers/private/{dboId}/place:
     post:
       summary: Открыть депозит ФЛ
@@ -192,8 +206,34 @@ paths:
           description: OK
 components:
   schemas:
+    Error:
+      title: Default Error
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        massage:
+          type: string
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 'Идентификатор Клиента.'
+          example: 5110621
+        privateCustomerId:
+          type: integer
+          format: int64
+          description: 'Идентификатор Распорядителя ЮЛ. Для ФЛ = id.'
+          example: 157512303
+        locale:
+          type: string
+          description: 'Язык локализации'
+          example: "ru"
     DepositRate:
-      title: Deposit Rate
+      title: Deposit's rate
       type: object
       properties:
         id:
@@ -327,7 +367,8 @@ components:
           description: 'Всегда возвращает false.'
           example: false
     Deposit:
-      title: User's deposit
+      title: Customer's deposit
+      type: object
       properties:
         id:
           type: integer
@@ -526,7 +567,7 @@ components:
             format: int64
           description: 'Массив фактических операций.'
     Account:
-      title: User's account
+      title: Customer's account
       type: object
       properties:
         id:
@@ -563,12 +604,150 @@ components:
           nullable: true
           example: "Счёт клиента банка."
           deprecated: true
-    Error:
-      title: Default Error
+    DepositTransaction:
+      title: Deposit's transaction
       type: object
       properties:
-        massage:
+        rate:
+          type: number
+          description: 'Ставка.'
+          nullable: true
+          example: 5.90
+        cftId:
+          type: integer
+          format: int64
+          description: 'ID фактической операции.'
+          nullable: true
+          example: 827152060552
+        description:
           type: string
+          description: 'Описание транзации.'
+          example: "INITIAL"
+        amount:
+          type: number
+          description: 'Сумма операции (относительно Клиента).'
+          example: -73625.54
+        time:
+          type: string
+          format: date-time
+          description: ''
+          example: "2019-09-06T00:00:00.000"
+        currency:
+          type: string
+          description: 'ISO код валюты операции.'
+          example: "643"
+    DepositOrder:
+      title: Deposit's order
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 'ID депозита.'
+          nullable: true
+          example: 302021946096
+        rate:
+          type: number
+          description: 'Ставка.'
+          example: 6.11
+        amount:
+          type: number
+          description: 'Сумма вклада.'
+          example: 5000.00
+        currency:
+          type: string
+          description: 'Код валюты.'
+          example: "RUB"
+        days:
+          type: integer
+          description: 'Срок вклада.'
+          example: 367
+        customerRef:
+          type: string
+          description: 'ДБО ID клиента.'
+          example: 9088119174
+        start:
+          type: string
+          format: date-time
+          description: 'Дата начала действия вклада.'
+          nullable: true
+          example: "2019-10-10T17:17:14.366"
+        orderDate:
+          type: string
+          format: date-time
+          description: 'Дата создания вклада.'
+          example: "2019-10-10T17:17:14.365"
+        type:
+          type: string
+          description: 'Наименование вклада из ЦФТ.'
+          example: "Рантье online"
+        typeCode:
+          type: string
+          description: 'Идентификатор типа вклада из ЦФТ.'
+          example: "1523"
+        autoProlongation:
+          type: boolean
+          description: 'Флаг автоматического продлевания на новый срок после 
+          окончания срока вклада.'
+          example: true
+        topupAllowed:
+          type: boolean
+          description: 'Признак возможности пополнения.'
+          example: true
+        withdrawAllowed:
+          type: boolean
+          description: 'Признак возможности частичного снятия.'
+          example: true
+        ip:
+          type: string
+          description: 'IP-адрес стойки, с которой был открыт вклад.'
+          nullable: true
+          example: "127.0.0.1"
+        status:
+          type: string
+          description:
+          nullable: true
+          example: "DEFERRED"
+        skipInitialPayment:
+          type: boolean
+          description: 'Признак возможности открытя вклада без первоначального 
+          платежа. Необходим для открытия накопительного счета.'
+          example: false
+        rateId:
+          type: integer
+          format: int64
+          description: 'Идентификатор ставки вклада.'
+          nullable: true
+          example: 826316390784
+        payoutAccountId:
+          type: integer
+          format: int64
+          description: '	ID счета для возврата депозита и процентов.'
+          nullable: true
+          example: 58226261134
+        serviceAccountId:
+          type: integer
+          format: int64
+          description: 'ID обслуживающего счета.'
+          nullable: true
+          example: 64741900148
+        user:
+          $ref: '#/components/schemas/User'
+    # Объёкт Deposit с доп. свойством InitialPaymentId
+    DepositWithInitialPaymentId:
+      title: Deposit with InitialPaymentId
+      allOf:
+        - $ref: '#/components/schemas/Deposit'
+        - type: object
+          properties:
+            # В описании к API нет данного парметра. ToDo Уточнить!
+            InitialPaymentId:
+              type: integer
+              format: int64
+              description: ''
+              nullable: true
+              deprecated: true
+              example:
   parameters:
     X-Request-ID:
       in: header
@@ -610,6 +789,16 @@ components:
         minItems: 1
       explode: false
       required: true
+      description: Номера ID депозитов для получения.
+    # Почему обязательно указывается у ЮЛ?
+    Mandate-ID:
+      in: query
+      name: mandateId
+      schema:
+        type: integer
+        format: int64
+      required: true
+      description: Номер ID ДБО Распорядителя Клиента ЮЛ.
   responses:
     GatewayTimeout:
       description: Gateway Timeout
@@ -618,7 +807,17 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
+            statusCode: 504
             massage: "Remote services are unavailable"
+    BadRequest:
+      description: Bad Request response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            statusCode: 400
+            massage: "Request parameter is missing"
     UnprocessableEntity:
       description: Unprocessable Entity
       content:
