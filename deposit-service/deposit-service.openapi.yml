@@ -703,10 +703,12 @@ components:
           description: 'IP-адрес стойки, с которой был открыт вклад.'
           nullable: true
           example: "127.0.0.1"
+        # Нет в описании к API и в примерах. ToDo уточнить!
         status:
           type: string
-          description:
+          description: ''
           nullable: true
+          deprecated: true
           example: "DEFERRED"
         skipInitialPayment:
           type: boolean
