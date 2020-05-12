@@ -128,7 +128,29 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Deposit'
-        '400':
+        '4XX':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+  /customers/corporate/{dboId}/deposits:
+    get:
+      summary: Получить текущие депозиты ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
+        - $ref: '#/components/parameters/CloseFilter'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deposit'
+        '4XX':
           $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
@@ -150,7 +172,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DepositTransaction'
-        '400':
+        '4XX':
           $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
@@ -172,14 +194,7 @@ paths:
       responses:
         '200':
           description: OK
-  /customers/corporate/{dboId}/deposits:
-    get:
-      summary: Получить текущие депозиты ЮЛ
-      parameters:
-        - $ref: '#/components/parameters/X-Request-ID'
-      responses:
-        '200':
-          description: OK
+
   /customers/corporate/{dboId}/transactions:
     get:
       summary: Получить операции по депозиту ЮЛ
