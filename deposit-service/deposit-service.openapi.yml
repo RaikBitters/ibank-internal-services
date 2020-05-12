@@ -110,8 +110,11 @@ paths:
                     cancellationPenalties: { "0": 0.01 }
                     validSince: "2018-09-03T00:00:00.000"
                     raised: false
+        '4XX':
+          $ref: '#/components/responses/BadRequest'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
+  
   /customers/private/{dboId}/deposits:
     get:
       summary: Получить текущие депозиты ФЛ
@@ -156,6 +159,7 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
+  
   /customers/private/{dboId}/transactions:
     get:
       summary: Получить операции по депозиту ФЛ
@@ -178,23 +182,6 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  /customers/private/{dboId}/place:
-    post:
-      summary: Открыть депозит ФЛ
-      parameters:
-        - $ref: '#/components/parameters/X-Request-ID'
-      responses:
-        '200':
-          description: OK
-  /customers/private/{dboId}/close/{depositId}:
-    post:
-      summary: Закрыть депозит ФЛ
-      parameters:
-        - $ref: '#/components/parameters/X-Request-ID'
-      responses:
-        '200':
-          description: OK
-
   /customers/corporate/{dboId}/transactions:
     get:
       summary: Получить операции по депозиту ЮЛ
@@ -203,9 +190,27 @@ paths:
       responses:
         '200':
           description: OK
+  
+  /customers/private/{dboId}/place:
+    post:
+      summary: Открыть депозит ФЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
   /customers/corporate/{dboId}/place:
     post:
       summary: Открыть вклад ЮЛ
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: OK
+  
+  /customers/private/{dboId}/close/{depositId}:
+    post:
+      summary: Закрыть депозит ФЛ
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
