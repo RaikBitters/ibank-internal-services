@@ -15,40 +15,23 @@ info:
 servers:
   - url: https://api.example.com
     description: SwaggerHub API Auto Mocking
-  - url: '{protocol}://{server}:{port}'
+  - url: 'http://localhost:{port}'
     description: Local server
     variables:
-      protocol:
-        default: 'http'
-      server:
-        default: 'localhost'
       port:
         default: '7019'
 paths:
-  /customers/{client-type}/rates:
+  /customers/private/rates:
     get:
-      summary: Получить доступные к открытию депозиты для пользователя
+      summary: Получить доступные к открытию депозиты для ФЛ
+      tags:
+        - private
+        - rate
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
-        - in: path
-          name: client-type
-          required: true
-          schema:
-            type: string
-            enum:
-              - private
-              - sole-proprietor
-              - customer
-          description: |
-            Категория продуктов для:
-            * `corporate` - юридического лица
-
-            * `sole-proprietor` - индивидуального предпринимателя
-            
-            * `private` - физического лица
       responses:
         '200':
-          description: OK
+          description: A list of private rates
           content:
             application/json:
               schema:
@@ -56,68 +39,67 @@ paths:
                 items:
                   $ref: '#/components/schemas/DepositRate'
               examples:
-                Private:
-                  value:
-                    id: 800936587281
-                    typeCode: "1610"
-                    parentTypeCode: "1610"
-                    type: "Пенсионный online"
-                    termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
-                    online: true
-                    customPeriod: false
-                    topupAllowed: true
-                    reinvestInterest: true
-                    cancellationAllowed: false
-                    initialAmountWithdrawAllowed: false
-                    interestWithdrawAllowed: false
-                    prolongationAllowed: true
-                    hidden: false
-                    interestsPayments: "MONTHLY"
-                    currency: "RUB"
-                    minAmount: 1000.00
-                    maxAmount: 100000000.00
-                    minTopUpAmount: 0.01
-                    minDays: 367
-                    rate: 4.0
-                    dynamicRatesDescription: ""
-                    cancellationPenalties: {}
-                    validSince: "2019-07-15T00:00:00.000"
-                    prolongationTypeCode: "1611"
-                    raised: false
-                Сorporate:
-                  value:
-                    id : 672108579681
-                    typeCode: "5201"
-                    type: "Срочный депозит"
-                    termsUrl: ""
-                    online: false
-                    customPeriod: true
-                    topupAllowed: false
-                    reinvestInterest: false
-                    cancellationAllowed: false
-                    initialAmountWithdrawAllowed: false
-                    interestWithdrawAllowed: false
-                    prolongationAllowed: false
-                    hidden: false
-                    interestsPayments: "MATURITY"
-                    currency: "RUB"
-                    minAmount: 10000.00
-                    maxAmount: 100000000.00
-                    minTopUpAmount: 0.00
-                    minDays: 1096
-                    rate: 6.90
-                    dynamicRatesDescription: ""
-                    cancellationPenalties: { "0": 0.01 }
-                    validSince: "2018-09-03T00:00:00.000"
-                    raised: false
-        '4XX':
+                PrivateRateExample:
+                  $ref: '#/components/examples/PrivateRateExample'
+        '400':
           $ref: '#/components/responses/BadRequest'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  
+  /customers/corporate/rates:
+    get:
+      summary: Получить доступные к открытию депозиты для ЮЛ
+      tags:
+        - corporate
+        - rate
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: A list of corporate rates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositRate'
+              examples:
+                CorporateRateExample:
+                  $ref: '#/components/examples/CorporateRateExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+  /customers/sole-proprietor/rates:
+    get:
+      summary: Получить доступные к открытию депозиты для ИП
+      tags:
+        - corporate
+        - rate
+      parameters:
+        - $ref: '#/components/parameters/X-Request-ID'
+      responses:
+        '200':
+          description: A list of sole-proprietor rates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositRate'
+              examples:
+                CorporateRateExample:
+                  $ref: '#/components/examples/CorporateRateExample'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+
   /customers/private/{dboId}/deposits:
     get:
       summary: Получить текущие депозиты ФЛ
+      tags:
+        - private
+        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -131,7 +113,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Deposit'
-        '4XX':
+        '400':
           $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
@@ -140,6 +122,9 @@ paths:
   /customers/corporate/{dboId}/deposits:
     get:
       summary: Получить текущие депозиты ЮЛ
+      tags:
+        - corporate
+        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -153,7 +138,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Deposit'
-        '4XX':
+        '400':
           $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
@@ -163,6 +148,9 @@ paths:
   /customers/private/{dboId}/transactions:
     get:
       summary: Получить операции по депозиту ФЛ
+      tags:
+        - private
+        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -176,7 +164,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DepositTransaction'
-        '4XX':
+        '400':
           $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
@@ -185,45 +173,121 @@ paths:
   /customers/corporate/{dboId}/transactions:
     get:
       summary: Получить операции по депозиту ЮЛ
+      tags:
+        - corporate
+        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
+        - $ref: '#/components/parameters/Deposit-IDs'
+        - $ref: '#/components/parameters/Mandate-ID'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositTransaction'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
   
   /customers/private/{dboId}/place:
     post:
       summary: Открыть депозит ФЛ
+      tags:
+        - private
+        - create
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositOrder'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositWithInitialPaymentId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/{dboId}/place:
     post:
-      summary: Открыть вклад ЮЛ
+      summary: Открыть депозит ЮЛ
+      tags:
+        - corporate
+        - create
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositWithInitialPaymentId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
   
   /customers/private/{dboId}/close/{depositId}:
     post:
       summary: Закрыть депозит ФЛ
+      tags:
+        - private
+        - close
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
+        - $ref: '#/components/parameters/Deposit-IDs'
       responses:
         '200':
           description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/{dboId}/close/{depositId}:
     post:
-      summary: Закрыть вклад ЮЛ
+      summary: Закрыть депозит ЮЛ
+      tags:
+        - corporate
+        - close
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
+        - $ref: '#/components/parameters/DBO-ID'
+        - $ref: '#/components/parameters/Deposit-IDs'
       responses:
         '200':
           description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '504':
+          $ref: '#/components/responses/GatewayTimeout'
+
 components:
   schemas:
     Error:
@@ -250,7 +314,7 @@ components:
           example: 157512303
         locale:
           type: string
-          description: 'Язык локализации'
+          description: 'Язык локализации.'
           example: "ru"
     DepositRate:
       title: Deposit's rate
@@ -444,10 +508,11 @@ components:
           type: boolean
           description: 'Признак пролонгации'
           example: true
+        # Параметра нет в описании к API. #ToDo: уточнить!
         cancellationDate:
           type: string
           format: date-time
-          description: 'ToDo уточнить!'
+          description: ''
           nullable: true
           example:
           deprecated: true
@@ -530,13 +595,11 @@ components:
           description: 'Наименование вклада.'
           nullable: true
           example: "Престиж online c пролонгацией"
-        # Параметра нет в описании к API. #ToDo: уточнить!
         minAmount:
           type: number
-          description: ''
+          description: 'Минимальная сумма открытия депозита.'
           nullable: true
-          example:
-          deprecated: true
+          example: 0.00
         onlineWithdrawAllowed:
           type: boolean
           description: 'Признак, что online - списание доступно только для 
@@ -553,12 +616,11 @@ components:
           $ref: '#/components/schemas/Account'
           description: 'Обслуживающий счет.'
           nullable: true
-        # Параметра нет в описании к API. #ToDo: уточнить!
         minBalanceForPeriod:
           type: number
-          description: ''
+          description: 'Минимальный остаток за период.'
           nullable: true
-          deprecated: true
+          example: 0.00
         periodInterestAmount:
           type: number
           description: 'Проценты по вкладу за период.'
@@ -660,12 +722,6 @@ components:
       title: Deposit's order
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: 'ID депозита.'
-          nullable: true
-          example: 302021946096
         rate:
           type: number
           description: 'Ставка.'
@@ -724,12 +780,6 @@ components:
           nullable: true
           example: "127.0.0.1"
         # Нет в описании к API и в примерах. ToDo уточнить!
-        status:
-          type: string
-          description: ''
-          nullable: true
-          deprecated: true
-          example: "DEFERRED"
         skipInitialPayment:
           type: boolean
           description: 'Признак возможности открытя вклада без первоначального 
@@ -744,7 +794,7 @@ components:
         payoutAccountId:
           type: integer
           format: int64
-          description: '	ID счета для возврата депозита и процентов.'
+          description: 'ID счета для возврата депозита и процентов.'
           nullable: true
           example: 58226261134
         serviceAccountId:
@@ -766,10 +816,11 @@ components:
             InitialPaymentId:
               type: integer
               format: int64
-              description: ''
+              description: 'ID документа на первоначальное пополнение депозита.'
               nullable: true
               deprecated: true
-              example:
+              example: 51241903428
+  
   parameters:
     X-Request-ID:
       in: header
@@ -800,6 +851,14 @@ components:
         * `false`- возвращает открытые депозиты Клиента.
 
         * `true` - возвращает закрытые депозиты Клиента.
+    Deposit-ID:
+      in: path
+      name: depositId
+      schema:
+        type: integer
+        format: int64
+      required: true
+      description: Номер ID депозита.
     Deposit-IDs:
       in: query
       name: depositIds
@@ -811,7 +870,7 @@ components:
         minItems: 1
       explode: false
       required: true
-      description: Номера ID депозитов для получения.
+      description: Номера ID депозитов.
     # Почему обязательно указывается у ЮЛ?
     Mandate-ID:
       in: query
@@ -821,6 +880,7 @@ components:
         format: int64
       required: true
       description: Номер ID ДБО Распорядителя Клиента ЮЛ.
+  
   responses:
     GatewayTimeout:
       description: Gateway Timeout
@@ -846,3 +906,74 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  
+  examples:
+    PrivateRateExample:
+      value:
+        id: 800936587281
+        typeCode: "1610"
+        parentTypeCode: "1610"
+        type: "Пенсионный online"
+        termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
+        online: true
+        customPeriod: false
+        topupAllowed: true
+        reinvestInterest: true
+        cancellationAllowed: false
+        initialAmountWithdrawAllowed: false
+        interestWithdrawAllowed: false
+        prolongationAllowed: true
+        hidden: false
+        interestsPayments: "MONTHLY"
+        currency: "RUB"
+        minAmount: 1000.00
+        maxAmount: 100000000.00
+        minTopUpAmount: 0.01
+        minDays: 367
+        rate: 4.0
+        dynamicRatesDescription: ""
+        cancellationPenalties: {}
+        validSince: "2019-07-15T00:00:00.000"
+        prolongationTypeCode: "1611"
+        raised: false
+      summary: A privet rate's object
+    CorporateRateExample:
+      value:
+        id : 672108579681
+        typeCode: "5201"
+        type: "Срочный депозит"
+        termsUrl: ""
+        online: false
+        customPeriod: true
+        topupAllowed: false
+        reinvestInterest: false
+        cancellationAllowed: false
+        initialAmountWithdrawAllowed: false
+        interestWithdrawAllowed: false
+        prolongationAllowed: false
+        hidden: false
+        interestsPayments: "MATURITY"
+        currency: "RUB"
+        minAmount: 10000.00
+        maxAmount: 100000000.00
+        minTopUpAmount: 0.00
+        minDays: 1096
+        rate: 6.90
+        dynamicRatesDescription: ""
+        cancellationPenalties: { "0": 0.01 }
+        validSince: "2018-09-03T00:00:00.000"
+        raised: false
+      summary: A corporate rate's object
+tags:
+  - name: private
+    description: Операции для физических лиц
+  - name: corporate
+    description: Операции для юридических лиц и индивидуальных предпринимателей
+  - name: rate
+    description: Операции получения тарифов для депозитов
+  - name: create
+    description: Операции открытия депозитов
+  - name: close
+    description: Операции закрытия депозитов
+  - name: info
+    description: Операции получения информации о депозитах и транзакциях
