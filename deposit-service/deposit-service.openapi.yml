@@ -154,7 +154,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
-        - $ref: '#/components/parameters/Deposit-IDs'
+        - $ref: '#/components/parameters/Deposit-ID-List'
       responses:
         '200':
           description: OK
@@ -179,7 +179,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
-        - $ref: '#/components/parameters/Deposit-IDs'
+        - $ref: '#/components/parameters/Deposit-ID-List'
         - $ref: '#/components/parameters/Mandate-ID'
       responses:
         '200':
@@ -258,7 +258,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
-        - $ref: '#/components/parameters/Deposit-IDs'
+        - $ref: '#/components/parameters/Deposit-ID'
       responses:
         '200':
           description: OK
@@ -277,7 +277,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
-        - $ref: '#/components/parameters/Deposit-IDs'
+        - $ref: '#/components/parameters/Deposit-ID'
       responses:
         '200':
           description: OK
@@ -317,7 +317,7 @@ components:
           description: 'Язык локализации.'
           example: "ru"
     DepositRate:
-      title: Deposit's rate
+      title: Rate
       type: object
       properties:
         id:
@@ -448,7 +448,7 @@ components:
           description: 'Всегда возвращает false.'
           example: false
     Deposit:
-      title: Customer's deposit
+      title: Deposit
       type: object
       properties:
         id:
@@ -608,10 +608,8 @@ components:
           example: false
         account:
           $ref: '#/components/schemas/Account'
-          description: 'Счет депозита.'
         serviceAccount:
           $ref: '#/components/schemas/Account'
-          description: 'Обслуживающий счет.'
           nullable: true
         minBalanceForPeriod:
           type: number
@@ -646,7 +644,7 @@ components:
             format: int64
           description: 'Массив фактических операций.'
     Account:
-      title: Customer's account
+      title: Account
       type: object
       properties:
         id:
@@ -684,7 +682,7 @@ components:
           example: "Счёт клиента банка."
           deprecated: true
     DepositTransaction:
-      title: Deposit's transaction
+      title: Transaction
       type: object
       properties:
         rate:
@@ -716,7 +714,7 @@ components:
           description: 'ISO код валюты операции.'
           example: "643"
     DepositOrder:
-      title: Deposit's order
+      title: Order
       type: object
       properties:
         rate:
@@ -855,7 +853,7 @@ components:
         format: int64
       required: true
       description: Номер ID депозита.
-    Deposit-IDs:
+    Deposit-ID-List:
       in: query
       name: depositIds
       schema:
