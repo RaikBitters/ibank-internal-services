@@ -323,8 +323,8 @@ components:
         id:
           type: integer
           format: int64
-          description: 'ID схемы начисления процентов для 
-          определенного вида депозитного договора.'
+          description: 'ID схемы начисления процентов для определенного вида 
+          депозитного договора.'
           example: 800936587281
         typeCode:
           type: string
@@ -343,14 +343,12 @@ components:
           example: "Пенсионный online"
         termsUrl:
           type: string
-          description: 'Ссылка на страницу ИБ с 
-          подробным описанием депозита.'
+          description: 'Ссылка на страницу ИБ с подробным описанием депозита.'
           nullable: true
           example: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
         online:
           type: boolean
-          description: 'Признак возможности открытия вклада 
-          online в ИБ.'
+          description: 'Признак возможности открытия вклада online в ИБ.'
           example: true
         customPeriod:
           type: boolean
@@ -359,13 +357,11 @@ components:
           example: false
         topupAllowed:
           type: boolean
-          description: 'Признак возможности 
-          пополнения/дополнительных взносов.'
+          description: 'Признак возможности пополнения дополнительных взносов.'
           example: true
         reinvestInterest:
           type: boolean
-          description: 'Признак реинвестирования накопленных 
-          процентов.'
+          description: 'Признак реинвестирования накопленных процентов.'
           example: true
         cancellationAllowed:
           type: boolean
@@ -393,8 +389,8 @@ components:
           example: false
         interestsPayments:
           type: string
-          description: 'Период выплаты процентов. Значения:
-          MONTHLY, QUARTERLY, MATURITY.'
+          enum: [MONTHLY, QUARTERLY, MATURITY]
+          description: 'Период выплаты процентов.'
           example: 'MONTHLY'
         currency:
           type: string
@@ -425,9 +421,10 @@ components:
           type: number
           description: 'Ставка, % годовых.'
           example: 4.0
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         rateExtra:
           type: number
-          description: 'Значение уточняется.'
+          description: 'Значение уточняется. PRC_SCH_HIS/REC/PRC_SCHEME/PRC_VALUE_EXTRA'
           deprecated: true
           example: 4.0
         dynamicRatesDescription:
@@ -508,18 +505,18 @@ components:
           type: boolean
           description: 'Признак пролонгации'
           example: true
-        # Параметра нет в описании к API. #ToDo: уточнить!
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationDate:
           type: string
           format: date-time
-          description: ''
+          description: 'Значение уточняется.'
           nullable: true
           example:
           deprecated: true
-        # Параметра нет в описании к API. #ToDo: уточнить!
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationReason:
           type: string
-          description: ''
+          description: 'Значение уточняется.'
           nullable: true
           example:
           deprecated: true
@@ -576,8 +573,8 @@ components:
           example: "С даты начала действия/последней пролонгации"
         status:
           type: string
-          description: 'Текущий статус вклада. Доступны значения: PENDING, 
-          ACTIVE, CLOSED, REJECTED, CLOSING, UNKNOWN'
+          enum: [PENDING, ACTIVE, CLOSED, REJECTED, CLOSING, UNKNOWN]
+          description: 'Текущий статус вклада.'
           example: "CLOSING"
         agreementNumber:
           type: string
@@ -630,13 +627,13 @@ components:
           type: number
           description: 'Ставка по вкладу.'
           example: 6.9
-        # Параметра нет в описании к API. #ToDo: уточнить!
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         rateExtra:
           type: number
           description: ''
           nullable: true
           deprecated: true
-        # Параметра нет в описании к API. #ToDo: уточнить!
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         thresholdAmount:
           type: number
           description: ''
@@ -672,17 +669,17 @@ components:
           example: "RUB"
         type:
           type: string
-          description: 'Тип счёта. Значения: CURRENT, DEPOSIT, LOAN, 
-          MARGIN, BROKER, SAVINGS'
+          enum: [CURRENT, DEPOSIT, LOAN, MARGIN, BROKER, SAVINGS]
+          description: 'Тип счёта.'
           example: "CURRENT"
         balance:
           type: number
           description: 'Текущий баланс счёта.'
           example: 100.00
-        # Параметра нет в описании к API. #ToDo: уточнить!
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         description:
           type: string
-          description: 'Название счёта.'
+          description: 'Значение уточняется.'
           nullable: true
           example: "Счёт клиента банка."
           deprecated: true
@@ -703,7 +700,7 @@ components:
           example: 827152060552
         description:
           type: string
-          description: 'Описание транзации.'
+          description: 'Описание транзакции.'
           example: "INITIAL"
         amount:
           type: number
@@ -763,7 +760,7 @@ components:
           example: "1523"
         autoProlongation:
           type: boolean
-          description: 'Флаг автоматического продлевания на новый срок после 
+          description: 'Флаг автоматического продления на новый срок после 
           окончания срока вклада.'
           example: true
         topupAllowed:
@@ -779,10 +776,10 @@ components:
           description: 'IP-адрес стойки, с которой был открыт вклад.'
           nullable: true
           example: "127.0.0.1"
-        # Нет в описании к API и в примерах. ToDo уточнить!
+        #TODO: Уточнить значение. В описании к API нет данного параметра.
         skipInitialPayment:
           type: boolean
-          description: 'Признак возможности открытя вклада без первоначального 
+          description: 'Признак возможности открытия вклада без первоначального 
           платежа. Необходим для открытия накопительного счета.'
           example: false
         rateId:
@@ -805,14 +802,14 @@ components:
           example: 64741900148
         user:
           $ref: '#/components/schemas/User'
-    # Объёкт Deposit с доп. свойством InitialPaymentId
+    #INFO: Объёкт Deposit с доп. свойством InitialPaymentId
     DepositWithInitialPaymentId:
       title: Deposit with InitialPaymentId
       allOf:
         - $ref: '#/components/schemas/Deposit'
         - type: object
           properties:
-            # В описании к API нет данного парметра. ToDo Уточнить!
+            #TODO: Уточнить значение. В описании к API нет данного параметра.
             InitialPaymentId:
               type: integer
               format: int64
@@ -820,7 +817,6 @@ components:
               nullable: true
               deprecated: true
               example: 51241903428
-  
   parameters:
     X-Request-ID:
       in: header
@@ -830,7 +826,7 @@ components:
        format: uuid
        example: 123e4567-e89b-12d3-a456-426655440000
       required: true
-      description: UUID для логгирования запроса.
+      description: UUID для отслеживания запроса.
     DBO-ID:
       in: path
       name: dboId
@@ -870,8 +866,8 @@ components:
         minItems: 1
       explode: false
       required: true
-      description: Номера ID депозитов.
-    # Почему обязательно указывается у ЮЛ?
+      description: Список номеров ID депозитов.
+    #TODO: Уточнить почему обязательно указывается для ЮЛ и только в транзакциях.
     Mandate-ID:
       in: query
       name: mandateId
@@ -906,7 +902,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  
   examples:
     PrivateRateExample:
       value:
