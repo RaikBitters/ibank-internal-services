@@ -436,8 +436,8 @@ components:
           закрытии вклада.'
         validSince:
           type: string
-          format: date-time
           description: 'Дата, с которой можно открывать вклад.'
+          example: "2020-01-25T00:00:00.000"
         prolongationTypeCode:
           type: string
           description: 'Код вида договора для автоматической 
@@ -462,18 +462,15 @@ components:
           example: 71759.4
         until:
           type: string
-          format: date-time
           description: 'Дата закрытия/пролонгации депозита.'
           nullable: true
           example: "2020-01-25T00:00:00.000"
         orderDate:
           type: string
-          format: date-time
           description: 'Дата создания вклада.'
           example: "2019-01-23T00:00:00.000"
         startDate:
           type: string
-          format: date-time
           description: 'Дата начала действия вклада.'
           example: "2015-01-16T18:47:00.000"
         days:
@@ -508,10 +505,9 @@ components:
         #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationDate:
           type: string
-          format: date-time
           description: 'Значение уточняется.'
           nullable: true
-          example:
+          example: "2020-01-25T00:00:00.000"
           deprecated: true
         #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationReason:
@@ -583,7 +579,6 @@ components:
           example: "55/1521/15-00062878"
         nextInterestPaymentDay:
           type: string
-          format: date-time
           description: 'Дата следующей выплаты % по вкладу.'
           nullable: true
           example: "2019-07-23T00:00:00.000"
@@ -707,8 +702,7 @@ components:
           example: -73625.54
         time:
           type: string
-          format: date-time
-          description: ''
+          description: 'Время создания операции.'
           example: "2019-09-06T00:00:00.000"
         currency:
           type: string
@@ -740,13 +734,11 @@ components:
           example: 9088119174
         start:
           type: string
-          format: date-time
           description: 'Дата начала действия вклада.'
           nullable: true
           example: "2019-10-10T17:17:14.366"
         orderDate:
           type: string
-          format: date-time
           description: 'Дата создания вклада.'
           example: "2019-10-10T17:17:14.365"
         type:
