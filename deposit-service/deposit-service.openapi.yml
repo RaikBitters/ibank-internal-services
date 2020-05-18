@@ -609,8 +609,9 @@ components:
         account:
           $ref: '#/components/schemas/Account'
         serviceAccount:
-          $ref: '#/components/schemas/Account'
-          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          - nullable: true
         minBalanceForPeriod:
           type: number
           description: 'Минимальный остаток за период.'
