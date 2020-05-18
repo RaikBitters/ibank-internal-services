@@ -731,7 +731,7 @@ components:
         customerRef:
           type: string
           description: 'ДБО ID клиента.'
-          example: 9088119174
+          example: "9088119174"
         start:
           type: string
           description: 'Дата начала действия вклада.'
