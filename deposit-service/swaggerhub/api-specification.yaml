@@ -1,0 +1,1381 @@
+openapi: 3.0.2
+info:
+  title: Deposit service
+  description: |
+    ### Сервис для работы с депозитами клиентов интернет-банка
+    Позволяет решать задачи управления депозитами физических и юридических лиц.
+
+    Предоставляет функциональность:
+    * открытие и закрытие депозита;
+    * получение списка продуктовых предложений по депозитам;
+    * получение списка открытых и закрытых депозитов;
+    * получение операций по группе депозитов.
+  version: "1.0"
+servers:
+- url: https://virtserver.swaggerhub.com/RaikBitters/deposit-service/1.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:{port}
+  description: Local server
+  variables:
+    port:
+      default: "7019"
+tags:
+- name: private
+  description: Операции для физических лиц
+- name: corporate
+  description: Операции для юридических лиц и индивидуальных предпринимателей
+- name: rate
+  description: Операции получения тарифов для депозитов
+- name: create
+  description: Операции открытия депозитов
+- name: close
+  description: Операции закрытия депозитов
+- name: info
+  description: Операции получения информации о депозитах и транзакциях
+paths:
+  /customers/private/rates:
+    get:
+      tags:
+      - private
+      - rate
+      summary: Получить доступные к открытию депозиты для ФЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      responses:
+        "200":
+          description: A list of private rates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositRate'
+              examples:
+                PrivateRateExample:
+                  $ref: '#/components/examples/PrivateRateExample'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/corporate/rates:
+    get:
+      tags:
+      - corporate
+      - rate
+      summary: Получить доступные к открытию депозиты для ЮЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      responses:
+        "200":
+          description: A list of corporate rates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositRate'
+              examples:
+                CorporateRateExample:
+                  $ref: '#/components/examples/CorporateRateExample'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/sole-proprietor/rates:
+    get:
+      tags:
+      - corporate
+      - rate
+      summary: Получить доступные к открытию депозиты для ИП
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      responses:
+        "200":
+          description: A list of sole-proprietor rates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositRate'
+              examples:
+                CorporateRateExample:
+                  $ref: '#/components/examples/CorporateRateExample'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/private/{dboId}/deposits:
+    get:
+      tags:
+      - private
+      - info
+      summary: Получить текущие депозиты ФЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: close
+        in: query
+        description: |
+          Фильтрация депозитов по статусу:
+          * `false`- возвращает открытые депозиты Клиента.
+
+          * `true` - возвращает закрытые депозиты Клиента.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deposit'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/corporate/{dboId}/deposits:
+    get:
+      tags:
+      - corporate
+      - info
+      summary: Получить текущие депозиты ЮЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: close
+        in: query
+        description: |
+          Фильтрация депозитов по статусу:
+          * `false`- возвращает открытые депозиты Клиента.
+
+          * `true` - возвращает закрытые депозиты Клиента.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deposit'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/private/{dboId}/transactions:
+    get:
+      tags:
+      - private
+      - info
+      summary: Получить операции по депозиту ФЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: depositIds
+        in: query
+        description: Список номеров ID депозитов.
+        required: true
+        style: form
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          items:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositTransaction'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/corporate/{dboId}/transactions:
+    get:
+      tags:
+      - corporate
+      - info
+      summary: Получить операции по депозиту ЮЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: depositIds
+        in: query
+        description: Список номеров ID депозитов.
+        required: true
+        style: form
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: mandateId
+        in: query
+        description: Номер ID ДБО Распорядителя Клиента ЮЛ.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DepositTransaction'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/private/{dboId}/place:
+    post:
+      tags:
+      - private
+      - create
+      summary: Открыть депозит ФЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositOrder'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositWithInitialPaymentId'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/corporate/{dboId}/place:
+    post:
+      tags:
+      - corporate
+      - create
+      summary: Открыть депозит ЮЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositWithInitialPaymentId'
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/private/{dboId}/close/{depositId}:
+    post:
+      tags:
+      - private
+      - close
+      summary: Закрыть депозит ФЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: depositId
+        in: path
+        description: Номер ID депозита.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+  /customers/corporate/{dboId}/close/{depositId}:
+    post:
+      tags:
+      - corporate
+      - close
+      summary: Закрыть депозит ЮЛ
+      parameters:
+      - name: RequestId
+        in: header
+        description: UUID для отслеживания запроса.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+      - name: dboId
+        in: path
+        description: Номер ID ДБО клиента.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: depositId
+        in: path
+        description: Номер ID депозита.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 400
+                massage: Request parameter is missing
+        "422":
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "504":
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                statusCode: 504
+                massage: Remote services are unavailable
+components:
+  schemas:
+    Error:
+      title: Default Error
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        massage:
+          type: string
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор Клиента.
+          format: int64
+          example: 5110621
+        privateCustomerId:
+          type: integer
+          description: Идентификатор Распорядителя ЮЛ. Для ФЛ = id.
+          format: int64
+          example: 157512303
+        locale:
+          type: string
+          description: Язык локализации.
+          example: ru
+    DepositRate:
+      title: Rate
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID схемы начисления процентов для определенного вида депозитного
+            договора.
+          format: int64
+          example: 800936587281
+        typeCode:
+          type: string
+          description: Код вида депозитного договора в ЦФТ.
+          nullable: true
+          example: "1610"
+        parentTypeCode:
+          type: string
+          description: Код вида вклада для доп. вложения.
+          nullable: true
+          example: "1610"
+        type:
+          type: string
+          description: Наименование вклада.
+          nullable: true
+          example: Пенсионный online
+        termsUrl:
+          type: string
+          description: Ссылка на страницу ИБ с подробным описанием депозита.
+          nullable: true
+          example: https://www.bspb.ru/retail/deposits/pensionnyj-online/
+        online:
+          type: boolean
+          description: Признак возможности открытия вклада online в ИБ.
+          example: true
+        customPeriod:
+          type: boolean
+          description: Вернёт "true", если у вида вклада в АБС есть ссылка на справочник
+            «СПБ. Депозиты особые условия».
+          example: false
+        topupAllowed:
+          type: boolean
+          description: Признак возможности пополнения дополнительных взносов.
+          example: true
+        reinvestInterest:
+          type: boolean
+          description: Признак реинвестирования накопленных процентов.
+          example: true
+        cancellationAllowed:
+          type: boolean
+          description: Признак возможности досрочного закрытия вклада.
+          example: false
+        initialAmountWithdrawAllowed:
+          type: boolean
+          description: Признак возможности снятия средств с депозитного договора.
+          example: false
+        interestWithdrawAllowed:
+          type: boolean
+          description: Признак возможности снятия накопленных процентов.
+          example: false
+        prolongationAllowed:
+          type: boolean
+          description: Признак возможности пролонгации депозита.
+          example: true
+        hidden:
+          type: boolean
+          description: Возвращается "true", если typeCode 1621, 1622 или 300.
+          example: false
+        interestsPayments:
+          type: string
+          description: Период выплаты процентов.
+          example: MONTHLY
+          enum:
+          - MONTHLY
+          - QUARTERLY
+          - MATURITY
+        currency:
+          type: string
+          description: Валюта вклада.
+          example: RUB
+        minAmount:
+          type: number
+          description: Минимальная сумма вклада.
+          example: 1000.0
+        maxAmount:
+          type: number
+          description: Максимальная сумма вклада.
+          example: 5000000.0
+        minTopUpAmount:
+          type: number
+          description: Минимальная сумма пополнения депозита.
+          example: 0.01
+        maxTopUpAmount:
+          type: number
+          description: Максимальная сумма пополнения депозита.
+          example: 5000000.0
+        minDays:
+          type: integer
+          description: Минимальный срок вклада для случаев вручную указываемого срока
+            или свободного срока.
+          example: 367
+        rate:
+          type: number
+          description: Ставка, % годовых.
+          example: 4.0
+        rateExtra:
+          type: number
+          description: Значение уточняется. PRC_SCH_HIS/REC/PRC_SCHEME/PRC_VALUE_EXTRA
+          example: 4.0
+          deprecated: true
+        dynamicRatesDescription:
+          type: string
+          description: dynamicRatesDescription.
+          example: Ставка LIBOR overnight - 1.4%
+        cancellationPenalties:
+          description: Штрафная процентная ставка при досрочном закрытии вклада.
+        validSince:
+          type: string
+          description: Дата, с которой можно открывать вклад.
+          example: 2020-01-25T00:00:00.000
+        prolongationTypeCode:
+          type: string
+          description: Код вида договора для автоматической пролонгации.
+          example: "1611"
+        raised:
+          type: boolean
+          description: Всегда возвращает false.
+          example: false
+    Deposit:
+      title: Deposit
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID депозита.
+          format: int64
+          example: 136339851112
+        amount:
+          type: number
+          description: Текущая сумма вклада.
+          example: 71759.4
+        until:
+          type: string
+          description: Дата закрытия/пролонгации депозита.
+          nullable: true
+          example: 2020-01-25T00:00:00.000
+        orderDate:
+          type: string
+          description: Дата создания вклада.
+          example: 2019-01-23T00:00:00.000
+        startDate:
+          type: string
+          description: Дата начала действия вклада.
+          example: 2015-01-16T18:47:00.000
+        days:
+          type: integer
+          description: Срок, на который открыт депозит.
+          nullable: true
+          example: 367
+        type:
+          type: string
+          description: Наименование вклада.
+          example: Престиж online c пролонгацией
+        typeCode:
+          type: string
+          description: Код вида депозитного договора в ЦФТ.
+          example: "1521"
+        currency:
+          type: string
+          description: Валюта депозита
+          example: RUB
+        topupAllowed:
+          type: boolean
+          description: Признак возможности пополнения.
+          example: true
+        WithdrawAllowed:
+          type: boolean
+          description: Признак возможности снятия средств с депозита.
+          example: true
+        prolongation:
+          type: boolean
+          description: Признак пролонгации
+          example: true
+        cancellationDate:
+          type: string
+          description: Значение уточняется.
+          nullable: true
+          example: 2020-01-25T00:00:00.000
+          deprecated: true
+        cancellationReason:
+          type: string
+          description: Значение уточняется.
+          nullable: true
+          deprecated: true
+        interestPayoutPeriod:
+          type: string
+          description: Период выплаты процентов.
+          nullable: true
+          example: Ежеквартально
+        interestPayoutToDepositAccount:
+          type: boolean
+          description: Признак "Перечислять проценты".
+          example: true
+        interestPayoutToServiceAccount:
+          type: boolean
+          description: Признак "Выплачивать проценты".
+          example: false
+        topupAllowedFromDay:
+          type: string
+          description: Период и единица измерения доп. взноса от начала вклада.
+          nullable: true
+          example: 0 Дни
+        topupAllowedUntilDay:
+          type: string
+          description: Период и единица измерения доп. взноса от конца вклада.
+          nullable: true
+          example: 1 Дни
+        topupMinAmount:
+          type: number
+          description: Минимальная сумма пополнения/доп. взноса депозита.
+          nullable: true
+          example: 10000.0
+        partialPayoutAllowedFromDay:
+          type: string
+          description: Период и единица измерения для изъятия от начала вклада.
+          nullable: true
+          example: 30 Дни
+        partialPayoutAllowedUntilDay:
+          type: string
+          description: Период и единица измерения для изъятия от конца вклада.
+          nullable: true
+          example: 90 Дни
+        partialPayoutMaxAmount:
+          type: string
+          description: Условие выполнений операций по договору.
+          nullable: true
+          example: Общий размер изъятий не более 50% от суммы вклада на момент открытия
+        prematureEnd:
+          type: string
+          description: Период применения штрафной ставки.
+          nullable: true
+          example: С даты начала действия/последней пролонгации
+        status:
+          type: string
+          description: Текущий статус вклада.
+          example: CLOSING
+          enum:
+          - PENDING
+          - ACTIVE
+          - CLOSED
+          - REJECTED
+          - CLOSING
+          - UNKNOWN
+        agreementNumber:
+          type: string
+          description: Номер депозитного договора.
+          nullable: true
+          example: 55/1521/15-00062878
+        nextInterestPaymentDay:
+          type: string
+          description: Дата следующей выплаты % по вкладу.
+          nullable: true
+          example: 2019-07-23T00:00:00.000
+        description:
+          type: string
+          description: Наименование вклада.
+          nullable: true
+          example: Престиж online c пролонгацией
+        minAmount:
+          type: number
+          description: Минимальная сумма открытия депозита.
+          nullable: true
+          example: 0.0
+        onlineWithdrawAllowed:
+          type: boolean
+          description: Признак, что online - списание доступно только для активных
+            вкладов с typeCode = PremiumUprav
+          example: false
+        closeableOnline:
+          type: boolean
+          description: Признак возможности закрытия депозита через ИБ online.
+          example: false
+        account:
+          $ref: '#/components/schemas/Account'
+        serviceAccount:
+          allOf:
+          - $ref: '#/components/schemas/Account'
+          - nullable: true
+        minBalanceForPeriod:
+          type: number
+          description: Минимальный остаток за период.
+          nullable: true
+          example: 0.0
+        periodInterestAmount:
+          type: number
+          description: Проценты по вкладу за период.
+          nullable: true
+          example: 1866.14
+        rate:
+          type: number
+          description: Ставка по вкладу.
+          example: 6.9
+        rateExtra:
+          type: number
+          nullable: true
+          deprecated: true
+        thresholdAmount:
+          type: number
+          nullable: true
+          deprecated: true
+        history:
+          type: array
+          description: Массив фактических операций.
+          items:
+            type: integer
+            format: int64
+    Account:
+      title: Account
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID счёта в ЦФТ.
+          format: int64
+          example: 86185712766
+        bic:
+          type: string
+          description: Банковский идентификационный код.
+          nullable: true
+          example: "044030790"
+        number:
+          type: string
+          description: Номер счёта.
+          example: "40817810190550019977"
+        currency:
+          type: string
+          description: Валюта счёта.
+          example: RUB
+        type:
+          type: string
+          description: Тип счёта.
+          example: CURRENT
+          enum:
+          - CURRENT
+          - DEPOSIT
+          - LOAN
+          - MARGIN
+          - BROKER
+          - SAVINGS
+        balance:
+          type: number
+          description: Текущий баланс счёта.
+          example: 100.0
+        description:
+          type: string
+          description: Значение уточняется.
+          nullable: true
+          example: Счёт клиента банка.
+          deprecated: true
+    DepositTransaction:
+      title: Transaction
+      type: object
+      properties:
+        rate:
+          type: number
+          description: Ставка.
+          nullable: true
+          example: 5.9
+        cftId:
+          type: integer
+          description: ID фактической операции.
+          format: int64
+          nullable: true
+          example: 827152060552
+        description:
+          type: string
+          description: Описание транзакции.
+          example: INITIAL
+        amount:
+          type: number
+          description: Сумма операции (относительно Клиента).
+          example: -73625.54
+        time:
+          type: string
+          description: Время создания операции.
+          example: 2019-09-06T00:00:00.000
+        currency:
+          type: string
+          description: ISO код валюты операции.
+          example: "643"
+    DepositOrder:
+      title: Order
+      type: object
+      properties:
+        rate:
+          type: number
+          description: Ставка.
+          example: 6.11
+        amount:
+          type: number
+          description: Сумма вклада.
+          example: 5000.0
+        currency:
+          type: string
+          description: Код валюты.
+          example: RUB
+        days:
+          type: integer
+          description: Срок вклада.
+          example: 367
+        customerRef:
+          type: string
+          description: ДБО ID клиента.
+          example: "9088119174"
+        start:
+          type: string
+          description: Дата начала действия вклада.
+          nullable: true
+          example: 2019-10-10T17:17:14.366
+        orderDate:
+          type: string
+          description: Дата создания вклада.
+          example: 2019-10-10T17:17:14.365
+        type:
+          type: string
+          description: Наименование вклада из ЦФТ.
+          example: Рантье online
+        typeCode:
+          type: string
+          description: Идентификатор типа вклада из ЦФТ.
+          example: "1523"
+        autoProlongation:
+          type: boolean
+          description: Флаг автоматического продления на новый срок после окончания
+            срока вклада.
+          example: true
+        topupAllowed:
+          type: boolean
+          description: Признак возможности пополнения.
+          example: true
+        withdrawAllowed:
+          type: boolean
+          description: Признак возможности частичного снятия.
+          example: true
+        ip:
+          type: string
+          description: IP-адрес стойки, с которой был открыт вклад.
+          nullable: true
+          example: 127.0.0.1
+        skipInitialPayment:
+          type: boolean
+          description: Признак возможности открытия вклада без первоначального платежа.
+            Необходим для открытия накопительного счета.
+          example: false
+        rateId:
+          type: integer
+          description: Идентификатор ставки вклада.
+          format: int64
+          nullable: true
+          example: 826316390784
+        payoutAccountId:
+          type: integer
+          description: ID счета для возврата депозита и процентов.
+          format: int64
+          nullable: true
+          example: 58226261134
+        serviceAccountId:
+          type: integer
+          description: ID обслуживающего счета.
+          format: int64
+          nullable: true
+          example: 64741900148
+        user:
+          $ref: '#/components/schemas/User'
+    DepositWithInitialPaymentId:
+      title: Deposit with InitialPaymentId
+      allOf:
+      - $ref: '#/components/schemas/Deposit'
+      - type: object
+        properties:
+          InitialPaymentId:
+            type: integer
+            description: ID документа на первоначальное пополнение депозита.
+            format: int64
+            nullable: true
+            example: 51241903428
+            deprecated: true
+  responses:
+    GatewayTimeout:
+      description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            statusCode: 504
+            massage: Remote services are unavailable
+    BadRequest:
+      description: Bad Request response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            statusCode: 400
+            massage: Request parameter is missing
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    X-Request-ID:
+      name: RequestId
+      in: header
+      description: UUID для отслеживания запроса.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+        format: uuid
+        example: 123e4567-e89b-12d3-a456-426655440000
+    DBO-ID:
+      name: dboId
+      in: path
+      description: Номер ID ДБО клиента.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        format: int64
+    CloseFilter:
+      name: close
+      in: query
+      description: |
+        Фильтрация депозитов по статусу:
+        * `false`- возвращает открытые депозиты Клиента.
+
+        * `true` - возвращает закрытые депозиты Клиента.
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: boolean
+        default: false
+    Deposit-ID:
+      name: depositId
+      in: path
+      description: Номер ID депозита.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: integer
+        format: int64
+    Deposit-ID-List:
+      name: depositIds
+      in: query
+      description: Список номеров ID депозитов.
+      required: true
+      style: form
+      explode: false
+      schema:
+        minItems: 1
+        type: array
+        items:
+          type: integer
+          format: int64
+    Mandate-ID:
+      name: mandateId
+      in: query
+      description: Номер ID ДБО Распорядителя Клиента ЮЛ.
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int64
+  examples:
+    PrivateRateExample:
+      summary: A privet rate's object
+      value:
+        id: 800936587281
+        typeCode: "1610"
+        parentTypeCode: "1610"
+        type: Пенсионный online
+        termsUrl: https://www.bspb.ru/retail/deposits/pensionnyj-online/
+        online: true
+        customPeriod: false
+        topupAllowed: true
+        reinvestInterest: true
+        cancellationAllowed: false
+        initialAmountWithdrawAllowed: false
+        interestWithdrawAllowed: false
+        prolongationAllowed: true
+        hidden: false
+        interestsPayments: MONTHLY
+        currency: RUB
+        minAmount: 1000.0
+        maxAmount: 1.0E8
+        minTopUpAmount: 0.01
+        minDays: 367
+        rate: 4.0
+        dynamicRatesDescription: ""
+        cancellationPenalties: {}
+        validSince: 2019-07-15T00:00:00.000
+        prolongationTypeCode: "1611"
+        raised: false
+    CorporateRateExample:
+      summary: A corporate rate's object
+      value:
+        id: 672108579681
+        typeCode: "5201"
+        type: Срочный депозит
+        termsUrl: ""
+        online: false
+        customPeriod: true
+        topupAllowed: false
+        reinvestInterest: false
+        cancellationAllowed: false
+        initialAmountWithdrawAllowed: false
+        interestWithdrawAllowed: false
+        prolongationAllowed: false
+        hidden: false
+        interestsPayments: MATURITY
+        currency: RUB
+        minAmount: 10000.0
+        maxAmount: 1.0E8
+        minTopUpAmount: 0.0
+        minDays: 1096
+        rate: 6.9
+        dynamicRatesDescription: ""
+        cancellationPenalties:
+          "0": 0.01
+        validSince: 2018-09-03T00:00:00.000
+        raised: false
