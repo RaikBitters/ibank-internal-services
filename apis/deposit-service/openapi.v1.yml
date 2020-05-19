@@ -25,7 +25,8 @@ paths:
   /customers/private/rates:
     get:
       operationId: getRatesForPrivet
-      summary: Получить доступные к открытию депозиты для ФЛ
+      summary: Получить доступные к открытию депозиты для ФЛ.
+      description: 'Получить доступные к открытию депозиты для ФЛ'
       tags:
         - private
         - rate
@@ -50,7 +51,8 @@ paths:
   /customers/corporate/rates:
     get:
       operationId: getRatesForCorporate
-      summary: Получить доступные к открытию депозиты для ЮЛ
+      summary: Получить доступные к открытию депозиты для ЮЛ.
+      description: 'Получить доступные к открытию депозиты для ЮЛ'
       tags:
         - corporate
         - rate
@@ -75,7 +77,8 @@ paths:
   /customers/sole-proprietor/rates:
     get:
       operationId: getRatesForSoleProprietor
-      summary: Получить доступные к открытию депозиты для ИП
+      summary: Получить доступные к открытию депозиты для ИП.
+      description: 'Получить доступные к открытию депозиты для ИП'
       tags:
         - corporate
         - rate
@@ -101,7 +104,8 @@ paths:
   /customers/private/{dboId}/deposits:
     get:
       operationId: getDepositsForPrivate
-      summary: Получить текущие депозиты ФЛ
+      summary: Получить текущие депозиты ФЛ.
+      description: 'Получить текущие депозиты ФЛ'
       tags:
         - private
         - info
@@ -128,6 +132,7 @@ paths:
     get:
       operationId: getDepositsForCorporate
       summary: Получить текущие депозиты ЮЛ
+      description: 'Получить текущие депозиты ЮЛ.'
       tags:
         - corporate
         - info
@@ -155,6 +160,7 @@ paths:
     get:
       operationId: getTransactionsForPrivate
       summary: Получить операции по депозиту ФЛ
+      description: 'Получить операции по депозиту ФЛ.'
       tags:
         - private
         - info
@@ -180,7 +186,8 @@ paths:
   /customers/corporate/{dboId}/transactions:
     get:
       operationId: getTransactionsForCorporate
-      summary: Получить операции по депозиту ЮЛ
+      summary: Получить операции по депозиту ЮЛ.
+      description: 'Получить операции по депозиту ЮЛ'
       tags:
         - corporate
         - info
@@ -208,7 +215,8 @@ paths:
   /customers/private/{dboId}/place:
     post:
       operationId: placeDepositForPrivate
-      summary: Открыть депозит ФЛ
+      summary: Открыть депозит ФЛ.
+      description: 'Открыть депозит ФЛ'
       tags:
         - private
         - create
@@ -239,6 +247,7 @@ paths:
     post:
       operationId: placeDepositForCorporate
       summary: Открыть депозит ЮЛ
+      description: ''
       tags:
         - corporate
         - create
@@ -805,7 +814,7 @@ components:
           example: 64741900148
         user:
           $ref: '#/components/schemas/User'
-    #INFO: Объёкт Deposit с доп. свойством InitialPaymentId
+    #INFO: Deposit с доп. свойством InitialPaymentId
     DepositWithInitialPaymentId:
       title: Deposit with InitialPaymentId
       allOf:
