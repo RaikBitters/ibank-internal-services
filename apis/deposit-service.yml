@@ -11,9 +11,10 @@ info:
     * получение списка продуктовых предложений по депозитам;
     * получение списка открытых и закрытых депозитов;
     * получение операций по группе депозитов.
-
+  contact:
+    name: Рейнгольд Шехтель
 servers:
-  - url: https://api.example.com
+  - url: https://virtserver.swaggerhub.com/RaikBitters/deposit-service/1.0
     description: SwaggerHub API Auto Mocking
   - url: 'http://localhost:{port}'
     description: Local server
@@ -23,6 +24,7 @@ servers:
 paths:
   /customers/private/rates:
     get:
+      operationId: getRatesForPrivet
       summary: Получить доступные к открытию депозиты для ФЛ
       tags:
         - private
@@ -47,6 +49,7 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/rates:
     get:
+      operationId: getRatesForCorporate
       summary: Получить доступные к открытию депозиты для ЮЛ
       tags:
         - corporate
@@ -71,6 +74,7 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
   /customers/sole-proprietor/rates:
     get:
+      operationId: getRatesForSoleProprietor
       summary: Получить доступные к открытию депозиты для ИП
       tags:
         - corporate
@@ -96,6 +100,7 @@ paths:
 
   /customers/private/{dboId}/deposits:
     get:
+      operationId: getDepositsForPrivate
       summary: Получить текущие депозиты ФЛ
       tags:
         - private
@@ -121,6 +126,7 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/{dboId}/deposits:
     get:
+      operationId: getDepositsForCorporate
       summary: Получить текущие депозиты ЮЛ
       tags:
         - corporate
@@ -147,6 +153,7 @@ paths:
   
   /customers/private/{dboId}/transactions:
     get:
+      operationId: getTransactionsForPrivate
       summary: Получить операции по депозиту ФЛ
       tags:
         - private
@@ -172,6 +179,7 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/{dboId}/transactions:
     get:
+      operationId: getTransactionsForCorporate
       summary: Получить операции по депозиту ЮЛ
       tags:
         - corporate
@@ -199,6 +207,7 @@ paths:
   
   /customers/private/{dboId}/place:
     post:
+      operationId: placeDepositForPrivate
       summary: Открыть депозит ФЛ
       tags:
         - private
@@ -228,6 +237,7 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/{dboId}/place:
     post:
+      operationId: placeDepositForCorporate
       summary: Открыть депозит ЮЛ
       tags:
         - corporate
@@ -251,6 +261,7 @@ paths:
   
   /customers/private/{dboId}/close/{depositId}:
     post:
+      operationId: closeDepositForPrivate
       summary: Закрыть депозит ФЛ
       tags:
         - private
@@ -270,6 +281,7 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
   /customers/corporate/{dboId}/close/{depositId}:
     post:
+      operationId: closeDepositForCorporate
       summary: Закрыть депозит ЮЛ
       tags:
         - corporate
@@ -922,7 +934,7 @@ components:
         validSince: "2019-07-15T00:00:00.000"
         prolongationTypeCode: "1611"
         raised: false
-      summary: A privet rate's object
+      summary: A privet rate's
     CorporateRateExample:
       value:
         id : 672108579681
@@ -949,7 +961,7 @@ components:
         cancellationPenalties: { "0": 0.01 }
         validSince: "2018-09-03T00:00:00.000"
         raised: false
-      summary: A corporate rate's object
+      summary: A corporate rate's
 tags:
   - name: private
     description: Операции для физических лиц
