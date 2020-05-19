@@ -10,7 +10,9 @@ info:
     * получение списка продуктовых предложений по депозитам;
     * получение списка открытых и закрытых депозитов;
     * получение операций по группе депозитов.
-  version: "1.0"
+  contact:
+    name: Рейнгольд Шехтель
+  version: 1.0.1
 servers:
 - url: https://virtserver.swaggerhub.com/RaikBitters/deposit-service/1.0
   description: SwaggerHub API Auto Mocking
