@@ -15,17 +15,17 @@ info:
     name: Рейнгольд Шехтель
 tags:
   - name: private
-    description: Операции для физических лиц
+    description: Операции для физических лиц.
   - name: corporate
-    description: Операции для юридических лиц и индивидуальных предпринимателей
+    description: Операции для юридических лиц и индивидуальных предпринимателей.
   - name: rate
-    description: Операции получения тарифов для депозитов
+    description: Операции получения тарифов для депозитов.
   - name: create
-    description: Операции открытия депозитов
+    description: Операции открытия депозитов.
   - name: close
-    description: Операции закрытия депозитов
+    description: Операции закрытия депозитов.
   - name: info
-    description: Операции получения информации о депозитах и транзакциях
+    description: Операции получения информации о депозитах и транзакциях.
 servers:
   - url: https://virtserver.swaggerhub.com/RaikBitters/deposit-service/1.0
     description: SwaggerHub API Auto Mocking
@@ -39,7 +39,7 @@ paths:
     get:
       operationId: getRatesForPrivet
       summary: Получить доступные к открытию депозиты для ФЛ.
-      description: 'Получить доступные к открытию депозиты для ФЛ'
+      description: 'Получить доступные к открытию депозиты для ФЛ.'
       tags:
         - private
         - rate
@@ -65,7 +65,7 @@ paths:
     get:
       operationId: getRatesForCorporate
       summary: Получить доступные к открытию депозиты для ЮЛ.
-      description: 'Получить доступные к открытию депозиты для ЮЛ'
+      description: 'Получить доступные к открытию депозиты для ЮЛ.'
       tags:
         - corporate
         - rate
@@ -91,7 +91,7 @@ paths:
     get:
       operationId: getRatesForSoleProprietor
       summary: Получить доступные к открытию депозиты для ИП.
-      description: 'Получить доступные к открытию депозиты для ИП'
+      description: 'Получить доступные к открытию депозиты для ИП.'
       tags:
         - corporate
         - rate
@@ -99,7 +99,7 @@ paths:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
         '200':
-          description: A list of sole-proprietor rates
+          description: A list of sole-proprietor rates.
           content:
             application/json:
               schema:
@@ -118,7 +118,7 @@ paths:
     get:
       operationId: getDepositsForPrivate
       summary: Получить текущие депозиты ФЛ.
-      description: 'Получить текущие депозиты ФЛ'
+      description: 'Получить текущие депозиты ФЛ.'
       tags:
         - private
         - info
@@ -144,7 +144,7 @@ paths:
   /customers/corporate/{dboId}/deposits:
     get:
       operationId: getDepositsForCorporate
-      summary: Получить текущие депозиты ЮЛ
+      summary: Получить текущие депозиты ЮЛ.
       description: 'Получить текущие депозиты ЮЛ.'
       tags:
         - corporate
@@ -172,7 +172,7 @@ paths:
   /customers/private/{dboId}/transactions:
     get:
       operationId: getTransactionsForPrivate
-      summary: Получить операции по депозиту ФЛ
+      summary: Получить операции по депозиту ФЛ.
       description: 'Получить операции по депозиту ФЛ.'
       tags:
         - private
@@ -200,7 +200,7 @@ paths:
     get:
       operationId: getTransactionsForCorporate
       summary: Получить операции по депозиту ЮЛ.
-      description: 'Получить операции по депозиту ЮЛ'
+      description: 'Получить операции по депозиту ЮЛ.'
       tags:
         - corporate
         - info
@@ -229,7 +229,7 @@ paths:
     post:
       operationId: placeDepositForPrivate
       summary: Открыть депозит ФЛ.
-      description: 'Открыть депозит ФЛ'
+      description: 'Открыть депозит ФЛ.'
       tags:
         - private
         - create
@@ -237,7 +237,7 @@ paths:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
       requestBody:
-        description: ''
+        description: 'Заказ на открытие депозита.'
         required: true
         content:
           application/json:
@@ -259,14 +259,21 @@ paths:
   /customers/corporate/{dboId}/place:
     post:
       operationId: placeDepositForCorporate
-      summary: Открыть депозит ЮЛ
-      description: ''
+      summary: Открыть депозит ЮЛ.
+      description: 'Открыть депозит ЮЛ.'
       tags:
         - corporate
         - create
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
+      requestBody:
+        description: 'Заказ на открытие депозита.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositOrder'
       responses:
         '200':
           description: OK
@@ -284,7 +291,8 @@ paths:
   /customers/private/{dboId}/close/{depositId}:
     post:
       operationId: closeDepositForPrivate
-      summary: Закрыть депозит ФЛ
+      summary: Закрыть депозит ФЛ.
+      description: 'Закрыть депозит ФЛ.'
       tags:
         - private
         - close
@@ -304,7 +312,8 @@ paths:
   /customers/corporate/{dboId}/close/{depositId}:
     post:
       operationId: closeDepositForCorporate
-      summary: Закрыть депозит ЮЛ
+      summary: Закрыть депозит ЮЛ.
+      description: 'Закрыть депозит ЮЛ.'
       tags:
         - corporate
         - close
