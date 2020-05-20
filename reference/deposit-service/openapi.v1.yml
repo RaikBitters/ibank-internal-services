@@ -919,8 +919,9 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            statusCode: 504
-            massage: "Remote services are unavailable"
+            value:
+              statusCode: 504
+              massage: "Remote services are unavailable"
     BadRequest:
       description: Bad Request response
       content:
@@ -928,8 +929,9 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            statusCode: 400
-            massage: "Request parameter is missing"
+            value:
+              statusCode: 400
+              massage: "Request parameter is missing"
     UnprocessableEntity:
       description: Unprocessable Entity
       content:
