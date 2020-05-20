@@ -13,6 +13,7 @@ info:
     * получение операций по группе депозитов.
   contact:
     name: Рейнгольд Шехтель
+    email: rejngold.o.shehtel@bspb.ru
 tags:
   - name: private
     description: Операции для физических лиц.
@@ -27,10 +28,11 @@ tags:
   - name: info
     description: Операции получения информации о депозитах и транзакциях.
 servers:
-  - url: https://virtserver.swaggerhub.com/RaikBitters/deposit-service/1.0
-    description: SwaggerHub API Auto Mocking
-  - url: 'http://localhost:{port}'
-    description: Local server
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/bankspb/deposit-service/1.0
+  - description: Local server 
+    url: 'http://localhost:{port}'
     variables:
       port:
         default: '7019'
@@ -941,58 +943,57 @@ components:
   examples:
     PrivateRateExample:
       value:
-        id: 800936587281
-        typeCode: "1610"
-        parentTypeCode: "1610"
-        type: "Пенсионный online"
-        termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
-        online: true
-        customPeriod: false
-        topupAllowed: true
-        reinvestInterest: true
-        cancellationAllowed: false
-        initialAmountWithdrawAllowed: false
-        interestWithdrawAllowed: false
-        prolongationAllowed: true
-        hidden: false
-        interestsPayments: "MONTHLY"
-        currency: "RUB"
-        minAmount: 1000.00
-        maxAmount: 100000000.00
-        minTopUpAmount: 0.01
-        minDays: 367
-        rate: 4.0
-        dynamicRatesDescription: ""
-        cancellationPenalties: {}
-        validSince: "2019-07-15T00:00:00.000"
-        prolongationTypeCode: "1611"
-        raised: false
+        - id: 800936587281
+          typeCode: "1610"
+          parentTypeCode: "1610"
+          type: "Пенсионный online"
+          termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
+          online: true
+          customPeriod: false
+          topupAllowed: true
+          reinvestInterest: true
+          cancellationAllowed: false
+          initialAmountWithdrawAllowed: false
+          interestWithdrawAllowed: false
+          prolongationAllowed: true
+          hidden: false
+          interestsPayments: "MONTHLY"
+          currency: "RUB"
+          minAmount: 1000.00
+          maxAmount: 100000000.00
+          minTopUpAmount: 0.01
+          minDays: 367
+          rate: 4.0
+          dynamicRatesDescription: ""
+          cancellationPenalties: {}
+          validSince: "2019-07-15T00:00:00.000"
+          prolongationTypeCode: "1611"
+          raised: false
       summary: A privet rate's
     CorporateRateExample:
       value:
-        id : 672108579681
-        typeCode: "5201"
-        type: "Срочный депозит"
-        termsUrl: ""
-        online: false
-        customPeriod: true
-        topupAllowed: false
-        reinvestInterest: false
-        cancellationAllowed: false
-        initialAmountWithdrawAllowed: false
-        interestWithdrawAllowed: false
-        prolongationAllowed: false
-        hidden: false
-        interestsPayments: "MATURITY"
-        currency: "RUB"
-        minAmount: 10000.00
-        maxAmount: 100000000.00
-        minTopUpAmount: 0.00
-        minDays: 1096
-        rate: 6.90
-        dynamicRatesDescription: ""
-        cancellationPenalties: { "0": 0.01 }
-        validSince: "2018-09-03T00:00:00.000"
-        raised: false
+        - id : 672108579681
+          typeCode: "5201"
+          type: "Срочный депозит"
+          termsUrl: ""
+          online: false
+          customPeriod: true
+          topupAllowed: false
+          reinvestInterest: false
+          cancellationAllowed: false
+          initialAmountWithdrawAllowed: false
+          interestWithdrawAllowed: false
+          prolongationAllowed: false
+          hidden: false
+          interestsPayments: "MATURITY"
+          currency: "RUB"
+          minAmount: 10000.00
+          maxAmount: 100000000.00
+          minTopUpAmount: 0.00
+          minDays: 1096
+          rate: 6.90
+          dynamicRatesDescription: ""
+          cancellationPenalties: { "0": 0.01 }
+          validSince: "2018-09-03T00:00:00.000"
+          raised: false
       summary: A corporate rate's
-
