@@ -13,6 +13,19 @@ info:
     * получение операций по группе депозитов.
   contact:
     name: Рейнгольд Шехтель
+tags:
+  - name: private
+    description: Операции для физических лиц
+  - name: corporate
+    description: Операции для юридических лиц и индивидуальных предпринимателей
+  - name: rate
+    description: Операции получения тарифов для депозитов
+  - name: create
+    description: Операции открытия депозитов
+  - name: close
+    description: Операции закрытия депозитов
+  - name: info
+    description: Операции получения информации о депозитах и транзакциях
 servers:
   - url: https://virtserver.swaggerhub.com/RaikBitters/deposit-service/1.0
     description: SwaggerHub API Auto Mocking
@@ -971,16 +984,4 @@ components:
         validSince: "2018-09-03T00:00:00.000"
         raised: false
       summary: A corporate rate's
-tags:
-  - name: private
-    description: Операции для физических лиц
-  - name: corporate
-    description: Операции для юридических лиц и индивидуальных предпринимателей
-  - name: rate
-    description: Операции получения тарифов для депозитов
-  - name: create
-    description: Операции открытия депозитов
-  - name: close
-    description: Операции закрытия депозитов
-  - name: info
-    description: Операции получения информации о депозитах и транзакциях
+
