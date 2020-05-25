@@ -27,6 +27,7 @@ components:
         message:
           type: string
 
+
   ####################
   # Common parameters
   ####################
@@ -116,19 +117,6 @@ components:
         responses:
           '201':
             description: Created
-
-  ######################################
-  # Common examples of input/output data
-  ######################################
-  examples:
-    tshirt:
-      summary: Sample T-shirt data
-      value:
-        # Example value starts here
-        id: 17
-        name: T-shirt
-        description: 100% cotton shirt
-        categories: [clothes]
 
   #########################
   # Common link definitions

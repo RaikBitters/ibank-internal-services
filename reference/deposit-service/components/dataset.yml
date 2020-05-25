@@ -1,0 +1,69 @@
+#######################
+# Optional info section
+#######################
+info:
+  title: Deposit service Examples
+  description: Deposit service external examples for Deposit service REST APIs
+  version: '1.0'
+
+components:
+  ########################################
+  # External examples of input/output data
+  ########################################
+  examples:
+    PrivateRateExample:
+      summary: A privet rate's
+      value:
+        - id: 800936587281
+          typeCode: "1610"
+          parentTypeCode: "1610"
+          type: "Пенсионный online"
+          termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
+          online: true
+          customPeriod: false
+          topupAllowed: true
+          reinvestInterest: true
+          cancellationAllowed: false
+          initialAmountWithdrawAllowed: false
+          interestWithdrawAllowed: false
+          prolongationAllowed: true
+          hidden: false
+          interestsPayments: "MONTHLY"
+          currency: "RUB"
+          minAmount: 1000.00
+          maxAmount: 100000000.00
+          minTopUpAmount: 0.01
+          minDays: 367
+          rate: 4.0
+          dynamicRatesDescription: ""
+          cancellationPenalties: {}
+          validSince: "2019-07-15T00:00:00.000"
+          prolongationTypeCode: "1611"
+          raised: false
+    CorporateRateExample:
+      summary: A corporate rate's
+      value:
+        - id : 672108579681
+          typeCode: "5201"
+          type: "Срочный депозит"
+          termsUrl: ""
+          online: false
+          customPeriod: true
+          topupAllowed: false
+          reinvestInterest: false
+          cancellationAllowed: false
+          initialAmountWithdrawAllowed: false
+          interestWithdrawAllowed: false
+          prolongationAllowed: false
+          hidden: false
+          interestsPayments: "MATURITY"
+          currency: "RUB"
+          minAmount: 10000.00
+          maxAmount: 100000000.00
+          minTopUpAmount: 0.00
+          minDays: 1096
+          rate: 6.90
+          dynamicRatesDescription: ""
+          cancellationPenalties: { "0": 0.01 }
+          validSince: "2018-09-03T00:00:00.000"
+          raised: false

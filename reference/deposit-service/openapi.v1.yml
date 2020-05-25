@@ -58,7 +58,7 @@ paths:
                   $ref: '#/components/schemas/DepositRate'
               examples:
                 PrivateRateExample:
-                  $ref: '#/components/examples/PrivateRateExample'
+                  $ref: './components/dataset.yml#/components/examples/PrivateRateExample'
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -84,7 +84,7 @@ paths:
                   $ref: '#/components/schemas/DepositRate'
               examples:
                 CorporateRateExample:
-                  $ref: '#/components/examples/CorporateRateExample'
+                  $ref: './components/dataset.yml#/components/examples/CorporateRateExample'
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -110,7 +110,7 @@ paths:
                   $ref: '#/components/schemas/DepositRate'
               examples:
                 CorporateRateExample:
-                  $ref: '#/components/examples/CorporateRateExample'
+                  $ref: './components/dataset.yml#/components/examples/CorporateRateExample'
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -374,22 +374,18 @@ components:
         typeCode:
           type: string
           description: 'Код вида депозитного договора в ЦФТ.'
-          nullable: true
           example: "1610"
         parentTypeCode:
           type: string
           description: 'Код вида вклада для доп. вложения.'
-          nullable: true
           example: "1610"
         type:
           type: string
           description: 'Наименование вклада.'
-          nullable: true
           example: "Пенсионный online"
         termsUrl:
           type: string
           description: 'Ссылка на страницу ИБ с подробным описанием депозита.'
-          nullable: true
           example: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
         online:
           type: boolean
@@ -508,7 +504,6 @@ components:
         until:
           type: string
           description: 'Дата закрытия/пролонгации депозита.'
-          nullable: true
           example: "2020-01-25T00:00:00.000"
         orderDate:
           type: string
@@ -521,7 +516,6 @@ components:
         days:
           type: integer
           description: 'Срок, на который открыт депозит.'
-          nullable: true
           example: 367
         type:
           type: string
@@ -551,20 +545,17 @@ components:
         cancellationDate:
           type: string
           description: 'Значение уточняется.'
-          nullable: true
           example: "2020-01-25T00:00:00.000"
           deprecated: true
         #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationReason:
           type: string
           description: 'Значение уточняется.'
-          nullable: true
           example:
           deprecated: true
         interestPayoutPeriod:
           type: string
           description: 'Период выплаты процентов.'
-          nullable: true
           example: "Ежеквартально"
         interestPayoutToDepositAccount:
           type: boolean
@@ -578,39 +569,32 @@ components:
           type: string
           description: 'Период и единица измерения доп. взноса от начала 
           вклада.'
-          nullable: true
           example: "0 Дни"
         topupAllowedUntilDay:
           type: string
           description: 'Период и единица измерения доп. взноса от конца вклада.'
-          nullable: true
           example: "1 Дни"
         topupMinAmount:
           type: number
           description: 'Минимальная сумма пополнения/доп. взноса депозита.'
-          nullable: true
           example: 10000.00
         partialPayoutAllowedFromDay:
           type: string
           description: 'Период и единица измерения для изъятия от начала 
           вклада.'
-          nullable: true
           example: "30 Дни"
         partialPayoutAllowedUntilDay:
           type: string
           description: 'Период и единица измерения для изъятия от конца вклада.'
-          nullable: true
           example: "90 Дни"
         partialPayoutMaxAmount:
           type: string
           description: 'Условие выполнений операций по договору.'
-          nullable: true
           example: "Общий размер изъятий не более 50% от суммы вклада на момент 
           открытия"
         prematureEnd:
           type: string
           description: 'Период применения штрафной ставки.'
-          nullable: true
           example: "С даты начала действия/последней пролонгации"
         status:
           type: string
@@ -620,22 +604,18 @@ components:
         agreementNumber:
           type: string
           description: 'Номер депозитного договора.'
-          nullable: true
           example: "55/1521/15-00062878"
         nextInterestPaymentDay:
           type: string
           description: 'Дата следующей выплаты % по вкладу.'
-          nullable: true
           example: "2019-07-23T00:00:00.000"
         description:
           type: string
           description: 'Наименование вклада.'
-          nullable: true
           example: "Престиж online c пролонгацией"
         minAmount:
           type: number
           description: 'Минимальная сумма открытия депозита.'
-          nullable: true
           example: 0.00
         onlineWithdrawAllowed:
           type: boolean
@@ -651,16 +631,14 @@ components:
         serviceAccount:
           allOf:
           - $ref: '#/components/schemas/Account'
-          - nullable: true
+          - description: 'Сервисный счёт.'
         minBalanceForPeriod:
           type: number
           description: 'Минимальный остаток за период.'
-          nullable: true
           example: 0.00
         periodInterestAmount:
           type: number
           description: 'Проценты по вкладу за период.'
-          nullable: true
           example: 1866.14
         rate:
           type: number
@@ -670,13 +648,11 @@ components:
         rateExtra:
           type: number
           description: ''
-          nullable: true
           deprecated: true
         #TODO: Уточнить значение. В описании к API нет данного параметра.
         thresholdAmount:
           type: number
           description: ''
-          nullable: true
           deprecated: true
         history:
           type: array
@@ -696,7 +672,6 @@ components:
         bic:
           type: string
           description: 'Банковский идентификационный код.'
-          nullable: true
           example: "044030790"
         number:
           type: string
@@ -719,7 +694,6 @@ components:
         description:
           type: string
           description: 'Значение уточняется.'
-          nullable: true
           example: "Счёт клиента банка."
           deprecated: true
     DepositTransaction:
@@ -729,13 +703,11 @@ components:
         rate:
           type: number
           description: 'Ставка.'
-          nullable: true
           example: 5.90
         cftId:
           type: integer
           format: int64
           description: 'ID фактической операции.'
-          nullable: true
           example: 827152060552
         description:
           type: string
@@ -756,6 +728,20 @@ components:
     DepositOrder:
       title: Order
       type: object
+      required:
+        - rate
+        - amount
+        - currency
+        - days
+        - customerRef
+        - orderDate
+        - type
+        - typeCode
+        - autoProlongation
+        - topupAllowed
+        - withdrawAllowed
+        - skipInitialPayment
+        - user
       properties:
         rate:
           type: number
@@ -780,7 +766,6 @@ components:
         start:
           type: string
           description: 'Дата начала действия вклада.'
-          nullable: true
           example: "2019-10-10T17:17:14.366"
         orderDate:
           type: string
@@ -810,7 +795,6 @@ components:
         ip:
           type: string
           description: 'IP-адрес стойки, с которой был открыт вклад.'
-          nullable: true
           example: "127.0.0.1"
         #TODO: Уточнить значение. В описании к API нет данного параметра.
         skipInitialPayment:
@@ -822,22 +806,20 @@ components:
           type: integer
           format: int64
           description: 'Идентификатор ставки вклада.'
-          nullable: true
           example: 826316390784
         payoutAccountId:
           type: integer
           format: int64
           description: 'ID счета для возврата депозита и процентов.'
-          nullable: true
           example: 58226261134
         serviceAccountId:
           type: integer
           format: int64
           description: 'ID обслуживающего счета.'
-          nullable: true
           example: 64741900148
         user:
           $ref: '#/components/schemas/User'
+
     #INFO: Deposit с доп. свойством InitialPaymentId
     DepositWithInitialPaymentId:
       title: Deposit with InitialPaymentId
@@ -850,7 +832,6 @@ components:
               type: integer
               format: int64
               description: 'ID документа на первоначальное пополнение депозита.'
-              nullable: true
               deprecated: true
               example: 51241903428
   parameters:
@@ -903,7 +884,6 @@ components:
       explode: false
       required: true
       description: Список номеров ID депозитов.
-    #TODO: Уточнить почему обязательно указывается для ЮЛ и только в транзакциях.
     Mandate-ID:
       in: query
       name: mandateId
@@ -919,81 +899,24 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './components/models.yml#/components/schemas/ErrorModel'
           example:
             value:
-              statusCode: 504
-              massage: "Remote services are unavailable"
+              code: 504
+              message: "Remote services are unavailable"
     BadRequest:
       description: Bad Request response
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: './components/models.yml#/components/schemas/ErrorModel'
           example:
             value:
-              statusCode: 400
-              massage: "Request parameter is missing"
+              code: 400
+              message: "Request parameter is missing"
     UnprocessableEntity:
       description: Unprocessable Entity
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-  examples:
-    PrivateRateExample:
-      value:
-        - id: 800936587281
-          typeCode: "1610"
-          parentTypeCode: "1610"
-          type: "Пенсионный online"
-          termsUrl: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
-          online: true
-          customPeriod: false
-          topupAllowed: true
-          reinvestInterest: true
-          cancellationAllowed: false
-          initialAmountWithdrawAllowed: false
-          interestWithdrawAllowed: false
-          prolongationAllowed: true
-          hidden: false
-          interestsPayments: "MONTHLY"
-          currency: "RUB"
-          minAmount: 1000.00
-          maxAmount: 100000000.00
-          minTopUpAmount: 0.01
-          minDays: 367
-          rate: 4.0
-          dynamicRatesDescription: ""
-          cancellationPenalties: {}
-          validSince: "2019-07-15T00:00:00.000"
-          prolongationTypeCode: "1611"
-          raised: false
-      summary: A privet rate's
-    CorporateRateExample:
-      value:
-        - id : 672108579681
-          typeCode: "5201"
-          type: "Срочный депозит"
-          termsUrl: ""
-          online: false
-          customPeriod: true
-          topupAllowed: false
-          reinvestInterest: false
-          cancellationAllowed: false
-          initialAmountWithdrawAllowed: false
-          interestWithdrawAllowed: false
-          prolongationAllowed: false
-          hidden: false
-          interestsPayments: "MATURITY"
-          currency: "RUB"
-          minAmount: 10000.00
-          maxAmount: 100000000.00
-          minTopUpAmount: 0.00
-          minDays: 1096
-          rate: 6.90
-          dynamicRatesDescription: ""
-          cancellationPenalties: { "0": 0.01 }
-          validSince: "2018-09-03T00:00:00.000"
-          raised: false
-      summary: A corporate rate's
+            $ref: './components/models.yml#/components/schemas/ErrorModel'
