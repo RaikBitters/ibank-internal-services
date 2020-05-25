@@ -19,14 +19,6 @@ tags:
     description: Операции для физических лиц.
   - name: corporate
     description: Операции для юридических лиц и индивидуальных предпринимателей.
-  - name: rate
-    description: Операции получения тарифов для депозитов.
-  - name: create
-    description: Операции открытия депозитов.
-  - name: close
-    description: Операции закрытия депозитов.
-  - name: info
-    description: Операции получения информации о депозитах и транзакциях.
 servers:
 # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -44,7 +36,6 @@ paths:
       description: 'Получить доступные к открытию депозиты для ФЛ.'
       tags:
         - private
-        - rate
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
@@ -70,7 +61,6 @@ paths:
       description: 'Получить доступные к открытию депозиты для ЮЛ.'
       tags:
         - corporate
-        - rate
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
@@ -96,7 +86,6 @@ paths:
       description: 'Получить доступные к открытию депозиты для ИП.'
       tags:
         - corporate
-        - rate
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
       responses:
@@ -123,7 +112,6 @@ paths:
       description: 'Получить текущие депозиты ФЛ.'
       tags:
         - private
-        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -150,7 +138,6 @@ paths:
       description: 'Получить текущие депозиты ЮЛ.'
       tags:
         - corporate
-        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -178,7 +165,6 @@ paths:
       description: 'Получить операции по депозиту ФЛ.'
       tags:
         - private
-        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -205,7 +191,6 @@ paths:
       description: 'Получить операции по депозиту ЮЛ.'
       tags:
         - corporate
-        - info
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -234,7 +219,6 @@ paths:
       description: 'Открыть депозит ФЛ.'
       tags:
         - private
-        - create
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -265,7 +249,6 @@ paths:
       description: 'Открыть депозит ЮЛ.'
       tags:
         - corporate
-        - create
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -297,7 +280,6 @@ paths:
       description: 'Закрыть депозит ФЛ.'
       tags:
         - private
-        - close
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -318,7 +300,6 @@ paths:
       description: 'Закрыть депозит ЮЛ.'
       tags:
         - corporate
-        - close
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
@@ -335,14 +316,6 @@ paths:
 
 components:
   schemas:
-    Error:
-      title: Default Error
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        massage:
-          type: string
     User:
       title: User
       type: object
@@ -819,7 +792,6 @@ components:
           example: 64741900148
         user:
           $ref: '#/components/schemas/User'
-
     #INFO: Deposit с доп. свойством InitialPaymentId
     DepositWithInitialPaymentId:
       title: Deposit with InitialPaymentId
@@ -892,7 +864,6 @@ components:
         format: int64
       required: true
       description: Номер ID ДБО Распорядителя Клиента ЮЛ.
-  
   responses:
     GatewayTimeout:
       description: Gateway Timeout
