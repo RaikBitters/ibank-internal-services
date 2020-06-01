@@ -1,8 +1,8 @@
-openapi: '3.0.2'
+openapi: 3.0.2
 info:
   title: Deposit service
   version: '1.0'
-  description: |
+  description: |-
     ### Сервис для работы с депозитами клиентов интернет-банка
     Позволяет решать задачи управления депозитами физических и юридических лиц.
 
@@ -20,10 +20,9 @@ tags:
   - name: corporate
     description: Операции для юридических лиц и индивидуальных предпринимателей.
 servers:
-# Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/bankspb/deposit-service/1.0
-  - description: Local server 
+    url: 'https://virtserver.swaggerhub.com/bankspb/deposit-service/1.0'
+  - description: Local server
     url: 'http://localhost:{port}'
     variables:
       port:
@@ -33,7 +32,7 @@ paths:
     get:
       operationId: getRatesForPrivet
       summary: Получить доступные к открытию депозиты для ФЛ.
-      description: 'Получить доступные к открытию депозиты для ФЛ.'
+      description: Получить доступные к открытию депозиты для ФЛ.
       tags:
         - private
       parameters:
@@ -58,7 +57,7 @@ paths:
     get:
       operationId: getRatesForCorporate
       summary: Получить доступные к открытию депозиты для ЮЛ.
-      description: 'Получить доступные к открытию депозиты для ЮЛ.'
+      description: Получить доступные к открытию депозиты для ЮЛ.
       tags:
         - corporate
       parameters:
@@ -83,7 +82,7 @@ paths:
     get:
       operationId: getRatesForSoleProprietor
       summary: Получить доступные к открытию депозиты для ИП.
-      description: 'Получить доступные к открытию депозиты для ИП.'
+      description: Получить доступные к открытию депозиты для ИП.
       tags:
         - corporate
       parameters:
@@ -104,12 +103,11 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-
-  /customers/private/{dboId}/deposits:
+  '/customers/private/{dboId}/deposits':
     get:
       operationId: getDepositsForPrivate
       summary: Получить текущие депозиты ФЛ.
-      description: 'Получить текущие депозиты ФЛ.'
+      description: Получить текущие депозиты ФЛ.
       tags:
         - private
       parameters:
@@ -131,11 +129,11 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  /customers/corporate/{dboId}/deposits:
+  '/customers/corporate/{dboId}/deposits':
     get:
       operationId: getDepositsForCorporate
       summary: Получить текущие депозиты ЮЛ.
-      description: 'Получить текущие депозиты ЮЛ.'
+      description: Получить текущие депозиты ЮЛ.
       tags:
         - corporate
       parameters:
@@ -157,12 +155,11 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  
-  /customers/private/{dboId}/transactions:
+  '/customers/private/{dboId}/transactions':
     get:
       operationId: getTransactionsForPrivate
       summary: Получить операции по депозиту ФЛ.
-      description: 'Получить операции по депозиту ФЛ.'
+      description: Получить операции по депозиту ФЛ.
       tags:
         - private
       parameters:
@@ -184,11 +181,11 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  /customers/corporate/{dboId}/transactions:
+  '/customers/corporate/{dboId}/transactions':
     get:
       operationId: getTransactionsForCorporate
       summary: Получить операции по депозиту ЮЛ.
-      description: 'Получить операции по депозиту ЮЛ.'
+      description: Получить операции по депозиту ЮЛ.
       tags:
         - corporate
       parameters:
@@ -211,19 +208,18 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  
-  /customers/private/{dboId}/place:
+  '/customers/private/{dboId}/place':
     post:
       operationId: placeDepositForPrivate
       summary: Открыть депозит ФЛ.
-      description: 'Открыть депозит ФЛ.'
+      description: Открыть депозит ФЛ.
       tags:
         - private
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
       requestBody:
-        description: 'Заказ на открытие депозита.'
+        description: Заказ на открытие депозита.
         required: true
         content:
           application/json:
@@ -242,18 +238,18 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  /customers/corporate/{dboId}/place:
+  '/customers/corporate/{dboId}/place':
     post:
       operationId: placeDepositForCorporate
       summary: Открыть депозит ЮЛ.
-      description: 'Открыть депозит ЮЛ.'
+      description: Открыть депозит ЮЛ.
       tags:
         - corporate
       parameters:
         - $ref: '#/components/parameters/X-Request-ID'
         - $ref: '#/components/parameters/DBO-ID'
       requestBody:
-        description: 'Заказ на открытие депозита.'
+        description: Заказ на открытие депозита.
         required: true
         content:
           application/json:
@@ -272,12 +268,11 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  
-  /customers/private/{dboId}/close/{depositId}:
+  '/customers/private/{dboId}/close/{depositId}':
     post:
       operationId: closeDepositForPrivate
       summary: Закрыть депозит ФЛ.
-      description: 'Закрыть депозит ФЛ.'
+      description: Закрыть депозит ФЛ.
       tags:
         - private
       parameters:
@@ -293,11 +288,11 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-  /customers/corporate/{dboId}/close/{depositId}:
+  '/customers/corporate/{dboId}/close/{depositId}':
     post:
       operationId: closeDepositForCorporate
       summary: Закрыть депозит ЮЛ.
-      description: 'Закрыть депозит ЮЛ.'
+      description: Закрыть депозит ЮЛ.
       tags:
         - corporate
       parameters:
@@ -313,7 +308,6 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
         '504':
           $ref: '#/components/responses/GatewayTimeout'
-
 components:
   schemas:
     User:
@@ -323,17 +317,17 @@ components:
         id:
           type: integer
           format: int64
-          description: 'Идентификатор Клиента.'
+          description: Идентификатор Клиента.
           example: 5110621
         privateCustomerId:
           type: integer
           format: int64
-          description: 'Идентификатор Распорядителя ЮЛ. Для ФЛ = id.'
+          description: Идентификатор Распорядителя ЮЛ. Для ФЛ = id.
           example: 157512303
         locale:
           type: string
-          description: 'Язык локализации.'
-          example: "ru"
+          description: Язык локализации.
+          example: ru
     DepositRate:
       title: Rate
       type: object
@@ -341,125 +335,118 @@ components:
         id:
           type: integer
           format: int64
-          description: 'ID схемы начисления процентов для определенного вида 
-          депозитного договора.'
+          description: ID схемы начисления процентов для определенного вида  депозитного договора.
           example: 800936587281
         typeCode:
           type: string
-          description: 'Код вида депозитного договора в ЦФТ.'
-          example: "1610"
+          description: Код вида депозитного договора в ЦФТ.
+          example: '1610'
         parentTypeCode:
           type: string
-          description: 'Код вида вклада для доп. вложения.'
-          example: "1610"
+          description: Код вида вклада для доп. вложения.
+          example: '1610'
         type:
           type: string
-          description: 'Наименование вклада.'
-          example: "Пенсионный online"
+          description: Наименование вклада.
+          example: Пенсионный online
         termsUrl:
           type: string
-          description: 'Ссылка на страницу ИБ с подробным описанием депозита.'
-          example: "https://www.bspb.ru/retail/deposits/pensionnyj-online/"
+          description: Ссылка на страницу ИБ с подробным описанием депозита.
+          example: 'https://www.bspb.ru/retail/deposits/pensionnyj-online/'
         online:
           type: boolean
-          description: 'Признак возможности открытия вклада online в ИБ.'
+          description: Признак возможности открытия вклада online в ИБ.
           example: true
         customPeriod:
           type: boolean
-          description: 'Вернёт "true", если у вида вклада в АБС
-          есть ссылка на справочник «СПБ. Депозиты особые условия».'
+          description: 'Вернёт "true", если у вида вклада в АБС есть ссылка на справочник «СПБ. Депозиты особые условия».'
           example: false
         topupAllowed:
           type: boolean
-          description: 'Признак возможности пополнения дополнительных взносов.'
+          description: Признак возможности пополнения дополнительных взносов.
           example: true
         reinvestInterest:
           type: boolean
-          description: 'Признак реинвестирования накопленных процентов.'
+          description: Признак реинвестирования накопленных процентов.
           example: true
         cancellationAllowed:
           type: boolean
-          description: 'Признак возможности досрочного закрытия 
-          вклада.'
+          description: Признак возможности досрочного закрытия  вклада.
           example: false
         initialAmountWithdrawAllowed:
           type: boolean
-          description: 'Признак возможности снятия средств с 
-          депозитного договора.'
+          description: Признак возможности снятия средств с  депозитного договора.
           example: false
         interestWithdrawAllowed:
           type: boolean
-          description: 'Признак возможности снятия накопленных 
-          процентов.'
+          description: Признак возможности снятия накопленных  процентов.
           example: false
         prolongationAllowed:
           type: boolean
-          description: 'Признак возможности пролонгации депозита.'
+          description: Признак возможности пролонгации депозита.
           example: true
         hidden:
           type: boolean
-          description: 'Возвращается "true", если typeCode 
-          1621, 1622 или 300.'
+          description: 'Возвращается "true", если typeCode  1621, 1622 или 300.'
           example: false
         interestsPayments:
           type: string
-          enum: [MONTHLY, QUARTERLY, MATURITY]
-          description: 'Период выплаты процентов.'
-          example: 'MONTHLY'
+          enum:
+            - MONTHLY
+            - QUARTERLY
+            - MATURITY
+          description: Период выплаты процентов.
+          example: MONTHLY
         currency:
           type: string
-          description: 'Валюта вклада.'
-          example: "RUB"
+          description: Валюта вклада.
+          example: RUB
         minAmount:
           type: number
-          description: 'Минимальная сумма вклада.'
-          example: 1000.00
+          description: Минимальная сумма вклада.
+          example: 1000
         maxAmount:
           type: number
-          description: 'Максимальная сумма вклада.'
-          example: 5000000.00
+          description: Максимальная сумма вклада.
+          example: 5000000
         minTopUpAmount:
           type: number
-          description: 'Минимальная сумма пополнения депозита.'
+          description: Минимальная сумма пополнения депозита.
           example: 0.01
         maxTopUpAmount:
           type: number
-          description: 'Максимальная сумма пополнения депозита.'
-          example: 5000000.00
+          description: Максимальная сумма пополнения депозита.
+          example: 5000000
         minDays:
           type: integer
-          description: 'Минимальный срок вклада для случаев вручную 
-          указываемого срока или свободного срока.'
+          description: Минимальный срок вклада для случаев вручную  указываемого срока или свободного срока.
           example: 367
         rate:
           type: number
           description: 'Ставка, % годовых.'
-          example: 4.0
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
+          example: 4
         rateExtra:
           type: number
-          description: 'Значение уточняется. PRC_SCH_HIS/REC/PRC_SCHEME/PRC_VALUE_EXTRA'
+          description: Значение уточняется. PRC_SCH_HIS/REC/PRC_SCHEME/PRC_VALUE_EXTRA
           deprecated: true
-          example: 4.0
+          example: 4
         dynamicRatesDescription:
           type: string
-          description: 'dynamicRatesDescription.'
-          example: "Ставка LIBOR overnight - 1.4%"
+          description: dynamicRatesDescription.
+          example: 'Ставка LIBOR overnight - 1.4%'
         cancellationPenalties:
-          description: 'Штрафная процентная ставка при досрочном 
-          закрытии вклада.'
+          description: Штрафная процентная ставка при досрочном  закрытии вклада.
         validSince:
           type: string
           description: 'Дата, с которой можно открывать вклад.'
-          example: "2020-01-25T00:00:00.000"
+          example: '2020-01-25T00:00:00.000'
         prolongationTypeCode:
           type: string
-          description: 'Код вида договора для автоматической 
-          пролонгации.'
-          example: "1611"
+          description: Код вида договора для автоматической  пролонгации.
+          example: '1611'
         raised:
           type: boolean
-          description: 'Всегда возвращает false.'
+          description: Всегда возвращает false.
           example: false
     Deposit:
       title: Deposit
@@ -468,68 +455,66 @@ components:
         id:
           type: integer
           format: int64
-          description: 'ID депозита.'
+          description: ID депозита.
           example: 136339851112
         amount:
           type: number
-          description: 'Текущая сумма вклада.'
+          description: Текущая сумма вклада.
           example: 71759.4
         until:
           type: string
-          description: 'Дата закрытия/пролонгации депозита.'
-          example: "2020-01-25T00:00:00.000"
+          description: Дата закрытия/пролонгации депозита.
+          example: '2020-01-25T00:00:00.000'
         orderDate:
           type: string
-          description: 'Дата создания вклада.'
-          example: "2019-01-23T00:00:00.000"
+          description: Дата создания вклада.
+          example: '2019-01-23T00:00:00.000'
         startDate:
           type: string
-          description: 'Дата начала действия вклада.'
-          example: "2015-01-16T18:47:00.000"
+          description: Дата начала действия вклада.
+          example: '2015-01-16T18:47:00.000'
         days:
           type: integer
           description: 'Срок, на который открыт депозит.'
           example: 367
         type:
           type: string
-          description: 'Наименование вклада.'
-          example: "Престиж online c пролонгацией"
+          description: Наименование вклада.
+          example: Престиж online c пролонгацией
         typeCode:
           type: string
-          description: 'Код вида депозитного договора в ЦФТ.'
-          example: "1521"
+          description: Код вида депозитного договора в ЦФТ.
+          example: '1521'
         currency:
           type: string
-          description: 'Валюта депозита'
-          example: "RUB"
+          description: Валюта депозита
+          example: RUB
         topupAllowed:
           type: boolean
-          description: 'Признак возможности пополнения.'
+          description: Признак возможности пополнения.
           example: true
         WithdrawAllowed:
           type: boolean
-          description: 'Признак возможности снятия средств с депозита.'
+          description: Признак возможности снятия средств с депозита.
           example: true
         prolongation:
           type: boolean
-          description: 'Признак пролонгации'
+          description: Признак пролонгации
           example: true
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationDate:
           type: string
-          description: 'Значение уточняется.'
-          example: "2020-01-25T00:00:00.000"
+          description: Значение уточняется.
+          example: '2020-01-25T00:00:00.000'
           deprecated: true
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
         cancellationReason:
           type: string
-          description: 'Значение уточняется.'
-          example:
+          description: Значение уточняется.
+          example: null
           deprecated: true
         interestPayoutPeriod:
           type: string
-          description: 'Период выплаты процентов.'
-          example: "Ежеквартально"
+          description: Период выплаты процентов.
+          example: Ежеквартально
         interestPayoutToDepositAccount:
           type: boolean
           description: 'Признак "Перечислять проценты".'
@@ -540,89 +525,89 @@ components:
           example: false
         topupAllowedFromDay:
           type: string
-          description: 'Период и единица измерения доп. взноса от начала 
-          вклада.'
-          example: "0 Дни"
+          description: Период и единица измерения доп. взноса от начала  вклада.
+          example: 0 Дни
         topupAllowedUntilDay:
           type: string
-          description: 'Период и единица измерения доп. взноса от конца вклада.'
-          example: "1 Дни"
+          description: Период и единица измерения доп. взноса от конца вклада.
+          example: 1 Дни
         topupMinAmount:
           type: number
-          description: 'Минимальная сумма пополнения/доп. взноса депозита.'
-          example: 10000.00
+          description: Минимальная сумма пополнения/доп. взноса депозита.
+          example: 10000
         partialPayoutAllowedFromDay:
           type: string
-          description: 'Период и единица измерения для изъятия от начала 
-          вклада.'
-          example: "30 Дни"
+          description: Период и единица измерения для изъятия от начала  вклада.
+          example: 30 Дни
         partialPayoutAllowedUntilDay:
           type: string
-          description: 'Период и единица измерения для изъятия от конца вклада.'
-          example: "90 Дни"
+          description: Период и единица измерения для изъятия от конца вклада.
+          example: 90 Дни
         partialPayoutMaxAmount:
           type: string
-          description: 'Условие выполнений операций по договору.'
-          example: "Общий размер изъятий не более 50% от суммы вклада на момент 
-          открытия"
+          description: Условие выполнений операций по договору.
+          example: 'Общий размер изъятий не более 50% от суммы вклада на момент  открытия'
         prematureEnd:
           type: string
-          description: 'Период применения штрафной ставки.'
-          example: "С даты начала действия/последней пролонгации"
+          description: Период применения штрафной ставки.
+          example: С даты начала действия/последней пролонгации
         status:
           type: string
-          enum: [PENDING, ACTIVE, CLOSED, REJECTED, CLOSING, UNKNOWN]
-          description: 'Текущий статус вклада.'
-          example: "CLOSING"
+          enum:
+            - PENDING
+            - ACTIVE
+            - CLOSED
+            - REJECTED
+            - CLOSING
+            - UNKNOWN
+          description: Текущий статус вклада.
+          example: CLOSING
         agreementNumber:
           type: string
-          description: 'Номер депозитного договора.'
-          example: "55/1521/15-00062878"
+          description: Номер депозитного договора.
+          example: 55/1521/15-00062878
         nextInterestPaymentDay:
           type: string
           description: 'Дата следующей выплаты % по вкладу.'
-          example: "2019-07-23T00:00:00.000"
+          example: '2019-07-23T00:00:00.000'
         description:
           type: string
-          description: 'Наименование вклада.'
-          example: "Престиж online c пролонгацией"
+          description: Наименование вклада.
+          example: Престиж online c пролонгацией
         minAmount:
           type: number
-          description: 'Минимальная сумма открытия депозита.'
-          example: 0.00
+          description: Минимальная сумма открытия депозита.
+          example: 0
         onlineWithdrawAllowed:
           type: boolean
-          description: 'Признак, что online - списание доступно только для 
-          активных вкладов с typeCode = PremiumUprav'
+          description: 'Признак, что online - списание доступно только для  активных вкладов с typeCode = PremiumUprav'
           example: false
         closeableOnline:
           type: boolean
-          description: 'Признак возможности закрытия депозита через ИБ online.'
+          description: Признак возможности закрытия депозита через ИБ online.
           example: false
         account:
           $ref: '#/components/schemas/Account'
         serviceAccount:
           allOf:
-          - $ref: '#/components/schemas/Account'
-          - description: 'Сервисный счёт.'
+            - $ref: '#/components/schemas/Account'
+            - description: Сервисный счёт.
         minBalanceForPeriod:
           type: number
-          description: 'Минимальный остаток за период.'
-          example: 0.00
+          description: Минимальный остаток за период.
+          example: 0
         periodInterestAmount:
           type: number
-          description: 'Проценты по вкладу за период.'
+          description: Проценты по вкладу за период.
           example: 1866.14
         rate:
           type: number
-          description: 'Ставка по вкладу.'
+          description: Ставка по вкладу.
           example: 6.9
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
         rateExtra:
           type: number
           description: ''
           deprecated: true
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
         thresholdAmount:
           type: number
           description: ''
@@ -632,7 +617,7 @@ components:
           items:
             type: integer
             format: int64
-          description: 'Массив фактических операций.'
+          description: Массив фактических операций.
     Account:
       title: Account
       type: object
@@ -640,34 +625,39 @@ components:
         id:
           type: integer
           format: int64
-          description: 'ID счёта в ЦФТ.'
+          description: ID счёта в ЦФТ.
           example: 86185712766
         bic:
           type: string
-          description: 'Банковский идентификационный код.'
-          example: "044030790"
+          description: Банковский идентификационный код.
+          example: '044030790'
         number:
           type: string
-          description: 'Номер счёта.'
-          example: "40817810190550019977"
+          description: Номер счёта.
+          example: '40817810190550019977'
         currency:
           type: string
-          description: 'Валюта счёта.'
-          example: "RUB"
+          description: Валюта счёта.
+          example: RUB
         type:
           type: string
-          enum: [CURRENT, DEPOSIT, LOAN, MARGIN, BROKER, SAVINGS]
-          description: 'Тип счёта.'
-          example: "CURRENT"
+          enum:
+            - CURRENT
+            - DEPOSIT
+            - LOAN
+            - MARGIN
+            - BROKER
+            - SAVINGS
+          description: Тип счёта.
+          example: CURRENT
         balance:
           type: number
-          description: 'Текущий баланс счёта.'
-          example: 100.00
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
+          description: Текущий баланс счёта.
+          example: 100
         description:
           type: string
-          description: 'Значение уточняется.'
-          example: "Счёт клиента банка."
+          description: Значение уточняется.
+          example: Счёт клиента банка.
           deprecated: true
     DepositTransaction:
       title: Transaction
@@ -675,29 +665,29 @@ components:
       properties:
         rate:
           type: number
-          description: 'Ставка.'
-          example: 5.90
+          description: Ставка.
+          example: 5.9
         cftId:
           type: integer
           format: int64
-          description: 'ID фактической операции.'
+          description: ID фактической операции.
           example: 827152060552
         description:
           type: string
-          description: 'Описание транзакции.'
-          example: "INITIAL"
+          description: Описание транзакции.
+          example: INITIAL
         amount:
           type: number
-          description: 'Сумма операции (относительно Клиента).'
+          description: Сумма операции (относительно Клиента).
           example: -73625.54
         time:
           type: string
-          description: 'Время создания операции.'
-          example: "2019-09-06T00:00:00.000"
+          description: Время создания операции.
+          example: '2019-09-06T00:00:00.000'
         currency:
           type: string
-          description: 'ISO код валюты операции.'
-          example: "643"
+          description: ISO код валюты операции.
+          example: '643'
     DepositOrder:
       title: Order
       type: object
@@ -718,92 +708,87 @@ components:
       properties:
         rate:
           type: number
-          description: 'Ставка.'
+          description: Ставка.
           example: 6.11
         amount:
           type: number
-          description: 'Сумма вклада.'
-          example: 5000.00
+          description: Сумма вклада.
+          example: 5000
         currency:
           type: string
-          description: 'Код валюты.'
-          example: "RUB"
+          description: Код валюты.
+          example: RUB
         days:
           type: integer
-          description: 'Срок вклада.'
+          description: Срок вклада.
           example: 367
         customerRef:
           type: string
-          description: 'ДБО ID клиента.'
-          example: "9088119174"
+          description: ДБО ID клиента.
+          example: '9088119174'
         start:
           type: string
-          description: 'Дата начала действия вклада.'
-          example: "2019-10-10T17:17:14.366"
+          description: Дата начала действия вклада.
+          example: '2019-10-10T17:17:14.366'
         orderDate:
           type: string
-          description: 'Дата создания вклада.'
-          example: "2019-10-10T17:17:14.365"
+          description: Дата создания вклада.
+          example: '2019-10-10T17:17:14.365'
         type:
           type: string
-          description: 'Наименование вклада из ЦФТ.'
-          example: "Рантье online"
+          description: Наименование вклада из ЦФТ.
+          example: Рантье online
         typeCode:
           type: string
-          description: 'Идентификатор типа вклада из ЦФТ.'
-          example: "1523"
+          description: Идентификатор типа вклада из ЦФТ.
+          example: '1523'
         autoProlongation:
           type: boolean
-          description: 'Флаг автоматического продления на новый срок после 
-          окончания срока вклада.'
+          description: Флаг автоматического продления на новый срок после  окончания срока вклада.
           example: true
         topupAllowed:
           type: boolean
-          description: 'Признак возможности пополнения.'
+          description: Признак возможности пополнения.
           example: true
         withdrawAllowed:
           type: boolean
-          description: 'Признак возможности частичного снятия.'
+          description: Признак возможности частичного снятия.
           example: true
         ip:
           type: string
           description: 'IP-адрес стойки, с которой был открыт вклад.'
-          example: "127.0.0.1"
-        #TODO: Уточнить значение. В описании к API нет данного параметра.
+          example: 127.0.0.1
         skipInitialPayment:
           type: boolean
-          description: 'Признак возможности открытия вклада без первоначального 
-          платежа. Необходим для открытия накопительного счета.'
+          description: Признак возможности открытия вклада без первоначального  платежа. Необходим для открытия накопительного счета.
           example: false
         rateId:
           type: integer
           format: int64
-          description: 'Идентификатор ставки вклада.'
+          description: Идентификатор ставки вклада.
           example: 826316390784
         payoutAccountId:
           type: integer
           format: int64
-          description: 'ID счета для возврата депозита и процентов.'
+          description: ID счета для возврата депозита и процентов.
           example: 58226261134
         serviceAccountId:
           type: integer
           format: int64
-          description: 'ID обслуживающего счета.'
+          description: ID обслуживающего счета.
           example: 64741900148
         user:
           $ref: '#/components/schemas/User'
-    #INFO: Deposit с доп. свойством InitialPaymentId
     DepositWithInitialPaymentId:
       title: Deposit with InitialPaymentId
       allOf:
         - $ref: '#/components/schemas/Deposit'
         - type: object
           properties:
-            #TODO: Уточнить значение. В описании к API нет данного параметра.
             InitialPaymentId:
               type: integer
               format: int64
-              description: 'ID документа на первоначальное пополнение депозита.'
+              description: ID документа на первоначальное пополнение депозита.
               deprecated: true
               example: 51241903428
   parameters:
@@ -811,9 +796,9 @@ components:
       in: header
       name: RequestId
       schema:
-       type: string
-       format: uuid
-       example: 123e4567-e89b-12d3-a456-426655440000
+        type: string
+        format: uuid
+        example: 123e4567-e89b-12d3-a456-426655440000
       required: true
       description: UUID для отслеживания запроса.
     DBO-ID:
@@ -872,9 +857,8 @@ components:
           schema:
             $ref: './components/models.yml#/components/schemas/ErrorModel'
           example:
-            value:
-              code: 504
-              message: "Remote services are unavailable"
+            code: 504
+            message: Remote services are unavailable
     BadRequest:
       description: Bad Request response
       content:
@@ -882,9 +866,8 @@ components:
           schema:
             $ref: './components/models.yml#/components/schemas/ErrorModel'
           example:
-            value:
-              code: 400
-              message: "Request parameter is missing"
+            code: 400
+            message: Request parameter is missing
     UnprocessableEntity:
       description: Unprocessable Entity
       content:
