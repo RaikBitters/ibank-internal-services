@@ -1,0 +1,349 @@
+openapi: '3.0.2'
+info:
+  title: BI.ZONE API
+  version: '1.0'
+tags:
+  - name: BCFP endpoint
+    description: Интерфейсы на стороне BI.ZONE BCFP.
+servers:
+  - url: https://platform-psi.bspb.bcfp.bi.zone
+    description: Адрес для передачи данных транзакции.
+paths:
+  /service:
+    summary: Передача данных в BI.ZONE BCFP
+    description: Передача данных транзакций из Интернет банка в BI.ZONE BCFP.
+    post:
+      operationId: postTransaction
+      summary: Передать данные по транзакции в BI.ZONE BCFP
+      tags:
+        - BCFP endpoint
+      requestBody:
+        description: Данные из транзакции.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - version
+                - event
+              properties:
+                version:
+                  type: strings
+                  description: Используемая версия JSON протокола.
+                  enum: ["2.1"]
+                event:
+                   $ref: "#/components/schemas/Event"
+                # Значение полей находится в проработке.
+                # ext
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resolution"
+components:
+  schemas:
+    # Request schemas
+    Event:
+      title: Event
+      type: object
+      required:
+        - actionType
+        - channel
+        - type
+        - timestamp
+        - provider
+        - consumer
+        - deviceRequest
+        - transactionData
+      properties:
+        actionType:
+          type: string
+          enum: [ANALYZE]
+        channel:
+          type: string
+          enum:
+            - MOBILE
+            - WEB
+        subchannel:
+          type: string
+          enum:
+            - WEBAPI
+            - MOBILEAPI
+            - NOCLIENT
+        type:
+          type: string
+          enum:
+            - SESSION_SIGNIN
+            - PAYMENT
+            - CHANGE_LOGIN_ID
+            - CHANGE_PASSWORD
+            - UPDATE_USER
+        subtype:
+          type: string
+          enum:
+            - AUTHENTICATION
+            - EXTERNAL
+            - SERVICES
+            - CH_LOGIN
+            - CHANGE
+            - RECOVER
+            - MOB_APPL
+            - AUTHENTICATION_PHONE
+            - INTERNAL_PERSONAL
+            - INTERNAL_EXCHANGE
+            - DEPOSIT_WITHDRAWAL
+            - SAVINGS_WITHDRAWAL
+        eventDescription:
+          type: string
+        timestamp:
+          type: string
+          format: data-time
+        provider:
+          $ref: "#/components/schemas/Provider"
+        consumer:
+          $ref: "#/components/schemas/Consumer"
+        card:
+          $ref: "#/components/schemas/Card"
+        deviceRequest:
+          oneOf:
+            - $ref: "#/components/schemas/DeviceRequestMobile"
+            - $ref: "#/components/schemas/DeviceRequestWeb"
+          discriminator:
+            propertyName: channel
+            mapping:
+              MOBILE: "#/components/schemas/DeviceRequestMobile"
+              WEB: "#/components/schemas/DeviceRequestWeb"
+        transactionData:
+          oneOf:
+            - $ref: "#/components/schemas/TransactionData"
+            - $ref: "#/components/schemas/TransactionDataByPayment"
+          discriminator:
+            propertyName: type
+            mapping:
+              PAYMENT: "#/components/schemas/TransactionDataByPayment"
+    Provider:
+      title: Provider
+      type: object
+      required:
+        - orgName
+      properties:
+        orgName:
+          type: string
+        areaId:
+          type: string
+    Consumer:
+      title: Consumer
+      type: object
+      required:
+        - login
+      properties:
+        id:
+          type: string
+        login:
+          type: string
+          format: md5
+        lastName:
+          type: string
+          format: md5
+        firstName:
+          type: string
+          format: md5
+        patronymicName:
+          type: string
+          format: md5
+        birthdate:
+          type: string
+          format: md5
+        idDocumentType:
+          type: string
+          format: md5
+        idDocumentNumber:
+          type: string
+          format: md5
+        clientSegment:
+          type: string
+        type:
+          type: string
+        INN:
+          type: string
+          format: md5
+    Card:
+      title: Card
+      type: object
+      properties:
+        cardnumber:
+          type: string
+          format: md5
+        cardBIN:
+          type: string
+    DeviceRequestMobile:
+      title: Device Request for MOBILE
+      type: object
+      required:
+        - ip
+        - mobileSdkData
+      properties:
+        ip:
+          type: string
+        mobileSdkData:
+          type: string
+    DeviceRequestWeb:
+      title: Device Request by WEB
+      type: object
+      required:
+        - devicePrint
+        - ip
+        - userAgent
+        - httpAccept
+        - httpAcceptLanguage
+      properties:
+        devicePrint:
+          type: string
+        deviceTokenCookie:
+          type: string
+        ip:
+          type: string
+        userAgent:
+          type: string
+        httpAccept:
+          type: string
+        httpAcceptLanguage:
+          type: string
+        httpAcceptChars:
+          type: string
+        httpAcceptEncoding:
+          type: string
+        httpReferrer:
+          type: string
+    TransactionData:
+      title: Transaction Data
+      type: object
+      required:
+        - clientTransactionId
+      properties:
+        clientTransactionId:
+          type: string
+        schedule:
+          type: string
+        executionSpeed:
+          type: string
+    TransactionDataByPayment:
+      title: Transaction Data by PAYMENT
+      allOf:
+        - $ref: "#/components/schemas/TransactionData"
+        - type: object
+          required:
+            - amount
+            - currency
+            - payee
+          properties:
+            amount:
+              type: integer
+              format: int64
+            currency:
+              type: string
+            exchangeRate:
+              type: integer
+            medium:
+              type: string
+            payer:
+              $ref: "#/components/schemas/Payer"
+            payee:
+              $ref: "#/components/schemas/Payee"
+    Payer:
+      title: Payer
+      type: object
+      properties:
+        number:
+          type: string
+          format: md5
+    Payee:
+      title: Payee
+      type: object
+      required:
+        - number
+      properties:
+        number:
+          type: string
+          format: md5
+        name:
+          type: string
+          format: md5
+        routingCode:
+          type: string
+    # Response schemas
+    Resolution:
+      title: Resolution by BCFP
+      type: object
+      required:
+        - version
+        - eventId
+        - clientTransactionId
+        - consumerId
+        - status
+        - riskScore
+        - deviceTokenCookie
+      properties:
+        version:
+          type: string
+          description: Используемая версия JSON протокола
+          enum: ["2.1"]
+        eventId:
+          type: string
+          description: Идентификатор события
+        clientTransactionId:
+          type: string
+          description: Идентификатор клиентской транзакции
+        consumerId:
+          type: string
+          description: Идентификатор клиента 
+        status:
+          type: string
+          description: Результат операции 
+        riskScore:
+          type: number
+          description: Степень риска присвоенное событию
+        deviceTokenCookie:
+          type: string
+          description: Куки возвращаемое системой и устанавливаемое на пользовательское устройство
+        statusHeader:
+          $ref: "#/components/schemas/StatusHeader"
+        riskResult:
+          $ref: "#/components/schemas/RiskResult"
+    StatusHeader:
+      title: Header status
+      type: object
+      properties:
+        statusCode:
+          type: number
+          enum:
+            - 300
+            - 500
+            - 510
+        reasonCode:
+          type: number
+        reasonDescription:
+          type: string
+    RiskResult:
+      title: Risk result
+      type: object
+      required:
+        - actionCode
+        - ruleName
+      properties:
+        actionCode:
+          type: string
+          enum:
+            - ALLOW
+            - DENY
+            - REVIEW
+        Comments:
+          type: string
+        ruleId:
+          type: string
+        ruleName:
+          type: string
+        responseCode:
+          type: string
