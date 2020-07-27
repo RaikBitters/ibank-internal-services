@@ -25,13 +25,13 @@ paths:
             schema:
               $ref: "#/components/schemas/UpdateRequest"
 
-    responses:
-      '200':
-        description: OK
-        content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UpdateResponse"
+      responses:
+        '200':
+          description: OK
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/UpdateResponse"
 
 components:
   schemas:

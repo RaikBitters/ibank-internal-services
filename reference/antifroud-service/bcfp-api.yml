@@ -133,7 +133,7 @@ components:
           type: string
         areaId:
           type: string
-    Consumer:
+    Consumer: 
       title: Consumer
       type: object
       required:
