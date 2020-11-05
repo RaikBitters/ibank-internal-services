@@ -1,18 +1,15 @@
-openapi: '3.0.2'
+openapi: 3.0.2
 info:
   title: Anti-fraud API
   version: '1.0'
 tags:
   - name: Anti-fraud endpoint
     description: Интерфейсы Anti-fraud сервиса для BI.ZONE BCFP.
-servers:
-  - url: //
-    description: Адрес для вызова Anti-fraud сервиса будет предоставлен на этапе интеграции.
+servers: []
 paths:
   /bcfp-resolutions:
     summary: Интерфейс для передачи резолюции от BI.ZONE BCFP
     description: Передача отложенной резолюции от BI.ZONE в Интернет банк после рассмотрения.
-    
     post:
       operationId: postResolution
       summary: Передать решение BCFP после рассмотрения.
@@ -23,16 +20,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateRequest"
-
+              $ref: '#/components/schemas/UpdateRequest'
       responses:
         '200':
           description: OK
           content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/UpdateResponse"
-
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'
 components:
   schemas:
     UpdateRequest:
@@ -48,7 +43,8 @@ components:
         version:
           type: string
           description: Используемая версия JSON протокола
-          enum: ["2.1"]
+          enum:
+            - '2.1'
         eventId:
           type: string
           description: Идентификатор события
@@ -59,7 +55,7 @@ components:
           type: string
           description: Идентификатор клиентской транзакции
         UpdateStatus:
-          $ref: "#/components/schemas/UpdateStatus"
+          $ref: '#/components/schemas/UpdateStatus'
     UpdateStatus:
       title: Status
       type: object
@@ -84,7 +80,8 @@ components:
         version:
           type: string
           description: Используемая версия JSON протокола
-          enum: ["2.1"]
+          enum:
+            - '2.1'
         eventId:
           type: string
           description: Идентификатор события
