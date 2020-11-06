@@ -2,22 +2,52 @@ openapi: 3.0.0
 info:
   title: Self-employed service
   version: '0.1'
-  description: |
+  description: |+
     Функциональность для самозанятых.
     Сервис интегрируется с прикладной подсистемой АИС «Налог-3», обеспечивающей налогообложение доходов физических лиц, полученных от профессиональной деятельности.
 
-    Оснавные кейсы предоставляемые сервисом:
+    Основные кейсы предоставляемые сервисом:
+
     1. Постановка и снятие с учёта.
-    2. Регистраци дохода.
+    2. Регистрация дохода.
     3. Получение справок.
     4. Получение справочников.
     5. Работа с оповещениями.
+
   contact:
     name: Reinhold Shekhtel
     email: raikbitters@gmail.com
 servers:
   - url: 'http://localhost:3000'
-paths: {}
+paths:
+  '/restrictions/{vatin}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    enum:
+                      - ALLOW
+                      - DENY
+                  code:
+                    type: string
+      operationId: get-restrictions
+      description: Проверка существующих ограничений для налогоплательщика.
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
+        description: ИНН
 components:
   schemas: {}
   securitySchemes: {}
