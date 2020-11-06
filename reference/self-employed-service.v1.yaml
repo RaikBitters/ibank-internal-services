@@ -16,37 +16,37 @@ info:
   contact:
     name: Reinhold Shekhtel
     email: raikbitters@gmail.com
+tags:
+  - name: self-employers
+    description: Self-employers collection
 servers:
   - url: 'http://localhost:3000'
 paths:
   '/restrictions/{vatin}':
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - self-employers
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  result:
-                    type: string
-                    enum:
-                      - ALLOW
-                      - DENY
-                  code:
-                    type: string
+                $ref: '#/components/schemas/Restriction'
       operationId: get-restrictions
-      description: Проверка существующих ограничений для регистрации налогоплательщика.
+      description: |-
+        Первичная проверка существующих ограничений для регистрации налогоплательщика. Обязательна перед регистрацией.
+        Полный набор проверок делается только в момент постановки на учет в ПП ЦУН АИС «Налог-3». То есть, при успешном прохождении первичной проверки на наличие ограничений при постановке на учет, нет гарантии, что при фактической постановке на учет не последует отказа.
       parameters:
         - schema:
             type: string
             format: uuid
+            example: 81434a30-e825-473a-a2a6-397ae774333e
           in: header
           name: requestId
-          description: ''
+          description: Уникальный номер запроса
+          required: true
     parameters:
       - schema:
           type: string
@@ -59,7 +59,7 @@ components:
     Restriction:
       title: Restriction
       type: object
-      description: ''
+      description: Резолюция о результатах первичной проверки.
       properties:
         result:
           type: string
@@ -73,4 +73,8 @@ components:
         code:
           type: string
           description: Получаем если результат = DENY.
+      x-examples:
+        example-1:
+          result: ALLOW
+          code: string
   securitySchemes: {}
