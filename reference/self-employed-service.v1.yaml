@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Self-employed service
   version: '0.1'
-  description: |+
+  description: |
     Функциональность для самозанятых.
     Сервис интегрируется с прикладной подсистемой АИС «Налог-3», обеспечивающей налогообложение доходов физических лиц, полученных от профессиональной деятельности.
 
@@ -13,7 +13,6 @@ info:
     3. Получение справок.
     4. Получение справочников.
     5. Работа с оповещениями.
-
   contact:
     name: Reinhold Shekhtel
     email: raikbitters@gmail.com
@@ -40,7 +39,14 @@ paths:
                   code:
                     type: string
       operationId: get-restrictions
-      description: Проверка существующих ограничений для налогоплательщика.
+      description: Проверка существующих ограничений для регистрации налогоплательщика.
+      parameters:
+        - schema:
+            type: string
+            format: uuid
+          in: header
+          name: requestId
+          description: ''
     parameters:
       - schema:
           type: string
@@ -49,5 +55,22 @@ paths:
         required: true
         description: ИНН
 components:
-  schemas: {}
+  schemas:
+    Restriction:
+      title: Restriction
+      type: object
+      description: ''
+      properties:
+        result:
+          type: string
+          enum:
+            - ALLOW
+            - DENY
+          description: |-
+            Результат запроса: 
+            ALLOW – можно ставить на учет, 
+            DENY – нельзя ставить на учет.
+        code:
+          type: string
+          description: Получаем если результат = DENY.
   securitySchemes: {}
