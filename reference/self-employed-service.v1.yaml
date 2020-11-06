@@ -24,7 +24,7 @@ servers:
 paths:
   '/restrictions/{vatin}':
     get:
-      summary: Your GET endpoint
+      summary: GET Restrictions
       tags:
         - self-employers
       responses:
@@ -54,6 +54,46 @@ paths:
         in: path
         required: true
         description: ИНН
+  '/self-employers/{vatin}':
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
+        description: ИНН
+    get:
+      summary: GET self-employer info
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Self-employer'
+      operationId: get-self-employers-vatin
+      description: ''
+    put:
+      summary: Update self-employer info
+      operationId: put-self-employers-vatin
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Unregistration self-employer
+      operationId: delete-self-employers-vatin
+      responses:
+        '200':
+          description: OK
+      description: ''
+  /self-employers:
+    post:
+      summary: ''
+      operationId: post-self-employers
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     Restriction:
@@ -77,4 +117,38 @@ components:
         example-1:
           result: ALLOW
           code: string
+    Self-employer:
+      title: Self-employer
+      type: object
+      description: ''
+      properties:
+        vatin:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        birthday:
+          type: string
+          format: date
+        passport_series:
+          type: string
+        passport_number:
+          type: string
+        activity_code:
+          type: string
+        timestamp_create:
+          type: string
+        region_code:
+          type: string
+      required:
+        - vatin
+        - first_name
+        - last_name
+        - birthday
+        - passport_series
+        - passport_number
+        - activity_code
+        - timestamp_create
+        - region_code
   securitySchemes: {}
