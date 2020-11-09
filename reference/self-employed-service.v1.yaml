@@ -99,7 +99,7 @@ components:
     Restriction:
       title: Restriction
       type: object
-      description: Резолюция о результатах первичной проверки.
+      description: Резолюция по результатам первичной проверки.
       properties:
         result:
           type: string
@@ -117,10 +117,10 @@ components:
         example-1:
           result: ALLOW
           code: string
-    Self-employer:
-      title: Self-employer
+    RegistrationApp:
+      title: Registration application
       type: object
-      description: ''
+      description: Обязательные данные для постановки на учёт.
       properties:
         vatin:
           type: string
