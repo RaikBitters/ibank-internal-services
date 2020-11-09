@@ -151,4 +151,14 @@ components:
         - activity_code
         - timestamp_create
         - region_code
+    Self-employer:
+      title: Self-employer
+      type: object
+      description: Информацию о самозанятом.
+      properties:
+        id:
+          type: string
+          description: ИНН
+      required:
+        - id
   securitySchemes: {}
