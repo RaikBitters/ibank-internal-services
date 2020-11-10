@@ -182,6 +182,12 @@ components:
           type: integer
           description: ИНН
           format: int64
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - UNACTIVE
+            - PENDING
         user_id:
           type: integer
           format: int64
@@ -196,12 +202,6 @@ components:
         - $ref: '#/components/schemas/SelfEmployer'
         - type: object
           properties:
-            status:
-              type: string
-              enum:
-                - ACTIVE
-                - UNACTIVE
-                - PENDING
             timestamp_create:
               type: string
               format: date-time
@@ -209,7 +209,8 @@ components:
               type: string
               format: date-time
             last_order_id:
-              type: string
+              type: integer
+              format: int64
       x-examples: {}
     Order:
       title: Order
@@ -217,7 +218,8 @@ components:
       description: Информация о статусе заявки
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
         order_type:
           type: string
         result:
