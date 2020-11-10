@@ -46,11 +46,11 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{vatin}':
+  '/self-employers/{id}':
     parameters:
       - schema:
           type: string
-        name: vatin
+        name: id
         in: path
         required: true
         description: ИНН
@@ -89,21 +89,9 @@ paths:
           name: reasons
           required: true
           description: Код причины снятия с учёта
-    patch:
-      summary: ''
-      operationId: patch-self-employers-vatin
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
   /self-employers:
     post:
-      summary: ''
+      summary: Create self-employer
       operationId: post-self-employers
       responses:
         '200':
@@ -113,12 +101,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
       description: Регистрация самозанятого
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration'
+        description: ''
+    get:
+      summary: ''
+      operationId: get-self-employers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfEmployerInfo'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: user_id
+          required: true
+      description: ''
 components:
   schemas:
     Restriction:
       title: Restriction
       type: object
       description: Резолюция по результатам первичной проверки.
+      x-examples: {}
       properties:
         result:
           type: string
@@ -129,10 +141,9 @@ components:
             Результат запроса: 
             ALLOW – можно ставить на учет, 
             DENY – нельзя ставить на учет.
-        code:
+        deny_code:
           type: string
           description: Получаем если результат = DENY.
-      x-examples: {}
     Registration:
       title: Registration application
       description: Обязательные данные для постановки на учёт.
@@ -151,6 +162,16 @@ components:
               type: string
             passport_number:
               type: string
+          required:
+            - id
+            - user_id
+            - activity_code
+            - region_code
+            - first_name
+            - last_name
+            - birthday
+            - passport_series
+            - passport_number
       x-examples: {}
     SelfEmployer:
       title: Self-employer
@@ -187,10 +208,13 @@ components:
             timestamp_update:
               type: string
               format: date-time
+            last_order_id:
+              type: string
       x-examples: {}
     Order:
       title: Order
       type: object
+      description: Информация о статусе заявки
       properties:
         id:
           type: string
@@ -198,7 +222,6 @@ components:
           type: string
         result:
           type: string
-        reason_code:
+        rejection_code:
           type: string
-      description: Информация о статусе заявки
   securitySchemes: {}
