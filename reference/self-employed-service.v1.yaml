@@ -60,10 +60,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfEmployerInfo'
       operationId: get-self-employers-vatin
       description: ''
     put:
@@ -116,11 +112,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Registration'
       description: Регистрация самозанятого
 components:
   schemas:
@@ -146,7 +137,7 @@ components:
       title: Registration application
       description: Обязательные данные для постановки на учёт.
       allOf:
-        - $ref: '#/components/schemas/Self-employer'
+        - $ref: '#/components/schemas/SelfEmployer'
         - type: object
           properties:
             first_name:
@@ -181,7 +172,7 @@ components:
       title: Self-employer Info
       description: Информация о самозанятом
       allOf:
-        - $ref: '#/components/schemas/Self-employer'
+        - $ref: '#/components/schemas/SelfEmployer'
         - type: object
           properties:
             status:
