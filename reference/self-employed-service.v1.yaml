@@ -60,30 +60,22 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfEmployerInfo'
       operationId: get-self-employers-vatin
-      description: ''
-    put:
-      summary: Update self-employer info
-      operationId: put-self-employers-vatin
-      responses:
-        '200':
-          description: OK
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SelfEmployer'
-            examples: {}
-      description: ''
-      tags:
-        - Self-employers
+      description: Получение детальной информации о самозанятом.
     delete:
       summary: Unregistration self-employer
       operationId: delete-self-employers-vatin
       responses:
         '200':
           description: OK
-      description: ''
+      description: |-
+        Снятие пользователя с учёта в ФНС с указанием причины снятия.
+
+        Пользователь числится в системе как UNACTIVE.
       parameters:
         - schema:
             type: string
@@ -91,6 +83,31 @@ paths:
           name: reasons
           required: true
           description: Код причины снятия с учёта
+      tags:
+        - Self-employers
+    patch:
+      summary: Update self-employer info
+      operationId: patch-self-employers-id
+      responses:
+        '200':
+          description: OK
+      description: |-
+        Обновление информации о самозанятом на выбор: 
+        * Обновление статуса для привязки или отвязки.
+        * Обновление видов деятельности.
+
+        Возможно изменение стаутуса через промежуточный статус PENDING.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelfEmployer'
+        description: |-
+          Привязка или отвязка пользователя через полу status:
+          * При смене статуса с UNACTIVE на ACTIVE просиходится привязка.
+          * При смене статуса с ACTIVE на UNACTIVE происходит отвязка.
+      tags:
+        - Self-employers
   /self-employers:
     post:
       summary: Create self-employer
@@ -103,12 +120,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Registration'
-        description: ''
+              $ref: '#/components/schemas/SelfEmployerRegistration'
+        description: Данные для регистрация пользователя.
       tags:
         - Self-employers
     get:
-      summary: ''
+      summary: Get self-employers list
       operationId: get-self-employers
       responses:
         '200':
@@ -116,22 +133,52 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelfEmployerInfo'
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SelfEmployerInfo'
+              examples: {}
       parameters:
         - schema:
-            type: string
+            type: integer
           in: query
           name: user_id
+          description: ''
           required: true
-      description: ''
+      description: |-
+        Получения списка самозанятых.
+
+        Доступна фильтрация по user_id.
       tags:
         - Self-employers
+  '/orders/{id}':
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Self-employers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      operationId: get-orders
+      description: Получение заявки по id.
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
 components:
   schemas:
     Restriction:
       title: Restriction
       type: object
-      description: Первичной проверка.
+      description: Первичной проверка на возможность регистрации.
       x-examples: {}
       properties:
         result:
@@ -153,6 +200,8 @@ components:
       description: Информация для постановки на учёт.
       x-examples: {}
       type: object
+      x-tags:
+        - Self-employers
       properties:
         vatin:
           type: integer
@@ -180,12 +229,22 @@ components:
         region_code:
           type: string
           description: Код региона деятельности (ОКАТО)
-      x-tags:
-        - Self-employers
+      required:
+        - vatin
+        - user_id
+        - first_name
+        - last_name
+        - birthday
+        - passport_series
+        - passport_number
+        - activity_code
+        - region_code
     SelfEmployer:
       title: Self-employer
       type: object
-      description: Cамозанятый
+      description: Основная информация о самозанятом.
+      x-tags:
+        - Self-employers
       properties:
         id:
           type: integer
@@ -208,11 +267,13 @@ components:
         region_code:
           type: string
           description: Код региона деятельности (ОКАТО)
-      x-tags:
-        - Self-employers
+      required:
+        - id
+        - status
+        - user_id
     SelfEmployerInfo:
       title: Self-employer Info
-      description: Детальая информация о самозанятом
+      description: Детальная информация о самозанятом.
       allOf:
         - $ref: '#/components/schemas/SelfEmployer'
         - type: object
@@ -271,7 +332,7 @@ components:
           format: date-time
         structure:
           oneOf:
-            - $ref: '#/components/schemas/Registration'
+            - $ref: '#/components/schemas/SelfEmployerRegistration'
             - $ref: '#/components/schemas/SelfEmployer'
           description: Состав заявки отправленной в ФНС
       x-tags:
