@@ -206,10 +206,10 @@ components:
       title: Application
       type: object
       description: |-
-        Заявка в налоговую. Создаётся для операций с ФНС:
+        Заявка для налоговой. Создаётся для операций с ФНС:
         * Регистрация пользователя.
         * Снятие с учёта пользователя.
-        * Привязка пользователя к интернет банку.
+        * Привязка пользователя к интернет банку.ую
       properties:
         id:
           type: integer
@@ -217,9 +217,10 @@ components:
           description: ''
         order_id:
           type: string
-          description: ID заявки от ФНС
+          description: ID заявки в ФНС
         application_type:
           type: string
+          description: Тип заявки
         result:
           type: string
           enum:
@@ -227,6 +228,8 @@ components:
             - FAILED
             - IN_PROGRESS
             - ORDER_REGISTERED
+          description: Текущий результат заявки
         rejection_code:
           type: string
+          description: Причина отказа
   securitySchemes: {}
