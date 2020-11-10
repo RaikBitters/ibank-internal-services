@@ -17,7 +17,7 @@ info:
     name: Reinhold Shekhtel
     email: raikbitters@gmail.com
 tags:
-  - name: self-employers
+  - name: Self-employers
     description: Self-employers collection
 servers:
   - url: 'http://localhost:3000'
@@ -25,8 +25,6 @@ paths:
   '/restrictions/{vatin}':
     get:
       summary: GET Restrictions
-      tags:
-        - self-employers
       responses:
         '200':
           description: OK
@@ -125,7 +123,7 @@ components:
     Restriction:
       title: Restriction
       type: object
-      description: Резолюция по результатам первичной проверки.
+      description: Первичной проверка.
       x-examples: {}
       properties:
         result:
@@ -142,10 +140,17 @@ components:
           description: Получаем если результат = DENY.
     Registration:
       title: Registration application
-      description: Обязательные данные для постановки на учёт.
+      description: Информация для постановки на учёт.
       x-examples: {}
       type: object
       properties:
+        vatin:
+          type: integer
+          format: int64
+          description: ИНН
+        user_id:
+          type: integer
+          format: int64
         first_name:
           type: string
         last_name:
@@ -157,16 +162,18 @@ components:
           type: string
         passport_number:
           type: string
-      required:
-        - first_name
-        - last_name
-        - birthday
-        - passport_series
-        - passport_number
+        activity_code:
+          description: Список кодов экономической деятельности (ОКВЭД)
+          type: array
+          items:
+            type: string
+        region_code:
+          type: string
+          description: Код региона деятельности (ОКАТО)
     SelfEmployer:
       title: Self-employer
       type: object
-      description: Информацию о самозанятом.
+      description: Cамозанятый
       properties:
         id:
           type: integer
@@ -182,12 +189,16 @@ components:
           type: integer
           format: int64
         activity_code:
-          type: string
+          type: array
+          description: Список кодов экономической деятельности (ОКВЭД)
+          items:
+            type: string
         region_code:
           type: string
+          description: Код региона деятельности (ОКАТО)
     SelfEmployerInfo:
       title: Self-employer Info
-      description: Информация о самозанятом
+      description: Детальая информация о самозанятом
       allOf:
         - $ref: '#/components/schemas/SelfEmployer'
         - type: object
@@ -202,8 +213,8 @@ components:
               type: integer
               format: int64
       x-examples: {}
-    Application:
-      title: Application
+    Order:
+      title: Order
       type: object
       description: |-
         Заявка для налоговой. Создаётся для операций с ФНС:
@@ -215,12 +226,16 @@ components:
           type: integer
           format: int64
           description: ''
-        order_id:
+        fts_order_id:
           type: string
           description: ID заявки в ФНС
-        application_type:
+        order_type:
           type: string
           description: Тип заявки
+          enum:
+            - REGISTRATION
+            - UNREGISTRATION
+            - BINDING
         result:
           type: string
           enum:
@@ -232,4 +247,15 @@ components:
         rejection_code:
           type: string
           description: Причина отказа
+        timestamp_create:
+          type: string
+          format: date-time
+        timestamp_update:
+          type: string
+          format: date-time
+        structure:
+          oneOf:
+            - $ref: '#/components/schemas/Registration'
+            - $ref: '#/components/schemas/SelfEmployer'
+          description: Состав заявки отправленной в ФНС
   securitySchemes: {}
