@@ -38,15 +38,7 @@ paths:
       description: |-
         Первичная проверка существующих ограничений для регистрации налогоплательщика. Обязательна перед регистрацией.
         Полный набор проверок делается только в момент постановки на учет в ПП ЦУН АИС «Налог-3». То есть, при успешном прохождении первичной проверки на наличие ограничений при постановке на учет, нет гарантии, что при фактической постановке на учет не последует отказа.
-      parameters:
-        - schema:
-            type: string
-            format: uuid
-            example: 81434a30-e825-473a-a2a6-397ae774333e
-          in: header
-          name: requestId
-          description: Уникальный номер запроса
-          required: true
+      parameters: []
     parameters:
       - schema:
           type: string
@@ -71,7 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Self-employer'
+                $ref: '#/components/schemas/SelfEmployerInfo'
       operationId: get-self-employers-vatin
       description: ''
     put:
@@ -80,6 +72,13 @@ paths:
       responses:
         '200':
           description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelfEmployer'
+            examples: {}
+      description: ''
     delete:
       summary: Unregistration self-employer
       operationId: delete-self-employers-vatin
@@ -87,6 +86,25 @@ paths:
         '200':
           description: OK
       description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: reasons
+          required: true
+          description: Код причины снятия с учёта
+    patch:
+      summary: ''
+      operationId: patch-self-employers-vatin
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
   /self-employers:
     post:
       summary: ''
@@ -94,6 +112,16 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration'
+      description: Регистрация самозанятого
 components:
   schemas:
     Restriction:
@@ -113,52 +141,73 @@ components:
         code:
           type: string
           description: Получаем если результат = DENY.
-      x-examples:
-        example-1:
-          result: ALLOW
-          code: string
-    RegistrationApp:
+      x-examples: {}
+    Registration:
       title: Registration application
-      type: object
       description: Обязательные данные для постановки на учёт.
-      properties:
-        vatin:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        birthday:
-          type: string
-          format: date
-        passport_series:
-          type: string
-        passport_number:
-          type: string
-        activity_code:
-          type: string
-        timestamp_create:
-          type: string
-        region_code:
-          type: string
-      required:
-        - vatin
-        - first_name
-        - last_name
-        - birthday
-        - passport_series
-        - passport_number
-        - activity_code
-        - timestamp_create
-        - region_code
-    Self-employer:
+      allOf:
+        - $ref: '#/components/schemas/Self-employer'
+        - type: object
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            birthday:
+              type: string
+              format: date
+            passport_series:
+              type: string
+            passport_number:
+              type: string
+      x-examples: {}
+    SelfEmployer:
       title: Self-employer
       type: object
       description: Информацию о самозанятом.
       properties:
         id:
-          type: string
+          type: integer
           description: ИНН
-      required:
-        - id
+          format: int64
+        user_id:
+          type: integer
+          format: int64
+        activity_code:
+          type: string
+        region_code:
+          type: string
+    SelfEmployerInfo:
+      title: Self-employer Info
+      description: Информация о самозанятом
+      allOf:
+        - $ref: '#/components/schemas/Self-employer'
+        - type: object
+          properties:
+            status:
+              type: string
+              enum:
+                - ACTIVE
+                - UNACTIVE
+                - PENDING
+            timestamp_create:
+              type: string
+              format: date-time
+            timestamp_update:
+              type: string
+              format: date-time
+      x-examples: {}
+    Order:
+      title: Order
+      type: object
+      properties:
+        id:
+          type: string
+        order_type:
+          type: string
+        result:
+          type: string
+        reason_code:
+          type: string
+      description: Информация о статусе заявки
   securitySchemes: {}
