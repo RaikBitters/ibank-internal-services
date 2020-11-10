@@ -36,7 +36,8 @@ paths:
       description: |-
         Первичная проверка существующих ограничений для регистрации налогоплательщика. Обязательна перед регистрацией.
         Полный набор проверок делается только в момент постановки на учет в ПП ЦУН АИС «Налог-3». То есть, при успешном прохождении первичной проверки на наличие ограничений при постановке на учет, нет гарантии, что при фактической постановке на учет не последует отказа.
-      parameters: []
+      tags:
+        - Self-employers
     parameters:
       - schema:
           type: string
@@ -54,7 +55,8 @@ paths:
         description: ИНН
     get:
       summary: GET self-employer info
-      tags: []
+      tags:
+        - Self-employers
       responses:
         '200':
           description: OK
@@ -73,6 +75,8 @@ paths:
               $ref: '#/components/schemas/SelfEmployer'
             examples: {}
       description: ''
+      tags:
+        - Self-employers
     delete:
       summary: Unregistration self-employer
       operationId: delete-self-employers-vatin
@@ -101,6 +105,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Registration'
         description: ''
+      tags:
+        - Self-employers
     get:
       summary: ''
       operationId: get-self-employers
@@ -118,6 +124,8 @@ paths:
           name: user_id
           required: true
       description: ''
+      tags:
+        - Self-employers
 components:
   schemas:
     Restriction:
@@ -138,8 +146,10 @@ components:
         deny_code:
           type: string
           description: Получаем если результат = DENY.
-    Registration:
-      title: Registration application
+      x-tags:
+        - Self-employers
+    SelfEmployerRegistration:
+      title: Self-employer registration
       description: Информация для постановки на учёт.
       x-examples: {}
       type: object
@@ -170,6 +180,8 @@ components:
         region_code:
           type: string
           description: Код региона деятельности (ОКАТО)
+      x-tags:
+        - Self-employers
     SelfEmployer:
       title: Self-employer
       type: object
@@ -196,6 +208,8 @@ components:
         region_code:
           type: string
           description: Код региона деятельности (ОКАТО)
+      x-tags:
+        - Self-employers
     SelfEmployerInfo:
       title: Self-employer Info
       description: Детальая информация о самозанятом
@@ -213,6 +227,8 @@ components:
               type: integer
               format: int64
       x-examples: {}
+      x-tags:
+        - Self-employers
     Order:
       title: Order
       type: object
@@ -258,4 +274,6 @@ components:
             - $ref: '#/components/schemas/Registration'
             - $ref: '#/components/schemas/SelfEmployer'
           description: Состав заявки отправленной в ФНС
+      x-tags:
+        - Self-employers
   securitySchemes: {}
