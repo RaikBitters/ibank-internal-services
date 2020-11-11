@@ -19,6 +19,7 @@ info:
 tags:
   - name: Self-employers
     description: Self-employers collection
+  - name: Dictionaries
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -178,7 +179,8 @@ paths:
   '/dictionaries/{type}':
     get:
       summary: GET Dictionary
-      tags: []
+      tags:
+        - Dictionaries
       responses:
         '200':
           description: OK
