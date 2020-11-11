@@ -173,6 +173,25 @@ paths:
         name: id
         in: path
         required: true
+  '/dictionaries/{type}':
+    get:
+      summary: GET dictionary
+      tags: []
+      responses: {}
+      operationId: get-lists
+      description: |-
+        Доступные типы:
+        1. regions - справочник регионов
+        2. activities - справочник видов деятельности
+        3. rejection - справочник причин отказа в регичтрации
+        4. unregistration - справочник причин снятия с учёта
+        5. cancel-income - справочник причин отмены регистрации дохода
+    parameters:
+      - schema:
+          type: string
+        name: type
+        in: path
+        required: true
 components:
   schemas:
     Restriction:
@@ -337,4 +356,15 @@ components:
           description: Состав заявки отправленной в ФНС
       x-tags:
         - Self-employers
+    List:
+      title: Dictionarie
+      type: object
+      description: Справочник кодов
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+        '':
+          type: string
   securitySchemes: {}
