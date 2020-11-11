@@ -1,5 +1,14 @@
 title: Cursor
 type: object
 properties:
-  id:
+  self:
     type: string
+  first:
+    type: string
+  prev:
+    type: string
+  next:
+    type: string
+  last:
+    type: string
+description: ''
