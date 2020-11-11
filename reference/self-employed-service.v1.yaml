@@ -96,7 +96,7 @@ paths:
         * Обновление статуса для привязки или отвязки.
         * Обновление видов деятельности.
 
-        Возможно изменение стаутуса через промежуточный статус PENDING.
+        Возможно изменение статуса через промежуточный статус PENDING.
       requestBody:
         content:
           application/json:
@@ -104,7 +104,7 @@ paths:
               $ref: '#/components/schemas/SelfEmployer'
         description: |-
           Привязка или отвязка пользователя через полу status:
-          * При смене статуса с UNACTIVE на ACTIVE просиходится привязка.
+          * При смене статуса с UNACTIVE на ACTIVE происходит привязка.
           * При смене статуса с ACTIVE на UNACTIVE происходит отвязка.
       tags:
         - Self-employers
@@ -157,7 +157,7 @@ paths:
         - Self-employers
   '/orders/{id}':
     get:
-      summary: Your GET endpoint
+      summary: GET Order by id
       tags:
         - Self-employers
       responses:
@@ -177,7 +177,7 @@ paths:
         required: true
   '/dictionaries/{type}':
     get:
-      summary: GET dictionary
+      summary: GET Dictionary
       tags: []
       responses:
         '200':
@@ -198,7 +198,7 @@ paths:
         Доступные типы:
         1. regions - справочник регионов;
         2. activities - справочник видов деятельности;
-        3. rejection - справочник причин отказа в регичтрации;
+        3. rejection - справочник причин отказа в регистрации;
         4. unregistration - справочник причин снятия с учёта;
         5. cancel-income - справочник причин отмены регистрации дохода.
     parameters:

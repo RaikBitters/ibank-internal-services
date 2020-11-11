@@ -1,6 +1,6 @@
 title: Collection with cursor-based pagination
 type: object
-description: Коллекция с паггинацией по курсору.
+description: Коллекция с пагинацией по курсору.
 properties:
   cursors:
     type: object
