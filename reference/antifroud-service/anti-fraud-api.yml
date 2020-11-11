@@ -7,7 +7,7 @@ tags:
     description: Интерфейсы Anti-fraud сервиса для BI.ZONE BCFP.
 servers: []
 paths:
-  /bcfp-resolutions:
+  /incident-results:
     summary: Интерфейс для передачи резолюции от BI.ZONE BCFP
     description: Передача отложенной резолюции от BI.ZONE в Интернет банк после рассмотрения.
     post:
@@ -28,6 +28,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateResponse'
+    parameters: []
 components:
   schemas:
     UpdateRequest:
