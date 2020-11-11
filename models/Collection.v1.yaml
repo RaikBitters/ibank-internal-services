@@ -23,3 +23,6 @@ properties:
       query:
         type: object
         description: 'Объект, содержащий фильтры запроса, применяемые в поисковом запросе для фильтрации ресурса коллекции.'
+  items:
+    type: array
+    items: {}
