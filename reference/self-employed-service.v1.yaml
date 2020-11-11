@@ -64,11 +64,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SelfEmployerInfo'
-      operationId: get-self-employers-vatin
+      operationId: get-self-employers-id
       description: Получение детальной информации о самозанятом.
     delete:
       summary: Unregistration self-employer
-      operationId: delete-self-employers-vatin
+      operationId: delete-self-employers-id
       responses:
         '200':
           description: OK
@@ -133,12 +133,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/SelfEmployerInfo'
+                allOf:
+                  - $ref: ../models/Collection.v1.yaml
+                  - properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SelfEmployerInfo'
+                    type: object
               examples: {}
       parameters:
         - schema:
@@ -177,9 +179,22 @@ paths:
     get:
       summary: GET dictionary
       tags: []
-      responses: {}
-      operationId: get-lists
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ../models/Collection.v1.yaml
+                  - type: object
+                    properties:
+                      items:
+                        $ref: '#/components/schemas/Dictionary'
+      operationId: get-dictionary
       description: |-
+        Получение справочников со списком кодов применяемых в ФНС.
+
         Доступные типы:
         1. regions - справочник регионов
         2. activities - справочник видов деятельности
@@ -189,6 +204,12 @@ paths:
     parameters:
       - schema:
           type: string
+          enum:
+            - regions
+            - activities
+            - rejection
+            - unregistration
+            - cancel-income
         name: type
         in: path
         required: true
@@ -316,7 +337,7 @@ components:
         Заявка для налоговой. Создаётся для операций с ФНС:
         * Регистрация пользователя.
         * Снятие с учёта пользователя.
-        * Привязка пользователя к интернет банку.ую
+        * Привязка пользователя к интернет банку.
       properties:
         id:
           type: integer
@@ -356,15 +377,17 @@ components:
           description: Состав заявки отправленной в ФНС
       x-tags:
         - Self-employers
-    List:
-      title: Dictionarie
-      type: object
-      description: Справочник кодов
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-        '':
-          type: string
+    Dictionary:
+      type: array
+      description: Справочник кодов.
+      title: Dictionary
+      uniqueItems: true
+      minItems: 1
+      items:
+        type: object
+        properties:
+          code:
+            type: string
+          description:
+            type: string
   securitySchemes: {}
