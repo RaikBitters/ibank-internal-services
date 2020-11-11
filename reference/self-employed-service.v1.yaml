@@ -115,7 +115,7 @@ paths:
       responses:
         '200':
           description: OK
-      description: Регистрация самозанятого
+      description: Регистрация самозанятого.
       requestBody:
         content:
           application/json:
@@ -196,11 +196,11 @@ paths:
         Получение справочников со списком кодов применяемых в ФНС.
 
         Доступные типы:
-        1. regions - справочник регионов
-        2. activities - справочник видов деятельности
-        3. rejection - справочник причин отказа в регичтрации
-        4. unregistration - справочник причин снятия с учёта
-        5. cancel-income - справочник причин отмены регистрации дохода
+        1. regions - справочник регионов;
+        2. activities - справочник видов деятельности;
+        3. rejection - справочник причин отказа в регичтрации;
+        4. unregistration - справочник причин снятия с учёта;
+        5. cancel-income - справочник причин отмены регистрации дохода.
     parameters:
       - schema:
           type: string
@@ -213,6 +213,7 @@ paths:
         name: type
         in: path
         required: true
+        description: Тип справочника
 components:
   schemas:
     Restriction:
