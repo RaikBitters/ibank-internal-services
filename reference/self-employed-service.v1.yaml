@@ -296,9 +296,6 @@ components:
       properties:
         id:
           type: integer
-          format: int64
-        vatin:
-          type: integer
           description: ИНН
           format: int64
         status:
@@ -319,7 +316,7 @@ components:
           type: string
           description: Код региона деятельности (ОКАТО)
       required:
-        - vatin
+        - id
         - status
         - user_id
     SelfEmployerInfo:
