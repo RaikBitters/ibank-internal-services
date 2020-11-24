@@ -53,7 +53,6 @@ paths:
         name: id
         in: path
         required: true
-        description: ИНН
     get:
       summary: GET self-employer info
       tags:
@@ -136,20 +135,26 @@ paths:
               schema:
                 allOf:
                   - $ref: ../models/Collection.v1.yaml
-                  - properties:
+                  - type: object
+                    properties:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/SelfEmployerInfo'
-                    type: object
+                          $ref: '#/components/schemas/SelfEmployer'
               examples: {}
       parameters:
         - schema:
             type: integer
+            format: int64
           in: query
           name: user_id
-          description: ''
-          required: true
+          description: ID пользователя интернет банка
+        - schema:
+            type: integer
+            format: int64
+          in: query
+          name: vatin
+          description: ИНН
       description: |-
         Получения списка самозанятых.
 
@@ -291,6 +296,9 @@ components:
       properties:
         id:
           type: integer
+          format: int64
+        vatin:
+          type: integer
           description: ИНН
           format: int64
         status:
@@ -311,7 +319,7 @@ components:
           type: string
           description: Код региона деятельности (ОКАТО)
       required:
-        - id
+        - vatin
         - status
         - user_id
     SelfEmployerInfo:
