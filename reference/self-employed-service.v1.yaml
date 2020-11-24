@@ -25,7 +25,7 @@ servers:
 paths:
   '/restrictions/{vatin}':
     get:
-      summary: GET Restrictions
+      summary: Get restrictions
       responses:
         '200':
           description: OK
@@ -54,7 +54,7 @@ paths:
         in: path
         required: true
     get:
-      summary: GET self-employer info
+      summary: Get self-employer info
       tags:
         - Self-employers
       responses:
@@ -163,7 +163,7 @@ paths:
         - Self-employers
   '/orders/{id}':
     get:
-      summary: GET Order by id
+      summary: Get order by id
       tags:
         - Self-employers
       responses:
@@ -183,7 +183,7 @@ paths:
         required: true
   '/dictionaries/{type}':
     get:
-      summary: GET Dictionary
+      summary: Get dictionary
       tags:
         - Dictionaries
       responses:
@@ -241,15 +241,11 @@ components:
         deny_code:
           type: string
           description: Получаем если результат = DENY.
-      x-tags:
-        - Self-employers
     SelfEmployerRegistration:
       title: Self-employer registration
       description: Информация для постановки на учёт.
       x-examples: {}
       type: object
-      x-tags:
-        - Self-employers
       properties:
         vatin:
           type: integer
@@ -291,8 +287,6 @@ components:
       title: Self-employer
       type: object
       description: Основная информация о самозанятом.
-      x-tags:
-        - Self-employers
       properties:
         id:
           type: integer
@@ -336,8 +330,6 @@ components:
               type: integer
               format: int64
       x-examples: {}
-      x-tags:
-        - Self-employers
     Order:
       title: Order
       type: object
@@ -383,8 +375,6 @@ components:
             - $ref: '#/components/schemas/SelfEmployerRegistration'
             - $ref: '#/components/schemas/SelfEmployer'
           description: Состав заявки отправленной в ФНС
-      x-tags:
-        - Self-employers
     Dictionary:
       type: array
       description: Справочник кодов.
