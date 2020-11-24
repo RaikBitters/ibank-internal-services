@@ -375,6 +375,8 @@ components:
             - $ref: '#/components/schemas/SelfEmployerRegistration'
             - $ref: '#/components/schemas/SelfEmployer'
           description: Состав заявки отправленной в ФНС
+      x-tags:
+        - Models
     Dictionary:
       type: array
       description: Справочник кодов.
@@ -388,4 +390,6 @@ components:
             type: string
           description:
             type: string
+      x-tags:
+        - Models
   securitySchemes: {}
