@@ -1,7 +1,8 @@
 openapi: 3.0.2
 info:
-  title: Anti-fraud API
+  title: Anti-fraud API (deprecated)
   version: '1.0'
+  description: ''
 tags:
   - name: Anti-fraud endpoint
     description: Интерфейсы Anti-fraud сервиса для BI.ZONE BCFP.
@@ -28,6 +29,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateResponse'
+      description: ''
     parameters: []
 components:
   schemas:

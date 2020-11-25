@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: Deposit service
+  title: Deposit service (deprecated)
   version: '1.0'
   description: |-
     ### Сервис для работы с депозитами клиентов интернет-банка
@@ -48,7 +48,7 @@ paths:
                   $ref: '#/components/schemas/DepositRate'
               examples:
                 PrivateRateExample:
-                  $ref: './components/dataset.yml#/components/examples/PrivateRateExample'
+                  $ref: ./components/dataset.yml#/components/examples/PrivateRateExample
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -73,7 +73,7 @@ paths:
                   $ref: '#/components/schemas/DepositRate'
               examples:
                 CorporateRateExample:
-                  $ref: './components/dataset.yml#/components/examples/CorporateRateExample'
+                  $ref: ./components/dataset.yml#/components/examples/CorporateRateExample
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -98,7 +98,7 @@ paths:
                   $ref: '#/components/schemas/DepositRate'
               examples:
                 CorporateRateExample:
-                  $ref: './components/dataset.yml#/components/examples/CorporateRateExample'
+                  $ref: ./components/dataset.yml#/components/examples/CorporateRateExample
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -433,7 +433,7 @@ components:
         dynamicRatesDescription:
           type: string
           description: dynamicRatesDescription.
-          example: 'Ставка LIBOR overnight - 1.4%'
+          example: Ставка LIBOR overnight - 1.4%
         cancellationPenalties:
           description: Штрафная процентная ставка при досрочном  закрытии вклада.
         validSince:
@@ -517,11 +517,11 @@ components:
           example: Ежеквартально
         interestPayoutToDepositAccount:
           type: boolean
-          description: 'Признак "Перечислять проценты".'
+          description: Признак "Перечислять проценты".
           example: true
         interestPayoutToServiceAccount:
           type: boolean
-          description: 'Признак "Выплачивать проценты".'
+          description: Признак "Выплачивать проценты".
           example: false
         topupAllowedFromDay:
           type: string
@@ -546,7 +546,7 @@ components:
         partialPayoutMaxAmount:
           type: string
           description: Условие выполнений операций по договору.
-          example: 'Общий размер изъятий не более 50% от суммы вклада на момент  открытия'
+          example: Общий размер изъятий не более 50% от суммы вклада на момент  открытия
         prematureEnd:
           type: string
           description: Период применения штрафной ставки.
@@ -568,7 +568,7 @@ components:
           example: 55/1521/15-00062878
         nextInterestPaymentDay:
           type: string
-          description: 'Дата следующей выплаты % по вкладу.'
+          description: Дата следующей выплаты % по вкладу.
           example: '2019-07-23T00:00:00.000'
         description:
           type: string
@@ -855,7 +855,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: './components/models.yml#/components/schemas/ErrorModel'
+            $ref: ./components/models.yml#/components/schemas/ErrorModel
           example:
             code: 504
             message: Remote services are unavailable
@@ -864,7 +864,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: './components/models.yml#/components/schemas/ErrorModel'
+            $ref: ./components/models.yml#/components/schemas/ErrorModel
           example:
             code: 400
             message: Request parameter is missing
@@ -873,4 +873,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: './components/models.yml#/components/schemas/ErrorModel'
+            $ref: ./components/models.yml#/components/schemas/ErrorModel
