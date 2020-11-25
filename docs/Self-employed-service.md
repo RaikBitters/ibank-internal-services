@@ -2,4 +2,5 @@
 
 The beginning of an awesome article...
 
-![](../out/diagrams/self-employed-service/components/Incomes and account component diagrams.png)
+![](../assets/images/Incomes and account component diagrams.png)
+
