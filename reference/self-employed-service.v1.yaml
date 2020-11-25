@@ -149,12 +149,6 @@ paths:
           in: query
           name: user_id
           description: ID пользователя интернет банка
-        - schema:
-            type: integer
-            format: int64
-          in: query
-          name: vatin
-          description: ИНН
       description: |-
         Получения списка самозанятых.
 
@@ -221,6 +215,32 @@ paths:
         in: path
         required: true
         description: Тип справочника
+  /incomes:
+    get:
+      summary: Get incomes
+      tags:
+        - Incomes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ''
+      operationId: get-incomes
+      description: ''
+    post:
+      summary: Registering income
+      tags:
+        - Incomes
+      responses: {}
+      operationId: post-incomes
+    delete:
+      summary: Cancellation of income
+      tags:
+        - Incomes
+      responses: {}
+      operationId: delete-incomes
 components:
   schemas:
     Restriction:
