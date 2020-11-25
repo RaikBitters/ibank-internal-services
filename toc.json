@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "type": "item",
+      "title": "Self-employed-service",
+      "uri": "docs/Self-employed-service.md"
+    },
+    {
+      "type": "item",
+      "title": "Anti-fraud API (deprecated)",
+      "uri": "reference/anti-fraud-api.v0.yml"
+    },
+    {
+      "type": "item",
+      "title": "Deposit service (deprecated)",
+      "uri": "reference/deposit-service.v1.yml"
+    },
+    {
+      "type": "item",
+      "title": "Self-employed service",
+      "uri": "reference/self-employed-service.v1.yaml"
+    },
+    {
+      "type": "divider",
+      "title": "Models"
+    },
+    {
+      "type": "item",
+      "title": "Collection with cursor-based pagination",
+      "uri": "models/Collection.v1.yaml"
+    },
+    {
+      "type": "item",
+      "title": "Error",
+      "uri": "models/Error.v1.yaml"
+    }
+  ]
+}
