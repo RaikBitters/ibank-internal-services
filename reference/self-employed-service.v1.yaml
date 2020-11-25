@@ -235,12 +235,47 @@ paths:
         - Incomes
       responses: {}
       operationId: post-incomes
-    delete:
-      summary: Cancellation of income
+  '/incomes/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get income
       tags:
         - Incomes
       responses: {}
-      operationId: delete-incomes
+      operationId: get-incomes-id
+    delete:
+      summary: Cancellation income
+      operationId: delete-incomes-id
+      responses:
+        '200':
+          description: OK
+  /account:
+    get:
+      summary: Get account status
+      tags:
+        - Account
+      responses: {}
+      operationId: get-account
+      description: ''
+  /account/accruals-and-debts:
+    get:
+      summary: Get accruals and debts
+      tags:
+        - Account
+      responses: {}
+      operationId: get-account-accruals-and-debts
+  /payment-documents:
+    get:
+      summary: Get payment documents
+      tags:
+        - Account
+      responses: {}
+      operationId: get-payment-documents
 components:
   schemas:
     Restriction:
