@@ -20,6 +20,8 @@ tags:
   - name: Self-employers
     description: Self-employers collection
   - name: Dictionaries
+  - name: Incomes
+  - name: Reference
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -254,6 +256,8 @@ paths:
       responses:
         '200':
           description: OK
+      tags:
+        - Incomes
   /account:
     get:
       summary: Get account status
@@ -276,6 +280,57 @@ paths:
         - Account
       responses: {}
       operationId: get-payment-documents
+  '/reference/{type}':
+    parameters:
+      - schema:
+          type: string
+        name: type
+        in: path
+        required: true
+    get:
+      summary: Get reference
+      tags:
+        - Reference
+      responses: {}
+      operationId: get-reference-type
+      description: |-
+        Reference type:
+        * Registration
+        * Income
+  /notifications:
+    get:
+      summary: Get notifications
+      tags:
+        - Notifications
+      responses: {}
+      operationId: get-notifications
+    post:
+      summary: Change all notifications
+      tags:
+        - Notifications
+      responses: {}
+      operationId: post-notifications
+      description: ''
+  '/notifications/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Update notification
+      tags:
+        - Notifications
+      responses: {}
+      operationId: put-notifications-id
+  /notifications/count:
+    get:
+      summary: Get notifications count
+      tags:
+        - Notifications
+      responses: {}
+      operationId: get-notifications-count
 components:
   schemas:
     Restriction:
