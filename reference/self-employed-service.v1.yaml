@@ -351,6 +351,8 @@ components:
         deny_code:
           type: string
           description: Получаем если результат = DENY.
+      x-tags:
+        - Models
     SelfEmployerRegistration:
       title: Self-employer registration
       description: Информация для постановки на учёт.
@@ -393,6 +395,8 @@ components:
         - passport_number
         - activity_code
         - region_code
+      x-tags:
+        - Models
     SelfEmployer:
       title: Self-employer
       type: object
@@ -423,6 +427,8 @@ components:
         - id
         - status
         - user_id
+      x-tags:
+        - Models
     SelfEmployerInfo:
       title: Self-employer Info
       description: Детальная информация о самозанятом.
@@ -440,6 +446,8 @@ components:
               type: integer
               format: int64
       x-examples: {}
+      x-tags:
+        - Models
     Order:
       title: Order
       type: object
@@ -500,6 +508,14 @@ components:
             type: string
           description:
             type: string
+      x-tags:
+        - Models
+    Income:
+      title: Income
+      type: object
+      properties:
+        id:
+          type: string
       x-tags:
         - Models
   securitySchemes: {}
