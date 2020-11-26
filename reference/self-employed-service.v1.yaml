@@ -48,13 +48,14 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}':
+  '/self-employers/{self-employers-id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: self-employers-id
         in: path
         required: true
+        description: ИНН
     get:
       summary: Get self-employer info
       tags:
@@ -217,7 +218,7 @@ paths:
         in: path
         required: true
         description: Тип справочника
-  /incomes:
+  '/self-employers/{self-employers-id}/incomes':
     get:
       summary: Get incomes
       tags:
@@ -237,19 +238,34 @@ paths:
         - Incomes
       responses: {}
       operationId: post-incomes
-  '/incomes/{id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: self-employers-id
         in: path
         required: true
+        description: ИНН
+  '/self-employers/{self-employers-id}/incomes/{incomes-id}':
+    parameters:
+      - schema:
+          type: string
+        name: incomes-id
+        in: path
+        required: true
+        description: ID чека
+      - schema:
+          type: string
+        name: self-employers-id
+        in: path
+        required: true
+        description: ИНН
     get:
       summary: Get income
       tags:
         - Incomes
       responses: {}
       operationId: get-incomes-id
+      description: ''
     delete:
       summary: Cancellation income
       operationId: delete-incomes-id
@@ -511,45 +527,60 @@ components:
       x-tags:
         - Models
     Income:
-      title: Income
+      title: Income from company
       type: object
       x-tags:
         - Models
+      description: ''
       properties:
         id:
           type: integer
           format: int64
-        vatin:
-          type: integer
-          format: int64
+          description: ID чека
         timestamp_creation:
           type: string
           format: date-time
+          description: Дата формирования
         timestamp_calculation:
           type: string
           format: date-time
+          description: Дата расчета
         income_type:
           type: string
           enum:
             - FROM_INDIVIDUAL
             - FROM_LEGAL_ENTITY
             - FROM_FOREIGN_AGENCY
+          description: Тип дохода
         buyer_vatin:
           type: integer
           format: int64
+          description: ИНН покупателя
         buyer_name:
           type: string
+          description: Наименование организации - покупателя
         services:
           type: array
-          items: {}
+          description: Список услуг
+          items:
+            $ref: '#/components/schemas/Service'
+        total:
+          type: number
+          description: ИТОГО
+        geopoint:
+          $ref: ''
+        operation_unique_id:
+          type: string
+        receipt_ref:
+          type: string
       required:
-        - vatin
         - timestamp_creation
         - timestamp_calculation
         - income_type
         - buyer_vatin
         - buyer_name
         - services
+        - total
     Service:
       title: Service
       type: object
@@ -560,6 +591,93 @@ components:
           type: number
         name:
           type: string
-        '':
+        quantity:
+          type: integer
+    Geopoint:
+      title: Geopoint
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+    Income-from-company:
+      title: Income from company
+      type: object
+      x-tags:
+        - Models
+      description: ''
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID чека
+        timestamp_creation:
           type: string
+          format: date-time
+          description: Дата формирования
+        timestamp_calculation:
+          type: string
+          format: date-time
+          description: Дата расчета
+        income_type:
+          type: string
+          enum:
+            - FROM_INDIVIDUAL
+            - FROM_LEGAL_ENTITY
+            - FROM_FOREIGN_AGENCY
+          description: Тип дохода
+        buyer_vatin:
+          type: integer
+          format: int64
+          description: ИНН покупателя
+        buyer_name:
+          type: string
+          description: Наименование организации - покупателя
+        services:
+          type: array
+          description: Список услуг
+          items:
+            $ref: '#/components/schemas/Service'
+        total:
+          type: number
+          description: ИТОГО
+        geopoint:
+          $ref: ''
+        operation_unique_id:
+          type: string
+        receipt_ref:
+          type: string
+      required:
+        - timestamp_creation
+        - timestamp_calculation
+        - income_type
+        - buyer_vatin
+        - buyer_name
+        - services
+        - total
+    Service:
+      title: Service
+      type: object
+      x-tags:
+        - Models
+      properties:
+        price:
+          type: number
+        name:
+          type: string
+        quantity:
+          type: integer
+    Geopoint:
+      title: Geopoint
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
   securitySchemes: {}
