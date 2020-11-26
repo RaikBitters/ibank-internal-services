@@ -46,11 +46,11 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}':
+  '/self-employers/{self-employers-id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: self-employers-id
         in: path
         required: true
     get:
@@ -211,7 +211,7 @@ paths:
         in: path
         required: true
         description: Тип справочника
-  /incomes:
+  '/self-employers/{self-employers-id}/incomes':
     get:
       summary: Get incomes
       tags:
@@ -231,11 +231,22 @@ paths:
         - Incomes
       responses: {}
       operationId: post-incomes
-  '/incomes/{id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: self-employers-id
+        in: path
+        required: true
+  '/self-employers/{self-employers-id}//incomes/{incomes-id}':
+    parameters:
+      - schema:
+          type: string
+        name: self-employers-id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: incomes-id
         in: path
         required: true
     get:
@@ -513,9 +524,6 @@ components:
         id:
           type: integer
           format: int64
-        vatin:
-          type: integer
-          format: int64
         timestamp_creation:
           type: string
           format: date-time
@@ -537,7 +545,6 @@ components:
           type: array
           items: {}
       required:
-        - vatin
         - timestamp_creation
         - timestamp_calculation
         - income_type
