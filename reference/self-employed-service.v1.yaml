@@ -239,11 +239,11 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{vatin}/incomes/{id}':
+  '/self-employers/{employer-id}/incomes/{id}':
     parameters:
       - schema:
           type: string
-        name: vatin
+        name: employer-id
         in: path
         required: true
         description: ИНН
@@ -540,8 +540,8 @@ components:
             type: string
       x-tags:
         - Models
-    Income:
-      title: Income
+    IncomeRegistration:
+      title: Income registration
       type: object
       x-tags:
         - Models
