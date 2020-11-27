@@ -46,13 +46,14 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{self-employers-id}':
+  '/self-employers/{id}':
     parameters:
       - schema:
           type: string
-        name: self-employers-id
+        name: id
         in: path
         required: true
+        description: ИНН
     get:
       summary: Get self-employer info
       tags:
@@ -211,7 +212,7 @@ paths:
         in: path
         required: true
         description: Тип справочника
-  '/self-employers/{self-employers-id}/incomes':
+  '/self-employers/{id}/incomes':
     get:
       summary: Get incomes
       tags:
@@ -234,21 +235,24 @@ paths:
     parameters:
       - schema:
           type: string
-        name: self-employers-id
+        name: id
         in: path
         required: true
-  '/self-employers/{self-employers-id}//incomes/{incomes-id}':
+        description: ИНН
+  '/self-employers/{vatin}/incomes/{id}':
     parameters:
       - schema:
           type: string
-        name: self-employers-id
+        name: vatin
         in: path
         required: true
+        description: ИНН
       - schema:
           type: string
-        name: incomes-id
+        name: id
         in: path
         required: true
+        description: id дохода
     get:
       summary: Get income
       tags:
@@ -263,7 +267,7 @@ paths:
           description: OK
       tags:
         - Incomes
-  /account:
+  '/self-employers/{id}/account':
     get:
       summary: Get account status
       tags:
@@ -271,20 +275,41 @@ paths:
       responses: {}
       operationId: get-account
       description: ''
-  /account/accruals-and-debts:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ИНН
+  '/self-employers/{id}/accruals-and-debts':
     get:
       summary: Get accruals and debts
       tags:
         - Account
       responses: {}
       operationId: get-account-accruals-and-debts
-  /payment-documents:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ИНН
+  '/self-employers/{id}/payment-documents':
     get:
       summary: Get payment documents
       tags:
         - Account
       responses: {}
       operationId: get-payment-documents
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ИНН
   '/reference/{type}':
     parameters:
       - schema:
