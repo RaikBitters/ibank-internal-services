@@ -540,15 +540,12 @@ components:
             type: string
       x-tags:
         - Models
-    IncomeRegistration:
-      title: Income registration
+    Income:
+      title: Income
       type: object
       x-tags:
         - Models
       properties:
-        id:
-          type: integer
-          format: int64
         timestamp_creation:
           type: string
           format: date-time
@@ -569,6 +566,13 @@ components:
         services:
           type: array
           items: {}
+        taxable_period:
+          type: string
+        tax:
+          type: number
+        timestamp_cancellation:
+          type: string
+          format: date-time
       required:
         - timestamp_creation
         - timestamp_calculation
@@ -576,6 +580,8 @@ components:
         - buyer_vatin
         - buyer_name
         - services
+      description: ''
+      x-examples: {}
     Service:
       title: Service
       type: object
@@ -588,4 +594,16 @@ components:
           type: string
         '':
           type: string
+    Receipt:
+      title: Receipt
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ref:
+          type: string
+      required:
+        - id
+      description: ''
   securitySchemes: {}
