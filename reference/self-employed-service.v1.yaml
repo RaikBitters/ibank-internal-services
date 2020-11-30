@@ -5,9 +5,7 @@ info:
   description: |
     Сервис для самозанятых.
     Сервис интегрируется с прикладной подсистемой АИС «Налог-3», обеспечивающей налогообложение доходов физических лиц, полученных от профессиональной деятельности.
-
     Основные кейсы предоставляемые сервисом:
-
     1. Постановка и снятие с учёта.
     2. Регистрация дохода.
     3. Получение справок.
@@ -55,6 +53,7 @@ paths:
         name: id
         in: path
         required: true
+        description: ИНН
     get:
       summary: Get self-employer info
       tags:
@@ -76,7 +75,6 @@ paths:
           description: OK
       description: |-
         Снятие пользователя с учёта в ФНС с указанием причины снятия.
-
         Пользователь числится в системе как UNACTIVE.
       parameters:
         - schema:
@@ -97,7 +95,6 @@ paths:
         Обновление информации о самозанятом на выбор: 
         * Обновление статуса для привязки или отвязки.
         * Обновление видов деятельности.
-
         Возможно изменение статуса через промежуточный статус PENDING.
       requestBody:
         content:
@@ -153,7 +150,6 @@ paths:
           description: ID пользователя интернет банка
       description: |-
         Получения списка самозанятых.
-
         Доступна фильтрация по user_id.
       tags:
         - Self-employers
@@ -197,7 +193,6 @@ paths:
       operationId: get-dictionary
       description: |-
         Получение справочников со списком кодов применяемых в ФНС.
-
         Доступные типы:
         1. regions - справочник регионов;
         2. activities - справочник видов деятельности;
@@ -217,7 +212,7 @@ paths:
         in: path
         required: true
         description: Тип справочника
-  /incomes:
+  '/self-employers/{id}/incomes':
     get:
       summary: Get incomes
       tags:
@@ -237,13 +232,27 @@ paths:
         - Incomes
       responses: {}
       operationId: post-incomes
-  '/incomes/{id}':
     parameters:
       - schema:
           type: string
         name: id
         in: path
         required: true
+        description: ИНН
+  '/self-employers/{employer-id}/incomes/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: employer-id
+        in: path
+        required: true
+        description: ИНН
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: id дохода
     get:
       summary: Get income
       tags:
@@ -258,7 +267,7 @@ paths:
           description: OK
       tags:
         - Incomes
-  /account:
+  '/self-employers/{id}/account':
     get:
       summary: Get account status
       tags:
@@ -266,20 +275,41 @@ paths:
       responses: {}
       operationId: get-account
       description: ''
-  /account/accruals-and-debts:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ИНН
+  '/self-employers/{id}/accruals-and-debts':
     get:
       summary: Get accruals and debts
       tags:
         - Account
       responses: {}
       operationId: get-account-accruals-and-debts
-  /payment-documents:
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ИНН
+  '/self-employers/{id}/payment-documents':
     get:
       summary: Get payment documents
       tags:
         - Account
       responses: {}
       operationId: get-payment-documents
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ИНН
   '/reference/{type}':
     parameters:
       - schema:
@@ -351,6 +381,8 @@ components:
         deny_code:
           type: string
           description: Получаем если результат = DENY.
+      x-tags:
+        - Models
     SelfEmployerRegistration:
       title: Self-employer registration
       description: Информация для постановки на учёт.
@@ -393,6 +425,8 @@ components:
         - passport_number
         - activity_code
         - region_code
+      x-tags:
+        - Models
     SelfEmployer:
       title: Self-employer
       type: object
@@ -423,6 +457,8 @@ components:
         - id
         - status
         - user_id
+      x-tags:
+        - Models
     SelfEmployerInfo:
       title: Self-employer Info
       description: Детальная информация о самозанятом.
@@ -440,6 +476,8 @@ components:
               type: integer
               format: int64
       x-examples: {}
+      x-tags:
+        - Models
     Order:
       title: Order
       type: object
@@ -502,4 +540,70 @@ components:
             type: string
       x-tags:
         - Models
+    Income:
+      title: Income
+      type: object
+      x-tags:
+        - Models
+      properties:
+        timestamp_creation:
+          type: string
+          format: date-time
+        timestamp_calculation:
+          type: string
+          format: date-time
+        income_type:
+          type: string
+          enum:
+            - FROM_INDIVIDUAL
+            - FROM_LEGAL_ENTITY
+            - FROM_FOREIGN_AGENCY
+        buyer_vatin:
+          type: integer
+          format: int64
+        buyer_name:
+          type: string
+        services:
+          type: array
+          items: {}
+        taxable_period:
+          type: string
+        tax:
+          type: number
+        timestamp_cancellation:
+          type: string
+          format: date-time
+      required:
+        - timestamp_creation
+        - timestamp_calculation
+        - income_type
+        - buyer_vatin
+        - buyer_name
+        - services
+      description: ''
+      x-examples: {}
+    Service:
+      title: Service
+      type: object
+      x-tags:
+        - Models
+      properties:
+        price:
+          type: number
+        name:
+          type: string
+        '':
+          type: string
+    Receipt:
+      title: Receipt
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ref:
+          type: string
+      required:
+        - id
+      description: ''
   securitySchemes: {}
