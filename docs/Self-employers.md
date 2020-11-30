@@ -6,4 +6,4 @@ tags: [Articles]
 
 The beginning of an awesome article...
 
-![](../assets/images/self-employer-components.png)
+![self-employer-components](../assets/images/self-employer-components.png)
