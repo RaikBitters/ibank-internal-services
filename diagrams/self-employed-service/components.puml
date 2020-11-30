@@ -116,7 +116,7 @@ Tax3 --() GetRegistrationReference
 Tax3 --() GetIncomeReference
 
 component "Self-employed service" as SelfEmplService <<Component>>
-interface "GET /reference/{type}" as getReference
+interface "GET /self-employers/{id}/reference/{type}" as getReference
 
 SelfEmplService --() getReference
 
