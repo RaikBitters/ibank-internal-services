@@ -1,5 +1,5 @@
 ---
-tags: [Self-employed-service]
+tags: [Self-employed service]
 ---
 
 # Self-employed-service
