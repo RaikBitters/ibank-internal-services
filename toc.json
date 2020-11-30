@@ -2,8 +2,12 @@
   "items": [
     {
       "type": "item",
-      "title": "Self-employed-service",
-      "uri": "docs/Self-employed-service.md"
+      "title": "Self-employers",
+      "uri": "docs/Self-employers.md"
+    },
+    {
+      "type": "divider",
+      "title": "APIS"
     },
     {
       "type": "item",
@@ -22,17 +26,17 @@
     },
     {
       "type": "divider",
-      "title": "Models"
+      "title": "Schemas"
     },
     {
       "type": "item",
       "title": "Collection with cursor-based pagination",
-      "uri": "models/Collection.v1.yaml"
+      "uri": "reference/models/Collection.v1.yaml"
     },
     {
       "type": "item",
       "title": "Error",
-      "uri": "models/Error.v1.yaml"
+      "uri": "reference/models/Error.v1.yaml"
     }
   ]
 }

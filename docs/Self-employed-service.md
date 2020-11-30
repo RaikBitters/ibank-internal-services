@@ -1,3 +1,0 @@
-# Self-employed-service
-
-The beginning of an awesome article...
