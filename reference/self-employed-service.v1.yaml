@@ -239,17 +239,17 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{employer-id}/incomes/{id}':
+  '/self-employers/{id}/incomes/{income-id}':
     parameters:
       - schema:
           type: string
-        name: employer-id
+        name: id
         in: path
         required: true
         description: ИНН
       - schema:
           type: string
-        name: id
+        name: income-id
         in: path
         required: true
         description: id дохода
@@ -282,7 +282,7 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}/accruals-and-debts':
+  '/self-employers/{id}/accruals':
     get:
       summary: Get accruals and debts
       tags:
@@ -310,11 +310,16 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/reference/{type}':
+  '/self-employers/{id}/reference/{type}':
     parameters:
       - schema:
           type: string
         name: type
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: id
         in: path
         required: true
     get:
@@ -327,7 +332,7 @@ paths:
         Reference type:
         * Registration
         * Income
-  /notifications:
+  '/self-employers/{id}/notifications':
     get:
       summary: Get notifications
       tags:
@@ -341,11 +346,17 @@ paths:
       responses: {}
       operationId: post-notifications
       description: ''
-  '/notifications/{id}':
+    parameters: []
+  '/self-employers/{id}/notifications/{notif-id}':
     parameters:
       - schema:
           type: string
         name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: notif-id
         in: path
         required: true
     put:
@@ -354,13 +365,14 @@ paths:
         - Notifications
       responses: {}
       operationId: put-notifications-id
-  /notifications/count:
+  '/self-employers/{id}/notifications/count':
     get:
       summary: Get notifications count
       tags:
         - Notifications
       responses: {}
       operationId: get-notifications-count
+    parameters: []
 components:
   schemas:
     Restriction:
