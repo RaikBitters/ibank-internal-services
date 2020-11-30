@@ -1,11 +1,6 @@
 {
   "items": [
     {
-      "type": "item",
-      "title": "Self-employers",
-      "uri": "docs/Self-employers.md"
-    },
-    {
       "type": "divider",
       "title": "APIS"
     },
@@ -20,9 +15,20 @@
       "uri": "reference/deposit-service.v1.yml"
     },
     {
-      "type": "item",
-      "title": "Self-employed service",
-      "uri": "reference/self-employed-service.v1.yaml"
+      "type": "group",
+      "title": "Self-employers service",
+      "items": [
+      {
+        "type": "item",
+        "title": "Self-employers design",
+        "uri": "docs/Self-employers.md"
+      },
+      {
+        "type": "item",
+        "title": "Self-employed api",
+        "uri": "reference/self-employed-service.v1.yaml"
+      }
+      ]
     },
     {
       "type": "divider",

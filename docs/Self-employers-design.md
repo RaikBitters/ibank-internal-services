@@ -2,7 +2,7 @@
 tags: [Articles]
 ---
 
-# Self-employers
+# Self-employers design
 
 The beginning of an awesome article...
 
