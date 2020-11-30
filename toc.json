@@ -6,6 +6,16 @@
     },
     {
       "type": "item",
+      "title": "Self-employed service",
+      "uri": "reference/self-employed-service.v1.yaml"
+    },
+    {
+      "type": "item",
+      "title": "Design of Self-employers service",
+      "uri": "docs/Self-employers-design.md"
+    },
+    {
+      "type": "item",
       "title": "Anti-fraud API (deprecated)",
       "uri": "reference/anti-fraud-api.v0.yml"
     },
@@ -13,16 +23,6 @@
       "type": "item",
       "title": "Deposit service (deprecated)",
       "uri": "reference/deposit-service.v1.yml"
-    },
-    {
-      "type": "item",
-      "title": "Self-employed service",
-      "uri": "reference/self-employed-service.v1.yaml"
-    },
-    {
-      "type": "item",
-      "title": "Design of service",
-      "uri": "docs/Self-employers-design.md"
     },
     {
       "type": "divider",

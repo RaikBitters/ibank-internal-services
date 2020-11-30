@@ -2,8 +2,9 @@
 tags: [Articles]
 ---
 
-# Design of Self-employers 
+# Design of Self-employers service
 
-The beginning of an awesome article...
-
+## Self-employer main collection
 ![self-employer-components](../assets/images/self-employer-components.png)
+
+## 
