@@ -2,4 +2,4 @@
 
 The beginning of an awesome article...
 
-![](../assets/images/diagrams/self-employed-service/self-employer-components.png)
+![](../assets/images/self-employer-components.png)
