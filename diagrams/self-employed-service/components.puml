@@ -77,12 +77,12 @@ Tax3 --() GetPaymentDocuments
 Tax3 --() GetCancelIncomeReasonsList
 
 component "Self-employed service" as SelfEmplService <<Component>>
-interface "GET /incomes" as getIncomes
-interface "POST /incomes" as postIncome
-interface "GET /incomes/{id}" as getIncomesId
-interface "DELETE /incomes/{id}" as delIncomesId
-interface "GET /incomes/statistics" as getIncomesStatistics
-interface "GET /account" as getAccount
+interface "GET /self-employers/{self-employers-id}/incomes" as getIncomes
+interface "POST /self-employers/{self-employers-id}/incomes" as postIncome
+interface "GET /self-employers/{self-employers-id}/incomes/{id}" as getIncomesId
+interface "DELETE /self-employers/{self-employers-id}/incomes/{id}" as delIncomesId
+interface "GET /self-employers/{self-employers-id}/incomes/statistics" as getIncomesStatistics
+interface "GET self-employers/{self-employers-id}/account" as getAccount
 interface "GET /account/accruals-and-debts" as getAccrualsAndDebts
 interface "GET /payment-documents" as getPaymentDocuments
 interface "GET /dictionaries/{type}" as getDictionary
