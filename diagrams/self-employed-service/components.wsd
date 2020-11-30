@@ -1,4 +1,4 @@
-@startuml Self-employers component diagrams
+@startuml self-employer
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetTaxpayerRestrictionsRequest" as TaxpayerRestrictions
@@ -55,7 +55,7 @@ SelfEmplService -up-( GetUnregistrationReasonsList
 
 @enduml
 
-@startuml Incomes and account component diagrams
+@startuml incomes
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "PostIncomeRequestV2" as PostIncome
@@ -77,14 +77,14 @@ Tax3 --() GetPaymentDocuments
 Tax3 --() GetCancelIncomeReasonsList
 
 component "Self-employed service" as SelfEmplService <<Component>>
-interface "GET /self-employers/{self-employers-id}/incomes" as getIncomes
-interface "POST /self-employers/{self-employers-id}/incomes" as postIncome
-interface "GET /self-employers/{self-employers-id}/incomes/{id}" as getIncomesId
-interface "DELETE /self-employers/{self-employers-id}/incomes/{id}" as delIncomesId
-interface "GET /self-employers/{self-employers-id}/incomes/statistics" as getIncomesStatistics
-interface "GET self-employers/{self-employers-id}/account" as getAccount
-interface "GET /account/accruals-and-debts" as getAccrualsAndDebts
-interface "GET /payment-documents" as getPaymentDocuments
+interface "GET /self-employers/{id}/incomes" as getIncomes
+interface "POST /self-employers/{id}/incomes" as postIncome
+interface "GET /self-employers/{self-empl-id}/incomes/{id}" as getIncomesId
+interface "DELETE /self-employers/{self-empl-id}/incomes/{id}" as delIncomesId
+interface "GET /self-employers/{id}/incomes/statistics" as getIncomesStatistics
+interface "GET /self-employers/{id}/account" as getAccount
+interface "GET /self-employers/{id}/accruals-and-debts" as getAccrualsAndDebts
+interface "GET /self-employers/{id}/payment-documents" as getPaymentDocuments
 interface "GET /dictionaries/{type}" as getDictionary
 
 SelfEmplService --() getIncomes
@@ -111,12 +111,28 @@ SelfEmplService -up-( GetCancelIncomeReasonsList
 
 @enduml
 
-@startuml Reference and Notifications component diagrams
+@startuml reference
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetRegistrationReferenceRequestV2" as GetRegistrationReference
 interface "GetIncomeReferenceRequestV2" as GetIncomeReference
 
+Tax3 --() GetRegistrationReference
+Tax3 --() GetIncomeReference
+
+component "Self-employed service" as SelfEmplService <<Component>>
+interface "GET /reference/{type}" as getReference
+
+SelfEmplService --() getReference
+
+SelfEmplService -up-( GetRegistrationReference
+SelfEmplService -up-( GetIncomeReference
+
+@enduml
+
+@startuml notifications
+
+component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetNotificationsRequest" as GetNotifications
 interface "PostNotificationsAckRequest" as PostNotificationsAck
 interface "PostNotificationsArchRequest" as PostNotificationsArch
@@ -125,8 +141,6 @@ interface "PostNotificationsArchAllRequest" as PostNotificationsArchAllRequest
 interface "GetNotificationsCountRequest" as GetNotificationsCount
 interface "PostNotificationsDeliveredRequest" as PostNotificationsDeliveredRequest
 
-Tax3 --() GetRegistrationReference
-Tax3 --() GetIncomeReference
 Tax3 --() GetNotifications
 Tax3 --() PostNotificationsAck
 Tax3 --() PostNotificationsArch
@@ -136,20 +150,16 @@ Tax3 --() GetNotificationsCount
 Tax3 --() PostNotificationsDeliveredRequest
 
 component "Self-employed service" as SelfEmplService <<Component>>
-interface "GET /reference/{type}" as getReference
 interface "GET /notifications" as getNotifications
 interface "GET /notifications/count" as getNotificationsCount
 interface "POST /notifications" as postNotifications
 interface "PUT /notifications/{id}" as putNotificationId
 
-SelfEmplService --() getReference
 SelfEmplService --() getNotifications
 SelfEmplService --() getNotificationsCount
 SelfEmplService --() postNotifications
 SelfEmplService --() putNotificationId
 
-SelfEmplService -up-( GetRegistrationReference
-SelfEmplService -up-( GetIncomeReference
 SelfEmplService -up-( GetNotifications
 SelfEmplService -up-( PostNotificationsAck
 SelfEmplService -up-( PostNotificationsArch
