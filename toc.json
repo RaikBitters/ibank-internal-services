@@ -15,24 +15,14 @@
       "uri": "reference/deposit-service.v1.yml"
     },
     {
-      "type": "divider",
-      "title": "Self-employers service"
+      "type": "item",
+      "title": "Self-employed service",
+      "uri": "reference/self-employed-service.v1.yaml"
     },
     {
-      "type": "group",
-      "title": "",
-      "items": [
-      {
-        "type": "item",
-        "title": "Self-employers",
-        "uri": "docs/Self-employers.md"
-      },
-      {
-        "type": "item",
-        "title": "Self-employed service",
-        "uri": "reference/self-employed-service.v1.yaml"
-      }
-      ]
+      "type": "item",
+      "title": "Self-employers design",
+      "uri": "docs/Self-employers-design.md"
     },
     {
       "type": "divider",
