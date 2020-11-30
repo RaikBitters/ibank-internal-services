@@ -1,4 +1,4 @@
-@startuml self-employer
+@startuml self-employer-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetTaxpayerRestrictionsRequest" as TaxpayerRestrictions
@@ -43,7 +43,7 @@ SelfEmplService -up-( Unregistration
 
 
 
-@startuml incomes
+@startuml incomes-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "PostIncomeRequestV2" as PostIncome
@@ -78,7 +78,7 @@ SelfEmplService -up-( GetIncomeForPeriod
 
 
 
-@startuml account
+@startuml account-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetTaxpayerAccountStatusRequest" as GetAccountStatus
@@ -106,7 +106,7 @@ SelfEmplService -up-( GetPaymentDocuments
 
 
 
-@startuml reference
+@startuml reference-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetRegistrationReferenceRequestV2" as GetRegistrationReference
@@ -127,7 +127,7 @@ SelfEmplService -up-( GetIncomeReference
 
 
 
-@startuml notifications
+@startuml notifications-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetNotificationsRequest" as GetNotifications
@@ -169,7 +169,7 @@ SelfEmplService -up-( PostNotificationsDeliveredRequest
 
 
 
-@startuml dictionaries
+@startuml dictionaries-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>\
 
