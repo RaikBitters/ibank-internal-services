@@ -223,15 +223,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ''
+                allOf:
+                  - $ref: ./models/Collection.v1.yaml
+                  - type: object
+                    properties:
+                      items:
+                        $ref: '#/components/schemas/ReceiptInfo'
       operationId: get-incomes
       description: ''
     post:
       summary: Registering income
       tags:
         - Incomes
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
       operationId: post-incomes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Income'
     parameters:
       - schema:
           type: string
@@ -257,7 +273,13 @@ paths:
       summary: Get income
       tags:
         - Incomes
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptInfo'
       operationId: get-incomes-id
     delete:
       summary: Cancellation income
@@ -265,6 +287,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
       tags:
         - Incomes
   '/self-employers/{id}/account':
@@ -557,6 +583,8 @@ components:
       type: object
       x-tags:
         - Models
+      description: ''
+      x-examples: {}
       properties:
         timestamp_creation:
           type: string
@@ -577,14 +605,8 @@ components:
           type: string
         services:
           type: array
-          items: {}
-        taxable_period:
-          type: string
-        tax:
-          type: number
-        timestamp_cancellation:
-          type: string
-          format: date-time
+          items:
+            $ref: '#/components/schemas/Service'
       required:
         - timestamp_creation
         - timestamp_calculation
@@ -592,8 +614,6 @@ components:
         - buyer_vatin
         - buyer_name
         - services
-      description: ''
-      x-examples: {}
     Service:
       title: Service
       type: object
@@ -604,8 +624,8 @@ components:
           type: number
         name:
           type: string
-        '':
-          type: string
+        quantity:
+          type: integer
     Receipt:
       title: Receipt
       type: object
@@ -620,4 +640,22 @@ components:
       description: ''
       x-tags:
         - Models
+    ReceiptInfo:
+      title: Receipt info
+      allOf:
+        - $ref: '#/components/schemas/Receipt'
+        - $ref: '#/components/schemas/Income'
+        - type: object
+          properties:
+            taxable_period:
+              type: string
+            tax:
+              type: number
+            timestamp_cancellation:
+              type: string
+              format: date-time
+      x-tags:
+        - Models
+      description: ''
+      x-examples: {}
   securitySchemes: {}
