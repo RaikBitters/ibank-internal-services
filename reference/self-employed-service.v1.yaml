@@ -606,4 +606,6 @@ components:
       required:
         - id
       description: ''
+      x-tags:
+        - Models
   securitySchemes: {}
