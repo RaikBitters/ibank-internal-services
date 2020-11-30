@@ -1,3 +1,7 @@
+---
+tags: [Articles]
+---
+
 # Self-employers
 
 The beginning of an awesome article...
