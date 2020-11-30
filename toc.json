@@ -15,17 +15,21 @@
       "uri": "reference/deposit-service.v1.yml"
     },
     {
+      "type": "divider",
+      "title": "Self-employers service"
+    },
+    {
       "type": "group",
-      "title": "Self-employers service",
+      "title": "",
       "items": [
       {
         "type": "item",
-        "title": "Self-employers design",
+        "title": "Self-employers",
         "uri": "docs/Self-employers.md"
       },
       {
         "type": "item",
-        "title": "Self-employed api",
+        "title": "Self-employed service",
         "uri": "reference/self-employed-service.v1.yaml"
       }
       ]
