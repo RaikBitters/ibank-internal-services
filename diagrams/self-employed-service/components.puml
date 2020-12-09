@@ -174,7 +174,7 @@ SelfEmplService -up-( PostNotificationsDeliveredRequest
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>\
 
 interface "GetRegionsListRequest" as GetRegionsList
-interface "GetActivitiesListRequest" as GetActivitiesList
+interface "GetActivitiesListRequestV2" as GetActivitiesList
 interface "GetRejectionReasonsListRequest" as GetRejectionReasonsList
 interface "GetUnregistrationReasonsListRequest" as GetUnregistrationReasonsList
 interface "GetCancelIncomeReasonsListRequest" as GetCancelIncomeReasonsList
