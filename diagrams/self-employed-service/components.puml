@@ -6,7 +6,7 @@ interface "PostRegistrationRequest\nGetRegistrationStatusRequest" as Registratio
 interface "GetTaxpayerStatusRequest" as TaxpayerStatus
 interface "PutTaxpayerDataRequest" as TaxpayerData
 interface "PostBindPartnerWithInnRequest\nGetBindPartnerStatusRequest" as BindPartner
-interface "PostUnregistrationRequest\nGetUnregistrationStatusRequest" as Unregistration
+interface "PostUnregistrationRequestV2\nGetUnregistrationStatusRequest" as Unregistration
 
 Tax3 --() TaxpayerRestrictions
 Tax3 --() Registration
