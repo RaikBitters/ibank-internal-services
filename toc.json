@@ -16,20 +16,6 @@
     },
     {
       "type": "divider",
-      "title": "Deprecated APIS"
-    },
-    {
-      "type": "item",
-      "title": "Anti-fraud API (deprecated)",
-      "uri": "reference/anti-fraud-api.v0.yml"
-    },
-    {
-      "type": "item",
-      "title": "Deposit service (deprecated)",
-      "uri": "reference/deposit-service.v1.yml"
-    },
-    {
-      "type": "divider",
       "title": "Schemas"
     },
     {
@@ -41,6 +27,20 @@
       "type": "item",
       "title": "Error",
       "uri": "reference/models/Error.v1.yaml"
+    },
+    {
+      "type": "divider",
+      "title": "Deprecated APIS"
+    },
+    {
+      "type": "item",
+      "title": "Anti-fraud API (deprecated)",
+      "uri": "reference/anti-fraud-api.v0.yml"
+    },
+    {
+      "type": "item",
+      "title": "Deposit service (deprecated)",
+      "uri": "reference/deposit-service.v1.yml"
     }
   ]
 }
