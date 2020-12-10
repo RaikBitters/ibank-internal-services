@@ -15,6 +15,10 @@
       "uri": "docs/self-employed-adr.md"
     },
     {
+      "type": "divider",
+      "title": "Deprecated APIS"
+    },
+    {
       "type": "item",
       "title": "Anti-fraud API (deprecated)",
       "uri": "reference/anti-fraud-api.v0.yml"
