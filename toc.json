@@ -16,13 +16,13 @@
     },
     {
       "type": "item",
-      "title": "Self-employed service",
-      "uri": "reference/self-employed-service.v1.yaml"
+      "title": "Architecture decision",
+      "uri": "docs/self-employers-adr.md"
     },
     {
       "type": "item",
-      "title": "Architecture decision",
-      "uri": "docs/self-employers-adr.md"
+      "title": "Self-employed service",
+      "uri": "reference/self-employed-service.v1.yaml"
     },
     {
       "type": "divider",
