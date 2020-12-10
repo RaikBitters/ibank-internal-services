@@ -15,6 +15,10 @@
       "uri": "reference/deposit-service.v1.yml"
     },
     {
+      "type": "divider",
+      "title": "Schemas"
+    },
+    {
       "type": "item",
       "title": "Architecture decision",
       "uri": "docs/self-employers-adr.md"
