@@ -21,8 +21,8 @@
     },
     {
       "type": "item",
-      "title": "Дизайн самозанятых",
-      "uri": "docs/Self-employers-service-design.md"
+      "title": "Architecture decision",
+      "uri": "docs/self-employers-adr.md"
     },
     {
       "type": "divider",
