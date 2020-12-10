@@ -1,0 +1,82 @@
+@startuml components-library
+
+frame "Payment management" {
+    component "Payment services" as PaymentServices <<Service>>
+    component "Fast payment" as FastPayment <<Service>>
+    component "Document number" as DocumentNumber <<Service>>
+    component "Cash withdrawal" as CashWithdrawal <<Service>>
+    component "QR" as QR <<Service>>
+    component "Counterparty" as Counterparty <<Service>>
+    component "Limit counter" as LimitCounter <<Service>>
+    component "Mobile operator detects" as MobileOperatorDetects <<Service>>
+    component "Meter" as Meter <<Service>>
+}
+
+frame "Account management" {
+    component "Account" as Account <<Service>>
+}
+
+frame "Deposit management" {
+    component "Deposit" as Deposit <<Service>>
+}
+
+frame "Card management" {
+
+}
+
+frame "Loan management" {
+
+}
+
+frame "Customer management" {
+
+}
+
+frame "User management" {
+
+}
+
+frame "Offering management" {
+
+}
+
+frame "Risk management" {
+
+}
+
+frame "PKI management" {
+
+}
+
+frame "Acquiring management" {
+
+}
+
+frame "Support management" {
+
+}
+
+frame "Generic services" {
+
+}
+
+frame "Tax management" {
+    component "Self-employed service" as SelfEmplService <<Service>>
+}
+
+
+'Technical layer
+
+frame "Clients" {
+
+}
+
+frame "Infrastructure" {
+
+}
+
+frame "Integration" {
+
+}
+
+@enduml
