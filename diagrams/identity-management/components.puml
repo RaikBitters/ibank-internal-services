@@ -1,0 +1,21 @@
+@startuml identity-management-components
+
+component "Auth service" as AuthService <<Identity manager>>
+component "Web site or Mobile app" as Client <<Client>>
+
+interface "GET  /authorize" as authorize
+interface "POST /token" as token
+interface "GET  /userinfo" as userinfo
+interface "GET  /logout" as logout
+
+AuthService --() authorize
+AuthService --() token
+AuthService --() userinfo
+AuthService --() logout
+
+Client -up-( authorize
+Client -up-( token
+Client -up-( userinfo
+Client -up-( logout
+
+@enduml

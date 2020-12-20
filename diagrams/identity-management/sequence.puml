@@ -1,0 +1,80 @@
+'Authorization Code Flow
+@startuml identity-code-flow-sequence
+
+actor "End-User" as EndUser
+participant ClientA as "Client A"
+participant ClientB as "Client B"
+participant "Auth service" as AuthService
+
+EndUser -> ClientA: Browse
+activate ClientA
+
+ClientA -> AuthService: Authorization Code Request to /authorize
+activate AuthService
+
+AuthService -> EndUser: 302 redirect User-agent to authentication prompt
+EndUser -> AuthService: Authentication by login and password
+return AuthZ Code Response
+
+ClientA -> AuthService: Send authZ code + client secret to /token
+activate AuthService
+return Access token and ID token and optional Refresh token
+
+return Response for browse
+
+|||
+
+EndUser -> ClientB: Browse
+activate ClientB
+
+ClientB -> AuthService: Authorization Code Request to /authorize
+activate AuthService
+
+AuthService -> EndUser: 302 redirect User-agent to authentication prompt=none
+EndUser -> AuthService: Authentication by cookies
+return AuthZ Code Response
+
+ClientB -> AuthService: Send authZ code + client secret to /token
+activate AuthService
+return Access token and ID token and optional Refresh token
+
+return Response for browse
+
+@enduml
+
+
+'Implicit Flow
+@startuml identity-implicit-flow-sequence
+
+actor "End-User" as EndUser
+participant ClientA as "Client A"
+participant ClientB as "Client B"
+participant "Auth service" as AuthService
+
+EndUser -> ClientA: Browse
+activate ClientA
+
+ClientA -> AuthService: Authorization Code Request to /authorize
+activate AuthService
+
+AuthService -> EndUser: 302 redirect User-agent to authentication prompt
+EndUser -> AuthService: Authentication by login and password
+return Access token and ID token 
+
+return Response for browse
+
+|||
+
+EndUser -> ClientB: Browse
+activate ClientB
+
+ClientB -> AuthService: Authorization Code Request to /authorize
+activate AuthService
+
+AuthService -> EndUser: 302 redirect User-agent to authentication prompt=none
+EndUser -> AuthService: Authentication by cookies
+return Access token and ID token
+
+return Response for browse
+
+@enduml
