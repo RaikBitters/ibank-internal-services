@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: Anti-fraud API (deprecated)
+  title: Anti-fraud service (deprecated)
   version: '1.0'
   description: ''
 tags:
