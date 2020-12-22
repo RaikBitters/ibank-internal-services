@@ -1,5 +1,5 @@
 ---
-tags: [Architecture decision record]
+tags: [adr]
 ---
 
 # Архитектурное решение сервиса самозанятых
