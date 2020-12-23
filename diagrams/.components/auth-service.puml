@@ -1,0 +1,29 @@
+@startuml
+
+!startsub COMPONENT
+component "Auth service" as AuthService <<Component>>
+!endsub
+
+!startsub CLIENT_API
+interface "GET  /authorize" as authorize
+interface "POST /token" as token
+interface "GET  /userinfo" as userinfo
+interface "GET  /logout" as logout
+
+AuthService --() authorize
+AuthService --() token
+AuthService --() userinfo
+AuthService --() logout
+!endsub
+
+!startsub CUSTOM_API
+interface "GET /checkCert" as getCheckCert
+interface "GET /checkOTP" as getCheckOTP
+interface "GET /checkLogin" as getCheckLogin
+
+AuthService --() getCheckCert
+AuthService --() getCheckOTP
+AuthService --() getCheckLogin
+!endsub 
+
+@enduml

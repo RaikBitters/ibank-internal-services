@@ -1,0 +1,19 @@
+@startuml 1c-directbank-components
+
+!startsub COMPONENT
+component "1C DirectBank" as 1cDirectBank <<API Gateway>>
+!endsub
+
+!startsub PUBLIC_API
+interface "POST /GetSettings" as getSettings
+interface "POST /LogonCert" as logonCert
+interface "POST /LogonOTP" as logonOTP
+interface "POST /Logon" as logon
+
+1cDirectBank --() getSettings
+1cDirectBank --() logonCert
+1cDirectBank --() logonOTP
+1cDirectBank --() logon
+!endsub
+
+@enduml

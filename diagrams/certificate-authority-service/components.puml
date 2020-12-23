@@ -1,8 +1,0 @@
-@startuml certificate-authority-components
-
-component "Certificate Authority service" as CAService <<component>>
-interface "GET /certs" as GetCerts
-
-CAService --() GetCerts
-
-@enduml

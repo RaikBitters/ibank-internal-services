@@ -1,0 +1,8 @@
+@startuml 1c-directbank-components
+
+!includesub ../.components/1c-directbank.puml!COMPONENT
+!include ../.components/auth-service.puml
+!include ../.components/ca-service.puml
+!include ../.components/customer-service.puml
+
+@enduml

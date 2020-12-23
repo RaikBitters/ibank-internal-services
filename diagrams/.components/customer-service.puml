@@ -1,0 +1,13 @@
+@startuml certificate-authority-components
+
+!startsub COMPONENT
+component "Customer service" as CustomerService <<Component>>
+!endsub
+
+!startsub API
+interface "GET /customers" as getCustomers
+
+CustomerService --() getCustomers
+!endsub
+
+@enduml

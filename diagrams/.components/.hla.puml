@@ -21,15 +21,15 @@ frame "Deposit management" {
 }
 
 frame "Card management" {
-
+    [1]
 }
 
 frame "Loan management" {
-
+    [2]
 }
 
 frame "Customer management" {
-
+    [3]
 }
 
 frame "User management" {
@@ -61,7 +61,7 @@ frame "Generic services" {
 }
 
 frame "Tax management" {
-    component "Self-employed service" as SelfEmplService <<Service>>
+
 }
 
 
