@@ -1,8 +1,55 @@
-@startuml 1c-directbank-components
+@startuml 1c-directbank-auth-asis-components
 
+left to right direction
+
+' Import Auth service components
+!includesub ../.components/auth-service.puml!COMPONENT
+!includesub ../.components/auth-service.puml!CUSTOM_API
+
+' Import 1C DirectBank components
 !includesub ../.components/1c-directbank.puml!COMPONENT
-!include ../.components/auth-service.puml
+
+' Import CA service components
 !include ../.components/ca-service.puml
+
+' Import Customer service components
 !include ../.components/customer-service.puml
 
-@enduml
+' Case connectivity
+1CDirect -up-( getCheckOTP
+1CDirect -up-( getCheckLogin
+1CDirect -up-( getCerts
+1CDirect -up-( getCustomers
+
+@endumls
+
+@startuml 1c-directbank-auth-idp-components
+
+left to right direction
+
+' Import Auth service components
+!include ../.components/auth-service.puml
+remove getAuthorize
+remove getUserinfo
+remove getLogout
+remove postRevoke
+remove postIntrospect
+remove getCheckLogin
+
+' Import 1C DirectBank components
+!includesub ../.components/1c-directbank.puml!COMPONENT
+
+' Import CA service components
+!include ../.components/ca-service.puml
+
+' Import Customer service components
+!include ../.components/customer-service.puml
+
+' Case connectivity
+1CDirect -up-( getCheckOTP
+1CDirect -up-( getCerts
+1CDirect -up-( getCustomers
+1CDirect -up-( postToken
+1CDirect -up-( getKeys
+
+@endumls

@@ -1,29 +1,71 @@
-@startuml
+@startuml auth-service-components
 
 !startsub COMPONENT
-component "Auth service" as AuthService <<Component>>
+
+    component "Auth service" as AuthService <<service>>
+
 !endsub
 
-!startsub CLIENT_API
-interface "GET  /authorize" as authorize
-interface "POST /token" as token
-interface "GET  /userinfo" as userinfo
-interface "GET  /logout" as logout
+' OAuth 2.0 & OpenID connect API
+!startsub IDP_API
 
-AuthService --() authorize
-AuthService --() token
-AuthService --() userinfo
-AuthService --() logout
+    interface "GET  /authorize" as getAuthorize 
+    AuthService --() getAuthorize
+
+    interface "POST /token" as postToken
+    AuthService --() postToken
+
+    interface "POST /introspect" as postIntrospect
+    AuthService --() postIntrospect
+
+    interface "GET  /userinfo" as getUserinfo
+    AuthService --() getUserinfo
+
+    interface "GET  /logout" as getLogout
+    AuthService --() getLogout
+
+    interface "GET /keys" as getKeys
+    AuthService --() getKeys
+
+    interface "POST /revoke" as postRevoke
+    AuthService --() postRevoke
+
 !endsub
 
+' Internal use API
 !startsub CUSTOM_API
-interface "GET /checkCert" as getCheckCert
-interface "GET /checkOTP" as getCheckOTP
-interface "GET /checkLogin" as getCheckLogin
 
-AuthService --() getCheckCert
-AuthService --() getCheckOTP
-AuthService --() getCheckLogin
-!endsub 
+    interface "GET /checkOTP" as getCheckOTP
+    AuthService --() getCheckOTP
+
+    interface "GET /checkLogin" as getCheckLogin
+    AuthService --() getCheckLogin
+
+!endsub
+
+@enduml
+
+@startuml auth-service-modules
+
+skinparam linetype polyline
+
+!include auth-service.puml
+remove AuthService
+
+rectangle "Auth service" {
+    component "Identity provider" as IDP <<component>>
+    component "Custom authorization" as CustomAuth <<component>>
+}
+
+IDP --() getAuthorize
+IDP --() postToken
+IDP --() getUserinfo
+IDP --() getLogout
+IDP --() getKeys
+IDP --() postRevoke
+IDP --() postIntrospect
+
+CustomAuth --() getCheckOTP
+CustomAuth --() getCheckLogin
 
 @enduml

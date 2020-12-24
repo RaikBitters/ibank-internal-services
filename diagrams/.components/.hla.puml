@@ -1,23 +1,25 @@
 @startuml components-library
 
+left to right direction
+
 frame "Payment management" {
-    component "Payment services" as PaymentServices <<Service>>
-    component "Fast payment" as FastPayment <<Service>>
-    component "Document number" as DocumentNumber <<Service>>
-    component "Cash withdrawal" as CashWithdrawal <<Service>>
-    component "QR" as QR <<Service>>
-    component "Counterparty" as Counterparty <<Service>>
-    component "Limit counter" as LimitCounter <<Service>>
-    component "Mobile operator detects" as MobileOperatorDetects <<Service>>
-    component "Meter" as Meter <<Service>>
+    component "Payment services" as Payment <<service>>
+    component "Fast payment services" as FastPayment <<service>>
+    component "Document number services" as DocumentNumber <<Component>>
+    component "Cash withdrawal services" as CashWithdrawal <<Component>>
+    component "QR services" as QR <<Component>>
+    component "Counterparty services" as Counterparty <<Component>>
+    component "Limit counter services" as LimitCounter <<Component>>
+    component "Mobile operator detects services" as MobileOperatorDetects <<Component>>
+    component "Meter services" as Meter <<Component>>
 }
 
 frame "Account management" {
-    component "Account" as Account <<Service>>
+    component "Account services" as Account <<Component>>
 }
 
 frame "Deposit management" {
-    component "Deposit" as Deposit <<Service>>
+    component "Deposit services" as Deposit <<Component>>
 }
 
 frame "Card management" {
