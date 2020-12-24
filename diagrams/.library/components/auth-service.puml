@@ -1,4 +1,4 @@
-@startuml auth-service-components
+@startuml auth-service
 
 !startsub COMPONENT
 

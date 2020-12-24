@@ -3,17 +3,17 @@
 left to right direction
 
 ' Import Auth service components
-!includesub ../.components/auth-service.puml!COMPONENT
-!includesub ../.components/auth-service.puml!CUSTOM_API
+!includesub ../.library/components/auth-service.puml!COMPONENT
+!includesub ../.library/components/auth-service.puml!CUSTOM_API
 
 ' Import 1C DirectBank components
-!includesub ../.components/1c-directbank.puml!COMPONENT
+!includesub ../.library/components/1c-directbank.puml!COMPONENT
 
-' Import CA service components
-!include ../.components/ca-service.puml
+' Import CA service componesnts
+!include ../.library/components/ca-service.puml
 
 ' Import Customer service components
-!include ../.components/customer-service.puml
+!include ../.library/components/customer-service.puml
 
 ' Case connectivity
 1CDirect -up-( getCheckOTP
@@ -23,12 +23,14 @@ left to right direction
 
 @endumls
 
+
+
 @startuml 1c-directbank-auth-idp-components
 
 left to right direction
 
 ' Import Auth service components
-!include ../.components/auth-service.puml
+!include ../.library/components/auth-service.puml
 remove getAuthorize
 remove getUserinfo
 remove getLogout
@@ -37,13 +39,13 @@ remove postIntrospect
 remove getCheckLogin
 
 ' Import 1C DirectBank components
-!includesub ../.components/1c-directbank.puml!COMPONENT
+!includesub ../.library/components/1c-directbank.puml!COMPONENT
 
 ' Import CA service components
-!include ../.components/ca-service.puml
+!include ../.library/components/ca-service.puml
 
 ' Import Customer service components
-!include ../.components/customer-service.puml
+!include ../.library/components/customer-service.puml
 
 ' Case connectivity
 1CDirect -up-( getCheckOTP
