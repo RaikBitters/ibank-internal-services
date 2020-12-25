@@ -1,4 +1,4 @@
-@startuml (id=auth-service-component)
+@startuml (id=component)
 
     component "Auth service" as AuthService <<service>>
 
@@ -6,7 +6,7 @@
 
 
 
-@startuml (id=auth-service-interfaces)
+@startuml (id=interfaces)
 
 skinparam linetype polyline
 
@@ -81,7 +81,7 @@ skinparam linetype polyline
 
 
 
-@startuml (id=auth-service-identity-provider)
+@startuml (id=idp)
 
 skinparam linetype polyline
 
@@ -97,7 +97,7 @@ skinparam linetype polyline
 
 
 
-@startuml (id=auth-service-custom)
+@startuml (id=custom)
 
 skinparam linetype polyline
 

@@ -1,10 +1,10 @@
-@startuml (id=1c-directbank-component)
+@startuml (id=component)
 
 component "1C DirectBank API Gateway" as 1CDirect <<service>>
 
 @enduml
 
-@startuml (id=1c-directbank-interfaces)
+@startuml (id=interfaces)
 
 !include 1c-directbank.puml
 

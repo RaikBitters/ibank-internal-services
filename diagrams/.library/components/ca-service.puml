@@ -1,11 +1,11 @@
-@startuml (id=ca-service-component)
+@startuml (id=component)
 
     component "Certificate Authority service" as CAService <<Component>>
 
 
 @enduml
 
-@startuml (id=ca-service-interfaces)
+@startuml (id=interfaces)
 
 !include ca-service.puml
 

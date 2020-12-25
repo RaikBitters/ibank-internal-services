@@ -1,7 +1,7 @@
 @startuml identity-management-components
 
-!includesub ../.components/auth-service.puml!COMPONENT
-!includesub ../.components/auth-service.puml!CLIENT_API
+!include ../.components/auth-service.puml
+!include ../.components/auth-service.puml
 
 component "Web site or Mobile app" as Client <<Client>>
 

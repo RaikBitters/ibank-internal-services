@@ -3,7 +3,7 @@
 left to right direction
 
 ' Import 1C DirectBank components
-!include ../.library/components/1c-directbank.puml
+!include ../.library/components/1c-directbank.puml!interfaces
 
 ' Import Auth service components
 !include ../.library/components/auth-service.puml
