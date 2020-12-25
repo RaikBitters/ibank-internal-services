@@ -40,7 +40,6 @@ left to right direction
 !include ../.library/components/auth-service.puml
 !includesub ../.library/components/auth-service.puml!postToken
 !includesub ../.library/components/auth-service.puml!postMfaChallenge
-!includesub ../.library/components/auth-service.puml!getKeys
 
 ' Import CA service components
 !include ../.library/components/ca-service.puml
@@ -57,6 +56,5 @@ AuthService -up-( getCerts
 1CDirect -up-( getCustomers
 1CDirect -up-( postToken
 1CDirect -up-( postMfaChallenge
-1CDirect -up-( getKeys
 
 @endumls

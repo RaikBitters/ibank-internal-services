@@ -48,13 +48,6 @@ skinparam linetype polyline
 
 !endsub
 
-!startsub getKeys
-
-    interface "GET /keys" as getKeys
-    AuthService --() getKeys
-
-!endsub
-
 !startsub postRevoke
 
     interface "POST /revoke" as postRevoke
@@ -97,7 +90,6 @@ skinparam linetype polyline
 !includesub auth-service.puml!postToken
 !includesub auth-service.puml!postIntrospect
 !includesub auth-service.puml!getUserinfo
-!includesub auth-service.puml!getKeys
 !includesub auth-service.puml!postRevoke
 !includesub auth-service.puml!postMfaChallenge
 
