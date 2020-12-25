@@ -1,42 +1,83 @@
-@startuml auth-service
-
-!startsub COMPONENT
+@startuml (id=auth-service-component)
 
     component "Auth service" as AuthService <<service>>
 
-!endsub
+@enduml
+
+
+
+@startuml (id=auth-service-interfaces)
+
+skinparam linetype polyline
+
+!include auth-service.puml
 
 ' OAuth 2.0 & OpenID connect API
-!startsub IDP_API
+!startsub getAuthorize
 
     interface "GET  /authorize" as getAuthorize 
     AuthService --() getAuthorize
 
+!endsub
+
+!startsub postToken
+
     interface "POST /token" as postToken
     AuthService --() postToken
+
+!endsub
+
+!startsub postIntrospect
 
     interface "POST /introspect" as postIntrospect
     AuthService --() postIntrospect
 
+!endsub
+
+!startsub getUserinfo
+
     interface "GET  /userinfo" as getUserinfo
     AuthService --() getUserinfo
+
+!endsub
+
+!startsub getLogout
 
     interface "GET  /logout" as getLogout
     AuthService --() getLogout
 
+!endsub
+
+!startsub getKeys
+
     interface "GET /keys" as getKeys
     AuthService --() getKeys
+
+!endsub
+
+!startsub postRevoke
 
     interface "POST /revoke" as postRevoke
     AuthService --() postRevoke
 
 !endsub
 
+!startsub postMfaChallenge
+
+    interface "POST /mfa/challenge" as postMfaChallenge
+    AuthService --() postMfaChallenge
+
+!endsub
+
 ' Internal use API
-!startsub CUSTOM_API
+!startsub getCheckOTP
 
     interface "GET /checkOTP" as getCheckOTP
     AuthService --() getCheckOTP
+
+!endsub
+
+!startsub getCheckLogin
 
     interface "GET /checkLogin" as getCheckLogin
     AuthService --() getCheckLogin
@@ -45,27 +86,31 @@
 
 @enduml
 
-@startuml auth-service-modules
+
+
+@startuml (id=auth-service-identity-provider)
 
 skinparam linetype polyline
 
 !include auth-service.puml
-remove AuthService
+!includesub auth-service.puml!getAuthorize
+!includesub auth-service.puml!postToken
+!includesub auth-service.puml!postIntrospect
+!includesub auth-service.puml!getUserinfo
+!includesub auth-service.puml!getKeys
+!includesub auth-service.puml!postRevoke
+!includesub auth-service.puml!postMfaChallenge
 
-rectangle "Auth service" {
-    component "Identity provider" as IDP <<component>>
-    component "Custom authorization" as CustomAuth <<component>>
-}
+@enduml
 
-IDP --() getAuthorize
-IDP --() postToken
-IDP --() getUserinfo
-IDP --() getLogout
-IDP --() getKeys
-IDP --() postRevoke
-IDP --() postIntrospect
 
-CustomAuth --() getCheckOTP
-CustomAuth --() getCheckLogin
+
+@startuml (id=auth-service-custom)
+
+skinparam linetype polyline
+
+!include auth-service.puml
+!includesub auth-service.puml!getCheckOTP
+!includesub auth-service.puml!getCheckLogin
 
 @enduml

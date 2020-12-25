@@ -1,7 +1,0 @@
-@startuml
-
-actor "1C:Предприятие 8" as 1CERP
-
-participant 
-
-@enduml

@@ -1,19 +1,22 @@
-@startuml 1c-directbank-auth-asis-components
+@startuml 1c-directbank-actual-auth-components
 
 left to right direction
 
-' Import Auth service components
-!includesub ../.library/components/auth-service.puml!COMPONENT
-!includesub ../.library/components/auth-service.puml!CUSTOM_API
-
 ' Import 1C DirectBank components
-!includesub ../.library/components/1c-directbank.puml!COMPONENT
+!include ../.library/components/1c-directbank.puml
 
-' Import CA service componesnts
+' Import Auth service components
+!include ../.library/components/auth-service.puml
+!includesub ../.library/components/auth-service.puml!getCheckOTP
+!includesub ../.library/components/auth-service.puml!getCheckLogin
+
+' Import CA service components
 !include ../.library/components/ca-service.puml
+!includesub ../.library/components/ca-service.puml!getCerts
 
 ' Import Customer service components
 !include ../.library/components/customer-service.puml
+!includesub ../.library/components/customer-service.puml!getCustomers
 
 ' Case connectivity
 1CDirect -up-( getCheckOTP
@@ -25,33 +28,35 @@ left to right direction
 
 
 
-@startuml 1c-directbank-auth-idp-components
+@startuml 1c-directbank-propose-auth-components
 
 left to right direction
 
-' Import Auth service components
-!include ../.library/components/auth-service.puml
-remove getAuthorize
-remove getUserinfo
-remove getLogout
-remove postRevoke
-remove postIntrospect
-remove getCheckLogin
 
 ' Import 1C DirectBank components
-!includesub ../.library/components/1c-directbank.puml!COMPONENT
+!include ../.library/components/1c-directbank.puml
+
+' Import Auth service components
+!include ../.library/components/auth-service.puml
+!includesub ../.library/components/auth-service.puml!postToken
+!includesub ../.library/components/auth-service.puml!postMfaChallenge
+!includesub ../.library/components/auth-service.puml!getKeys
 
 ' Import CA service components
 !include ../.library/components/ca-service.puml
+!includesub ../.library/components/ca-service.puml!getCerts
 
 ' Import Customer service components
 !include ../.library/components/customer-service.puml
+!includesub ../.library/components/customer-service.puml!getCustomers
+
 
 ' Case connectivity
-1CDirect -up-( getCheckOTP
-1CDirect -up-( getCerts
+AuthService -up-( getCerts
+
 1CDirect -up-( getCustomers
 1CDirect -up-( postToken
+1CDirect -up-( postMfaChallenge
 1CDirect -up-( getKeys
 
 @endumls

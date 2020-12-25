@@ -1,12 +1,15 @@
-@startuml certificate-authority-components
-
-!startsub COMPONENT
+@startuml (id=ca-service-component)
 
     component "Certificate Authority service" as CAService <<Component>>
 
-!endsub
 
-!startsub API
+@enduml
+
+@startuml (id=ca-service-interfaces)
+
+!include ca-service.puml
+
+!startsub getCerts
 
     interface "GET /certs" as getCerts
     CAService --() getCerts

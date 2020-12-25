@@ -1,0 +1,75 @@
+@startuml 1c-directbank-propose-sync-sequence
+
+actor "1C:Предприятие 8" as 1CERP
+participant "1C DirectBank" as 1CDirect <<API Gateway>>
+participant "Auth service" as AutheService
+participant "CA service" as CAService
+participant "Customer service" as CustomerService
+
+1CERP -> 1CDirect: POST /Logon
+activate 1CDirect
+
+1CDirect -> AutheService: GET /checkLogin
+activate AutheService
+return Auth success info
+
+1CDirect -> 1CDirect: Generate {sessionId}
+return {sessionId} and {maskedPhoneNumber}
+
+|||
+
+1CERP -> 1CDirect: POST /LogonOTP
+activate 1CDirect
+
+1CDirect -> AutheService: GET /checkOTP
+activate AutheService
+
+return OTP success info
+
+1CDirect -> 1CDirect: Update {sessionId}
+
+return {authSessionId}
+
+|||
+
+1CERP -> 1CDirect: POST /GetSettings (SID={authSessionId})
+activate 1CDirect
+
+1CDirect -> CustomerService: GET /customer?vatin={vatin}
+activate CustomerService
+
+return {customerRef}
+
+1CDirect -> CAService: GET /certs
+activate CAService
+
+return Cert info
+
+return Setting parameters 
+
+newpage
+
+1CERP -> 1CDirect: POST /LogonCert
+activate 1CDirect
+
+1CDirect -> CAService: GET /certs?serial={serial}
+activate CAService
+
+return Certificate {status} with {public_key}
+
+1CDirect -> 1CDirect: Generate {authSessionId}
+
+1CDirect -> 1CDirect: Encrypt {authSessionId} to {EncryptedSID}
+
+return {EncryptedSID}
+
+|||
+
+1CERP -> 1CDirect: Request with SID={authSessionId}
+activate 1CDirect
+
+1CDirect -> 1CDirect: Authorize request by saved {authSessionId}
+
+return: Response
+
+@enduml
