@@ -9,9 +9,9 @@ participant "Customer service" as CustomerService
 1CERP -> 1CDirect: POST /Logon
 activate 1CDirect
 
-1CDirect -> AutheService: GET /checkLogin
+1CDirect -> AutheService: GET /token?grant_type=password
 activate AutheService
-return Auth success info
+return 403 Forbidden {"error": "mfa_required", "mfa_token": "..."}
 
 1CDirect -> 1CDirect: Generate {sessionId}
 return {sessionId} and {maskedPhoneNumber}
@@ -21,10 +21,11 @@ return {sessionId} and {maskedPhoneNumber}
 1CERP -> 1CDirect: POST /LogonOTP
 activate 1CDirect
 
-1CDirect -> AutheService: GET /checkOTP
+1CDirect -> AutheService: GET /token?otp={otp}
 activate AutheService
 
-return OTP success info
+return 
+
 
 1CDirect -> 1CDirect: Update {sessionId}
 
@@ -47,7 +48,17 @@ return Cert info
 
 return Setting parameters 
 
-newpage
+@enduml
+
+
+
+@startuml 1c-directbank-propose-auth-sequence
+
+actor "1C:Предприятие 8" as 1CERP
+participant "1C DirectBank" as 1CDirect <<API Gateway>>
+participant "Auth service" as AutheService
+participant "CA service" as CAService
+participant "Customer service" as CustomerService
 
 1CERP -> 1CDirect: POST /LogonCert
 activate 1CDirect
