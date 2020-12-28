@@ -32,12 +32,13 @@ left to right direction
 
 left to right direction
 
-
 ' Import 1C DirectBank components
 !include ../.library/components/1c-directbank.puml!interfaces
 
 ' Import Auth service components
 !include ../.library/components/auth-service.puml
+!includesub ../.library/components/auth-service.puml!getCheckOTP
+!includesub ../.library/components/auth-service.puml!getCheckLogin
 !includesub ../.library/components/auth-service.puml!postToken
 !includesub ../.library/components/auth-service.puml!postMfaChallenge
 
@@ -49,12 +50,13 @@ left to right direction
 !include ../.library/components/customer-service.puml
 !includesub ../.library/components/customer-service.puml!getCustomers
 
-
 ' Case connectivity
 AuthService -up-( getCerts
 
 1CDirect -up-( getCustomers
+1CDirect -up-( getCheckLogin
+1CDirect -up-( getCheckOTP
 1CDirect -up-( postToken
-1CDirect -up-( postMfaChallenge
+1CDirect ~up~( postMfaChallenge
 
 @endumls

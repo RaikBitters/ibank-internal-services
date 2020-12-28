@@ -1,4 +1,4 @@
-@startuml 1c-directbank-proposal-sync-sequence
+@startuml 1c-directbank-proposal-auth&sync-sequence
 
 actor "1C:Предприятие 8" as 1CERP
 participant "1C DirectBank" as 1CDirect <<API Gateway>>
@@ -6,7 +6,7 @@ participant "Auth service" as AutheService <<Component>>
 participant "CA service" as CAService <<Component>>
 participant "Customer service" as CustomerService <<Component>>
 
-title Settings synchronization (propose sync)
+title Password authentication and settings synchronization (propose sync)
 
 1CERP -> 1CDirect: POST /Logon
 activate 1CDirect

@@ -1,4 +1,4 @@
-@startuml 1c-directbank-actual-sync-sequence
+@startuml 1c-directbank-actual-auth&sync-sequence
 
 actor "1C:Предприятие 8" as 1CERP
 participant "1C DirectBank" as 1CDirect <<API Gateway>>
@@ -6,7 +6,7 @@ participant "Auth service" as AutheService
 participant "CA service" as CAService
 participant "Customer service" as CustomerService
 
-title Settings synchronization (actual)
+title Password authentication and settings synchronization (actual)
 
 1CERP -> 1CDirect: POST /Logon
 activate 1CDirect
@@ -51,7 +51,9 @@ return Setting parameters
 
 @enduml
 
-@startuml 1c-directbank-actual-cert-auth-sequence
+
+
+@startuml 1c-directbank-actual-cryptopro-cert-auth-sequence
 
 actor "1C:Предприятие 8" as 1CERP
 participant "1C DirectBank" as 1CDirect <<API Gateway>>
