@@ -28,7 +28,7 @@ left to right direction
 
 
 
-@startuml 1c-directbank-propose-auth-components
+@startuml 1c-directbank-proposal-auth-components
 
 left to right direction
 
