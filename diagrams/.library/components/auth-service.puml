@@ -55,13 +55,6 @@ skinparam linetype polyline
 
 !endsub
 
-!startsub postMfaChallenge
-
-    interface "POST /mfa/challenge" as postMfaChallenge
-    AuthService --() postMfaChallenge
-
-!endsub
-
 ' Internal use API
 !startsub getCheckOTP
 
