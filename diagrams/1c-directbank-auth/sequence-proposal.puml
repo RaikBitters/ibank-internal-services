@@ -13,9 +13,9 @@ activate 1CDirect
 
 1CDirect -> AutheService: GET /checkLogin
 activate AutheService
-return Auth success info
 
-1CDirect -> 1CDirect: Generate {sessionId}
+return Auth success info with {sessionId} and {maskedPhoneNumber}
+
 return {sessionId} and {maskedPhoneNumber}
 
 |||
