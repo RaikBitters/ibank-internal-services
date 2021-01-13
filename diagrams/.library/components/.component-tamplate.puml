@@ -1,0 +1,50 @@
+@startuml (id=component)
+
+component "Component name" as ComponentVariable <<component>>
+
+@enduml
+
+
+
+@startuml (id=interfaces)
+
+!include .component-tamplate.puml
+
+!startsub getCollection
+
+    interface "GET /collection" as getCollection
+    ComponentVariable --() getCollection
+
+!endsub
+
+!startsub postCollection
+
+    interface "POST /collection" as postCollection
+    ComponentVariable --() postCollection
+
+!endsub
+
+@enduml
+
+
+
+@startuml (id=required-interfaces)
+
+!include .component-tamplate.puml
+
+'!includesub <./path/to/other-component.puml>!<requiredInterface>
+
+!startsub requiredInterfaceVariable
+    
+    ComponentVariable -up-( requiredInterfaceVariable
+
+!endsub
+
+!startsub requiredInterfaceLocal
+    
+    interface "GET /external-collection" as requiredInterfaceLocal
+    ComponentVariable -up-( requiredInterfaceLocal
+
+!endsub
+
+@enduml

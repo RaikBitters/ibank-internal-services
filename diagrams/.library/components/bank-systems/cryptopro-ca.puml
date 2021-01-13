@@ -1,0 +1,5 @@
+@startuml (id=component)
+
+component "1C DirectBank API Gateway" as 1CDirect <<service>>
+
+@enduml

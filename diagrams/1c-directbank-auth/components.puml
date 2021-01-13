@@ -38,7 +38,11 @@
 left to right direction
 
 ' Import 1C DirectBank components
-!include ../.library/components/internet-bank/1c-directbank-gateway.puml!interfaces
+!include ../.library/components/internet-bank/1c-directbank-gateway.puml
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logon
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logonOTP
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logonCert
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!getSettings
 
 ' Import Auth service components
 !include ../.library/components/internet-bank/auth-service.puml
@@ -49,6 +53,7 @@ left to right direction
 ' Import CA service components
 !include ../.library/components/internet-bank/ca-service.puml
 !includesub ../.library/components/internet-bank/ca-service.puml!getCerts
+!includesub ../.library/components/internet-bank/ca-service.puml!getCertificateRecordList
 
 ' Import Customer service components
 !include ../.library/components/internet-bank/customer-service.puml
