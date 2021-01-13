@@ -23,6 +23,10 @@
 !include ../.library/components/internet-bank/customer-service.puml
 !includesub ../.library/components/internet-bank/customer-service.puml!getCustomers
 
+' Import CryptoPro Certificate Authority components
+!include ../.library/components/bank-systems/cryptopro-ca.puml
+!includesub ../.library/components/bank-systems/cryptopro-ca.puml!getCertificateRecordList
+
 ' Case connectivity
 1CDirect -up-( getCheckOTP
 1CDirect -up-( getCheckLogin
@@ -58,6 +62,10 @@ left to right direction
 ' Import Customer service components
 !include ../.library/components/internet-bank/customer-service.puml
 !includesub ../.library/components/internet-bank/customer-service.puml!getCustomers
+
+' Import CryptoPro Certificate Authority components
+!include ../.library/components/bank-systems/cryptopro-ca.puml
+!includesub ../.library/components/bank-systems/cryptopro-ca.puml!getCertificateRecordList
 
 ' Case connectivity
 AuthService -up-( getCerts

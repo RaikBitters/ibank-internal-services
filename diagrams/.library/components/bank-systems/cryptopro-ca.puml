@@ -1,5 +1,20 @@
 @startuml (id=component)
 
-component "1C DirectBank API Gateway" as 1CDirect <<service>>
+component "CryptoPro Certificate Authority" as CryptoProCA <<Bank system>> #IndianRed
+
+@enduml
+
+
+
+@startuml (id=provide-interfaces)
+
+!include ./cryptopro-ca.puml
+
+!startsub getCertificateRecordList
+    
+    interface "POST /GetCertificateRecordList" as getCertificateRecordList
+    CryptoProCA --() getCertificateRecordList
+
+!endsub
 
 @enduml
