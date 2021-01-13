@@ -1,13 +1,12 @@
 @startuml identity-management-components
 
-!include ../.components/auth-service.puml
-!include ../.components/auth-service.puml
+!include ../.library/components/internet-bank/auth-service.puml!interfaces
 
 component "Web site or Mobile app" as Client <<Client>>
 
-Client -up-( authorize
-Client -up-( token
-Client -up-( userinfo
-Client -up-( logout
+Client -up-( getAuthorize
+Client -up-( postToken
+Client -up-( getUserinfo
+Client -up-( getLogout
 
 @enduml

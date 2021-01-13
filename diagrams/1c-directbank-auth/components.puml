@@ -1,22 +1,27 @@
 @startuml 1c-directbank-actual-auth-components
 
-left to right direction
+'left to right direction
 
 ' Import 1C DirectBank components
-!include ../.library/components/1c-directbank.puml!interfaces
+!include ../.library/components/internet-bank/1c-directbank-gateway.puml
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logon
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logonOTP
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logonCert
+!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!getSettings
 
 ' Import Auth service components
-!include ../.library/components/auth-service.puml
-!includesub ../.library/components/auth-service.puml!getCheckOTP
-!includesub ../.library/components/auth-service.puml!getCheckLogin
+!include ../.library/components/internet-bank/auth-service.puml
+!includesub ../.library/components/internet-bank/auth-service.puml!getCheckOTP
+!includesub ../.library/components/internet-bank/auth-service.puml!getCheckLogin
 
 ' Import CA service components
-!include ../.library/components/ca-service.puml
-!includesub ../.library/components/ca-service.puml!getCerts
+!include ../.library/components/internet-bank/ca-service.puml
+!includesub ../.library/components/internet-bank/ca-service.puml!getCerts
+!includesub ../.library/components/internet-bank/ca-service.puml!getCertificateRecordList
 
 ' Import Customer service components
-!include ../.library/components/customer-service.puml
-!includesub ../.library/components/customer-service.puml!getCustomers
+!include ../.library/components/internet-bank/customer-service.puml
+!includesub ../.library/components/internet-bank/customer-service.puml!getCustomers
 
 ' Case connectivity
 1CDirect -up-( getCheckOTP
@@ -33,21 +38,21 @@ left to right direction
 left to right direction
 
 ' Import 1C DirectBank components
-!include ../.library/components/1c-directbank.puml!interfaces
+!include ../.library/components/internet-bank/1c-directbank-gateway.puml!interfaces
 
 ' Import Auth service components
-!include ../.library/components/auth-service.puml
-!includesub ../.library/components/auth-service.puml!getCheckOTP
-!includesub ../.library/components/auth-service.puml!getCheckLogin
-!includesub ../.library/components/auth-service.puml!postToken
+!include ../.library/components/internet-bank/auth-service.puml
+!includesub ../.library/components/internet-bank/auth-service.puml!getCheckOTP
+!includesub ../.library/components/internet-bank/auth-service.puml!getCheckLogin
+!includesub ../.library/components/internet-bank/auth-service.puml!postToken
 
 ' Import CA service components
-!include ../.library/components/ca-service.puml
-!includesub ../.library/components/ca-service.puml!getCerts
+!include ../.library/components/internet-bank/ca-service.puml
+!includesub ../.library/components/internet-bank/ca-service.puml!getCerts
 
 ' Import Customer service components
-!include ../.library/components/customer-service.puml
-!includesub ../.library/components/customer-service.puml!getCustomers
+!include ../.library/components/internet-bank/customer-service.puml
+!includesub ../.library/components/internet-bank/customer-service.puml!getCustomers
 
 ' Case connectivity
 AuthService -up-( getCerts
