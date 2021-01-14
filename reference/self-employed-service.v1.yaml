@@ -93,6 +93,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfEmployerInfo'
       description: |-
         Обновление информации о самозанятом на выбор: 
         * Обновление статуса для привязки или отвязки.
