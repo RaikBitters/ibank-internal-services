@@ -187,7 +187,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ../models/Collection.v1.yaml
+                  - $ref: ./models/Collection.v1.yaml
                   - type: object
                     properties:
                       items:
@@ -571,6 +571,8 @@ components:
       title: Dictionary
       uniqueItems: true
       minItems: 1
+      x-tags:
+        - Models
       items:
         type: object
         properties:
@@ -578,8 +580,8 @@ components:
             type: string
           description:
             type: string
-      x-tags:
-        - Models
+          parent_code:
+            type: string
     Income:
       title: Income
       type: object
