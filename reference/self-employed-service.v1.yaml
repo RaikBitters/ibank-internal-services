@@ -408,6 +408,8 @@ components:
       type: object
       description: Первичной проверка на возможность регистрации.
       x-examples: {}
+      x-tags:
+        - Models
       properties:
         result:
           type: string
@@ -418,11 +420,9 @@ components:
             Результат запроса: 
             ALLOW – можно ставить на учет, 
             DENY – нельзя ставить на учет.
-        deny_code:
+        rejection_code:
           type: string
           description: Получаем если результат = DENY.
-      x-tags:
-        - Models
     SelfEmployerRegistration:
       title: Self-employer registration
       description: Информация для постановки на учёт.
