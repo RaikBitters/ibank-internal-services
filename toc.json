@@ -12,7 +12,7 @@
     {
       "type": "item",
       "title": "Architecture decision",
-      "uri": "docs/self-employed-adr.md"
+      "uri": "docs/adr/self-employed-adr.md"
     },
     {
       "type": "divider",
