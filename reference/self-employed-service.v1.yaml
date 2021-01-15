@@ -87,9 +87,26 @@ paths:
           description: Код причины снятия с учёта
       tags:
         - Self-employers
-    patch:
-      summary: Update self-employer info
-      operationId: patch-self-employers-id
+    put:
+      summary: ''
+      operationId: put-self-employers-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfEmployerInfo'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelfEmployer'
+      description: Обновление информации о видах деятельности самозанятого.
+  /self-employers:
+    post:
+      summary: Create self-employer
+      operationId: post-self-employers
       responses:
         '200':
           description: OK
@@ -98,35 +115,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/SelfEmployerInfo'
       description: |-
-        Обновление информации о самозанятом на выбор: 
-        * Обновление статуса для привязки или отвязки.
-        * Обновление видов деятельности.
-        Возможно изменение статуса через промежуточный статус PENDING.
+        Добавление ресурса возможно в виде двух операций:
+        * Добавление через регистрацию самозанятого в ФНС.
+        * Добавление через привязку к платформе банке при условии что самозанятый есть в ФНС. В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE.
+
+        Статусы пользователя:
+        * В случаи добавления статус самозанятого переходит в ACTIVE.
+        * Изменение статуса происходит через промежуточный статус PENDING.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SelfEmployer'
-        description: |-
-          Привязка или отвязка пользователя через status:
-          * При смене статуса с UNACTIVE на ACTIVE происходит привязка.
-          * При смене статуса с ACTIVE на UNACTIVE происходит отвязка.
-      tags:
-        - Self-employers
-  /self-employers:
-    post:
-      summary: Create self-employer
-      operationId: post-self-employers
-      responses:
-        '200':
-          description: OK
-      description: Регистрация самозанятого.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SelfEmployerRegistration'
-        description: Данные для регистрация пользователя.
+              oneOf:
+                - $ref: '#/components/schemas/SelfEmployerRegistration'
+                - $ref: '#/components/schemas/SelfEmployer'
+        description: Данные для регистрация или привязки пользователя.
       tags:
         - Self-employers
     get:
@@ -475,17 +478,13 @@ components:
       title: Self-employer
       type: object
       description: Основная информация о самозанятом.
+      x-tags:
+        - Models
       properties:
         id:
           type: integer
           description: ИНН
           format: int64
-        status:
-          type: string
-          enum:
-            - ACTIVE
-            - UNACTIVE
-            - PENDING
         user_id:
           type: integer
           format: int64
@@ -497,19 +496,19 @@ components:
         region_code:
           type: string
           description: Код региона деятельности (ОКАТО)
-      required:
-        - id
-        - status
-        - user_id
-      x-tags:
-        - Models
     SelfEmployerInfo:
-      title: Self-employer Info
-      description: Детальная информация о самозанятом.
+      title: Self-employer status
+      description: Детальная информация о статусе самозанятого.
       allOf:
         - $ref: '#/components/schemas/SelfEmployer'
         - type: object
           properties:
+            status:
+              type: string
+              enum:
+                - ACTIVE
+                - UNACTIVE
+                - PENDING
             timestamp_create:
               type: string
               format: date-time
