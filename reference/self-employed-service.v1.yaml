@@ -76,15 +76,21 @@ paths:
         '200':
           description: OK
       description: |-
-        Снятие пользователя с учёта в ФНС с указанием причины снятия.
+        Отвязка от банка или снятие с учёта в ФНС.
         Пользователь числится в системе как UNACTIVE.
+
+        Если unregistartion = true, обязательно указывается код в reasons.
       parameters:
         - schema:
             type: string
           in: query
           name: reasons
-          required: true
           description: Код причины снятия с учёта
+        - schema:
+            type: boolean
+          in: query
+          description: Признак снятие пользователя с учёта в ФНС
+          name: unregistartion
       tags:
         - Self-employers
     put:
@@ -96,7 +102,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelfEmployerInfo'
+                $ref: '#/components/schemas/SelfEmployerStatus'
       requestBody:
         content:
           application/json:
@@ -679,3 +685,4 @@ components:
       description: ''
       x-examples: {}
   securitySchemes: {}
+  responses: {}
