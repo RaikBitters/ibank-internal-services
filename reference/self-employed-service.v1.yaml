@@ -108,7 +108,7 @@ paths:
             schema:
               $ref: '#/components/schemas/SelfEmployer'
         description: |-
-          Привязка или отвязка пользователя через полу status:
+          Привязка или отвязка пользователя через status:
           * При смене статуса с UNACTIVE на ACTIVE происходит привязка.
           * При смене статуса с ACTIVE на UNACTIVE происходит отвязка.
       tags:
