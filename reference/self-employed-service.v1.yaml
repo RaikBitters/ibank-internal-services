@@ -82,15 +82,16 @@ paths:
         Если unregistartion = true, обязательно указывается код в reasons.
       parameters:
         - schema:
+            type: boolean
+            default: 'false'
+          in: query
+          description: Признак необходимости снятия пользователя с учёта в ФНС
+          name: unregistartion
+        - schema:
             type: string
           in: query
           name: reasons
           description: Код причины снятия с учёта
-        - schema:
-            type: boolean
-          in: query
-          description: Признак снятие пользователя с учёта в ФНС
-          name: unregistartion
       tags:
         - Self-employers
     put:
