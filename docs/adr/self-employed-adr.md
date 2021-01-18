@@ -34,19 +34,19 @@ tags: [adr]
 ## Компонентная модель решения
 
 ### Операции с налогоплательщиком
-![self-employer-components.png](../assets/images/diagrams/self-employed-service/self-employer-components.png)
+![self-employer-components.png](../../assets/images/diagrams/self-employed-service/self-employer-components.png)
 
 ### Операции с доходом
-![incomes-components.png](../assets/images/diagrams/self-employed-service/incomes-components.png)
+![incomes-components.png](../../assets/images/diagrams/self-employed-service/incomes-components.png)
 
 ### Операции со счётом
-![account-components.png](../assets/images/diagrams/self-employed-service/account-components.png)
+![account-components.png](../../assets/images/diagrams/self-employed-service/account-components.png)
 
 ### Операции с уведомлениями
-![notifications-components.png](../assets/images/diagrams/self-employed-service/notifications-components.png)
+![notifications-components.png](../../assets/images/diagrams/self-employed-service/notifications-components.png)
 
 ### Операции со словорями
-![dictionaries-components.png](../assets/images/diagrams/self-employed-service/dictionaries-components.png)
+![dictionaries-components.png](../../assets/images/diagrams/self-employed-service/dictionaries-components.png)
 
 ### Операции со справками
-![reference-components.png](../assets/images/diagrams/self-employed-service/reference-components.png)
+![reference-components.png](../../assets/images/diagrams/self-employed-service/reference-components.png)
