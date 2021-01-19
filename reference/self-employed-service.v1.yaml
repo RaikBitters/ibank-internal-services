@@ -260,13 +260,32 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ../models/Collection.v1.yaml
+                  - $ref: ../models/CollectionOffset.v1.yaml
                   - type: object
                     properties:
                       items:
-                        $ref: '#/components/schemas/ReceiptInfo'
+                        $ref: '#/components/schemas/Receipt'
       operationId: get-incomes
       description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: from
+          description: 'Дата, начиная с которой отображать зарегистрированные доходы'
+        - schema:
+            type: string
+          in: query
+          name: to
+          description: 'Дата, до которой отображать зарегистрированные доходы.'
+        - schema:
+            type: integer
+          in: query
+          name: limit
+        - schema:
+            type: integer
+          in: query
+          name: offset
     post:
       summary: Registering income
       tags:
@@ -284,6 +303,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Income'
+      description: |-
+        Источник/Тип дохода:
+        * FROM_INDIVIDUAL (Доход от Физического Лица)
+        * FROM_LEGAL_ENTITY (Доход от Юридического Лица)
+        * FROM_FOREIGN_AGENCY (Доход от Иностранной Организации)
     parameters:
       - schema:
           type: string
@@ -291,7 +315,7 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{vatin}/incomes/{income-id}':
+  '/self-employers/{vatin}/incomes/{id}':
     parameters:
       - schema:
           type: string
@@ -301,10 +325,10 @@ paths:
         description: ИНН
       - schema:
           type: string
-        name: income-id
+        name: id
         in: path
         required: true
-        description: id дохода
+        description: ID чека
     get:
       summary: Get income
       tags:
@@ -329,12 +353,19 @@ paths:
                 $ref: '#/components/schemas/Receipt'
       tags:
         - Incomes
+      description: ''
   '/self-employers/{vatin}/account':
     get:
       summary: Get account status
       tags:
         - Account
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStatus'
       operationId: get-account
       description: ''
     parameters:
@@ -620,37 +651,46 @@ components:
       type: object
       x-tags:
         - Models
-      description: ''
+      description: Информация о доходе налогоплательщика.
       x-examples: {}
       properties:
-        timestamp_creation:
+        timestamp_request:
           type: string
           format: date-time
-        timestamp_calculation:
+          description: Дата формирования.
+        timestamp_operation:
           type: string
           format: date-time
+          description: Дата расчёта.
         income_type:
           type: string
           enum:
             - FROM_INDIVIDUAL
             - FROM_LEGAL_ENTITY
             - FROM_FOREIGN_AGENCY
-        buyer_vatin:
+          description: Источник дохода.
+        customer_vatin:
           type: integer
           format: int64
-        buyer_name:
+          description: ИНН покупателя.
+        customer_name:
           type: string
+          description: Наименование организации - покупателя.
         services:
           type: array
           items:
             $ref: '#/components/schemas/Service'
+        total_amount:
+          type: string
+          description: Общая стоимость оказанных услуг.
+        geo_info:
+          $ref: '#/components/schemas/GeoPoint'
       required:
-        - timestamp_creation
-        - timestamp_calculation
+        - timestamp_request
+        - timestamp_operation
         - income_type
-        - buyer_vatin
-        - buyer_name
         - services
+        - total_amount
     Service:
       title: Service
       type: object
@@ -665,35 +705,30 @@ components:
           type: integer
     Receipt:
       title: Receipt
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        ref:
-          type: string
-      required:
-        - id
-      description: ''
-      x-tags:
-        - Models
-    ReceiptInfo:
-      title: Receipt info
       allOf:
-        - $ref: '#/components/schemas/Receipt'
         - $ref: '#/components/schemas/Income'
         - type: object
+          description: Информация о чеке.
           properties:
             taxable_period:
               type: string
+              description: 'Налоговый период, в котором при расчете налога будет/был учтен чек (формат, yyyyMM)'
             tax:
               type: number
-            timestamp_cancellation:
+              description: Налог к уплате с данного чека (начисленный налог минус использованный бонус).
+            timestamp_cancelation:
               type: string
               format: date-time
+              description: Дата сторнирования.
+            link:
+              type: string
+              description: Ссылка на чек загрузки.
+            id:
+              type: string
+              description: Id чека.
       x-tags:
         - Models
-      description: ''
+      description: Информация о выписанном чеке с несколькими услугами
       x-examples: {}
     SelfEmployerMutableInfo:
       title: Self-employer mutable Information
@@ -710,5 +745,29 @@ components:
           description: Код региона деятельности (ОКАТО)
       x-tags:
         - Models
+    Account:
+      title: Account
+      type: object
+      description: Данные лицевого счета налогоплательщика
+      properties:
+        bonus_amount:
+          type: number
+          description: Сумма бонусного счета
+        unpaid_amount:
+          type: number
+          description: Общая сумма неоплаченных платежей
+        debt_amount:
+          type: number
+          description: Сумма задолжности (включена в общая сумму неоплаченных платежей)
+    GeoPoint:
+      title: GeoPoint
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Широта.
+        longitude:
+          type: number
+          description: Долгота.
   securitySchemes: {}
   responses: {}

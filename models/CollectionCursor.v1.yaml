@@ -1,6 +1,6 @@
 title: Collection with cursor-based pagination
 type: object
-description: Коллекция с пагинацией по курсору.
+description: Страница коллекции с пагинацией по курсору.
 properties:
   cursors:
     type: object
@@ -25,4 +25,5 @@ properties:
         description: 'Объект, содержащий фильтры запроса, применяемые в поисковом запросе для фильтрации ресурса коллекции.'
   items:
     type: array
+    description: 'Массив элементов для этой страницы. Если результатов нет, это будет пустой массив.'
     items: {}
