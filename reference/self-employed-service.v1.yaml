@@ -169,7 +169,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ../models/Collection.v1.yaml
+                  - $ref: ../models/CollectionCursor.v1.yaml
                   - type: object
                     properties:
                       items:
@@ -339,7 +339,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReceiptInfo'
+                $ref: '#/components/schemas/Receipt'
       operationId: get-incomes-id
     delete:
       summary: Cancellation income
@@ -365,7 +365,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountStatus'
+                $ref: '#/components/schemas/Account'
       operationId: get-account
       description: ''
     parameters:
@@ -477,6 +477,32 @@ paths:
         name: vatin
         in: path
         required: true
+  '/self-employers/{vatin}/incomes-period/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
+        description: ИНН
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID налогового периода (YYYYMM)
+    get:
+      summary: GET info by incomes for period
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeForPeriod'
+      operationId: get-self-employers-vatin-incomes-period
+      description: Получение информации по доходу НП НПД за период.
 components:
   schemas:
     Restriction:
@@ -748,17 +774,17 @@ components:
     Account:
       title: Account
       type: object
-      description: Данные лицевого счета налогоплательщика
+      description: Данные лицевого счета налогоплательщика.
       properties:
         bonus_amount:
           type: number
-          description: Сумма бонусного счета
+          description: Сумма бонусного счета.
         unpaid_amount:
           type: number
-          description: Общая сумма неоплаченных платежей
+          description: Общая сумма неоплаченных платежей.
         debt_amount:
           type: number
-          description: Сумма задолжности (включена в общая сумму неоплаченных платежей)
+          description: Сумма задолжности (включена в общая сумму неоплаченных платежей).
     GeoPoint:
       title: GeoPoint
       type: object
@@ -769,5 +795,18 @@ components:
         longitude:
           type: number
           description: Долгота.
+    IncomeForPeriod:
+      title: IncomeForPeriod
+      type: object
+      properties:
+        total_amount:
+          type: number
+          description: Сумма зарегистрированного дохода за период.
+        canceled_total_amount:
+          type: number
+          description: Сумма сторнированного дохода за период.
+        tax:
+          type: number
+          description: Рассчитанный налог за период.
   securitySchemes: {}
   responses: {}
