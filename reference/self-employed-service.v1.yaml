@@ -827,7 +827,49 @@ components:
       title: Accrual
       type: object
       properties:
-        id:
+        vatin:
+          type: integer
+          format: int64
+          description: ИНН.
+        tax_charge_list:
+          type: array
+          description: Список налоговых начислений.
+          items: {}
+        krsb_list:
           type: string
+          description: Список карточек расчета с бюджетом.
+      description: Налоговые начисления и задолженности налогоплательщика
+    TaxCharge:
+      title: TaxCharge
+      type: object
+      description: Налоговое начисление.
+      properties:
+        amount:
+          type: number
+          description: Сумма начисления.
+        due_date:
+          type: string
+          description: Срок оплаты
+          format: date
+        tax_period_id:
+          type: integer
+          description: Идентификатор налогового периода (YYYYMM).
+        oktmo:
+          type: string
+          description: ОКТМО региона ведения деятельности.
+        kbk:
+          type: string
+          description: Код бюджетной классификации.
+        paid_amount:
+          type: number
+          description: Сумма поступивших оплат в АИС Налог 3 по данному начислению.
+        timestamp_create:
+          type: string
+          format: date-time
+          description: Дата и время создания налогового начисления.
+        id:
+          type: integer
+          format: int64
+          description: Внутренний идентификатор налогового начисления в ПП НПД.
   securitySchemes: {}
   responses: {}
