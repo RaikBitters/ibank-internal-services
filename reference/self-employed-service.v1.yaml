@@ -264,7 +264,9 @@ paths:
                   - type: object
                     properties:
                       items:
-                        $ref: '#/components/schemas/Receipt'
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Receipt'
       operationId: get-incomes
       description: ''
       parameters:
@@ -380,7 +382,20 @@ paths:
       summary: Get accruals and debts
       tags:
         - Account
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ../models/CollectionOffset.v1.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Accrual'
       operationId: get-account-accruals-and-debts
     parameters:
       - schema:
@@ -808,5 +823,11 @@ components:
         tax:
           type: number
           description: Рассчитанный налог за период.
+    Accrual:
+      title: Accrual
+      type: object
+      properties:
+        id:
+          type: string
   securitySchemes: {}
   responses: {}
