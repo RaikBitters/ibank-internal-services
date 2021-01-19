@@ -48,11 +48,11 @@ paths:
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}':
+  '/self-employers/{vatin}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
         description: ИНН
@@ -66,7 +66,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelfEmployerStatus'
+                $ref: '#/components/schemas/SelfEmployer'
       operationId: get-self-employers-id
       description: Получение детальной информации о самозанятом.
     delete:
@@ -103,12 +103,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelfEmployerStatus'
+                $ref: '#/components/schemas/SelfEmployer'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SelfEmployer'
+              allOf:
+                - $ref: '#/components/schemas/SelfEmployerMutableInfo'
+                - required:
+                    - activity_code
+                    - region_code
+      description: Обновление информации о видах деятельности самозанятого.
+    patch:
+      summary: ''
+      operationId: patch-self-employers-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SelfEmployer'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelfEmployerMutableInfo'
       description: Обновление информации о видах деятельности самозанятого.
   /self-employers:
     post:
@@ -120,7 +140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelfEmployerInfo'
+                $ref: '#/components/schemas/SelfEmployer'
       description: |-
         Добавление ресурса возможно в виде двух операций:
         * Добавление через регистрацию самозанятого в ФНС.
@@ -135,7 +155,7 @@ paths:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/SelfEmployerRegistration'
-                - $ref: '#/components/schemas/SelfEmployer'
+                - $ref: '#/components/schemas/SelfEmployerIds'
         description: Данные для регистрация или привязки пользователя.
       tags:
         - Self-employers
@@ -201,7 +221,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/Collection.v1.yaml
+                  - $ref: ../models/Collection.v1.yaml
                   - type: object
                     properties:
                       items:
@@ -228,7 +248,7 @@ paths:
         in: path
         required: true
         description: Тип справочника
-  '/self-employers/{id}/incomes':
+  '/self-employers/{vatin}/incomes':
     get:
       summary: Get incomes
       tags:
@@ -240,7 +260,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ./models/Collection.v1.yaml
+                  - $ref: ../models/Collection.v1.yaml
                   - type: object
                     properties:
                       items:
@@ -267,15 +287,15 @@ paths:
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}/incomes/{income-id}':
+  '/self-employers/{vatin}/incomes/{income-id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
         description: ИНН
@@ -309,7 +329,7 @@ paths:
                 $ref: '#/components/schemas/Receipt'
       tags:
         - Incomes
-  '/self-employers/{id}/account':
+  '/self-employers/{vatin}/account':
     get:
       summary: Get account status
       tags:
@@ -320,11 +340,11 @@ paths:
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}/accruals':
+  '/self-employers/{vatin}/accruals':
     get:
       summary: Get accruals and debts
       tags:
@@ -334,11 +354,11 @@ paths:
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}/payment-documents':
+  '/self-employers/{vatin}/payment-documents':
     get:
       summary: Get payment documents
       tags:
@@ -348,11 +368,11 @@ paths:
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
         description: ИНН
-  '/self-employers/{id}/reference/{type}':
+  '/self-employers/{vatin}/reference/{type}':
     parameters:
       - schema:
           type: string
@@ -361,9 +381,10 @@ paths:
         required: true
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
+        description: ИНН
     get:
       summary: Get reference
       tags:
@@ -374,7 +395,7 @@ paths:
         Reference type:
         * Registration
         * Income
-  '/self-employers/{id}/notifications':
+  '/self-employers/notifications/{vatin}':
     get:
       summary: Get notifications
       tags:
@@ -388,7 +409,12 @@ paths:
       responses: {}
       operationId: post-notifications
       description: ''
-    parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
   '/self-employers/{id}/notifications/{notif-id}':
     parameters:
       - schema:
@@ -441,52 +467,42 @@ components:
       title: Self-employer registration
       description: Информация для постановки на учёт.
       x-examples: {}
-      type: object
-      properties:
-        vatin:
-          type: integer
-          format: int64
-          description: ИНН
-        user_id:
-          type: integer
-          format: int64
-        first_name:
-          type: string
-        last_name:
-          type: string
-        birthday:
-          type: string
-          format: date
-        passport_series:
-          type: string
-        passport_number:
-          type: string
-        activity_code:
-          description: Список кодов экономической деятельности (ОКВЭД)
-          type: array
-          items:
-            type: string
-        region_code:
-          type: string
-          description: Код региона деятельности (ОКАТО)
-      required:
-        - vatin
-        - user_id
-        - first_name
-        - last_name
-        - birthday
-        - passport_series
-        - passport_number
-        - activity_code
-        - region_code
       x-tags:
         - Models
-    SelfEmployer:
-      title: Self-employer
-      type: object
-      description: Основная информация о самозанятом.
+      allOf:
+        - $ref: '#/components/schemas/SelfEmployer'
+        - type: object
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            birthday:
+              type: string
+              format: date
+            passport_series:
+              type: string
+            passport_number:
+              type: string
+          required:
+            - first_name
+            - last_name
+            - birthday
+            - passport_series
+            - passport_number
+        - $ref: '#/components/schemas/SelfEmployerMutableInfo'
+        - required:
+            - id
+            - vatin
+            - user_id
+            - activity_code
+            - region_code
+    SelfEmployerIds:
+      title: Self-employer id's
+      description: Уникальные идентификаторы для связки с внешними системами
       x-tags:
         - Models
+      type: object
       properties:
         id:
           type: integer
@@ -498,24 +514,12 @@ components:
         user_id:
           type: integer
           format: int64
-        activity_code:
-          type: array
-          description: Список кодов экономической деятельности (ОКВЭД)
-          items:
-            type: string
-        region_code:
-          type: string
-          description: Код региона деятельности (ОКАТО)
-      required:
-        - vatin
-        - user_id
-        - activity_code
-        - region_code
-    SelfEmployerStatus:
-      title: Self-employer status
-      description: Детальная информация о статусе самозанятого.
+          description: GUID пользователя в Интернет банке
+    SelfEmployer:
+      title: Self-employer
+      description: Профиль самозанятого в Интернет банке.
       allOf:
-        - $ref: '#/components/schemas/SelfEmployer'
+        - $ref: '#/components/schemas/SelfEmployerIds'
         - type: object
           properties:
             status:
@@ -533,6 +537,7 @@ components:
             last_order_id:
               type: integer
               format: int64
+        - $ref: '#/components/schemas/SelfEmployerMutableInfo'
       x-examples: {}
       x-tags:
         - Models
@@ -685,5 +690,20 @@ components:
         - Models
       description: ''
       x-examples: {}
+    SelfEmployerMutableInfo:
+      title: Self-employer mutable Information
+      type: object
+      description: ''
+      properties:
+        activity_code:
+          type: array
+          description: Список кодов экономической деятельности (ОКВЭД)
+          items:
+            type: string
+        region_code:
+          type: string
+          description: Код региона деятельности (ОКАТО)
+      x-tags:
+        - Models
   securitySchemes: {}
   responses: {}
