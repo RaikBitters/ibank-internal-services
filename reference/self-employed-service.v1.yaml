@@ -395,7 +395,7 @@ paths:
         Reference type:
         * Registration
         * Income
-  '/self-employers/notifications/{vatin}':
+  '/self-employers/{vatin}/notifications/':
     get:
       summary: Get notifications
       tags:
@@ -415,11 +415,11 @@ paths:
         name: vatin
         in: path
         required: true
-  '/self-employers/{id}/notifications/{notif-id}':
+  '/self-employers/{vatin}/notifications/{notif-id}':
     parameters:
       - schema:
           type: string
-        name: id
+        name: vatin
         in: path
         required: true
       - schema:
@@ -433,14 +433,19 @@ paths:
         - Notifications
       responses: {}
       operationId: put-notifications-id
-  '/self-employers/{id}/notifications/count':
+  '/self-employers/{vatin}/notifications/count':
     get:
       summary: Get notifications count
       tags:
         - Notifications
       responses: {}
       operationId: get-notifications-count
-    parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
 components:
   schemas:
     Restriction:
