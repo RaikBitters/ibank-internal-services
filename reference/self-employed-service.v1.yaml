@@ -146,6 +146,7 @@ paths:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/SelfEmployerRegistration'
+                - $ref: '#/components/schemas/SelfEmployerBinding'
         description: Данные для регистрация или привязки пользователя.
       tags:
         - Self-employers
@@ -919,6 +920,81 @@ components:
             - phone
       description: Информация для привязки самозанятого к платформе банка-партнёра.
       type: object
+    PaymentDocument:
+      title: Payment document
+      type: object
+      description: Данные платежного документа.
+      properties:
+        type:
+          type: string
+          description: Тип платежного документа.
+        document_index:
+          type: string
+          description: Индекс документа (УИН).
+        full_name:
+          type: string
+          description: ФИО налогоплательщика.
+        address:
+          type: string
+          description: Адрес места жительства.
+        vatin:
+          type: integer
+          format: int64
+          description: ИНН налогоплательщика.
+        amount:
+          type: number
+          description: Сумма к оплате.
+        recipient_bank_name:
+          type: string
+          description: Банк получателя.
+        recipient_bank_bik:
+          type: string
+          description: БИК банка получателя.
+        recipient_bank_account_number:
+          type: string
+          description: Номер счёта банка получателя.
+        recipient:
+          type: string
+          description: Получатель.
+        recipient_account_number:
+          type: string
+          description: Номер счёта получателя.
+        recipient_vatin:
+          type: string
+          description: ИНН получателя.
+        recipient_kpp:
+          type: string
+          description: КПП получателя.
+        kbk:
+          type: string
+          description: КБК.
+        oktmo:
+          type: string
+          description: ОКТМО.
+        code_101:
+          type: string
+          description: Код для поля 101.
+        code_106:
+          type: string
+          description: Код для поля 106.
+        code_107:
+          type: string
+          description: Код для поля 107.
+        code_110:
+          type: string
+          description: Код для поля 110.
+        due_date:
+          type: string
+          format: date
+          description: Дата до которой требуется внести оплату.
+        timestamp_create:
+          type: string
+          format: date-time
+          description: Дата создания документа.
+        source_id:
+          type: integer
+          format: int64
+          description: Внутренний идентификатор источника документа в ПП НПД.
   securitySchemes: {}
   responses: {}
   parameters:
