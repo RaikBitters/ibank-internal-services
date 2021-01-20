@@ -812,6 +812,7 @@ components:
     Accrual:
       title: Accrual
       type: object
+      description: Налоговые начисления и задолженности налогоплательщика
       properties:
         vatin:
           type: integer
@@ -820,13 +821,15 @@ components:
         tax_charge_list:
           type: array
           description: Список налоговых начислений.
-          items: {}
-        krsb_list:
-          type: string
+          items:
+            $ref: '#/components/schemas/TaxCharge'
+        calculation_card_list:
           description: Список карточек расчета с бюджетом.
-      description: Налоговые начисления и задолженности налогоплательщика
+          type: array
+          items:
+            $ref: '#/components/schemas/CalculationCard'
     TaxCharge:
-      title: TaxCharge
+      title: Tax charge
       type: object
       description: Налоговое начисление.
       properties:
