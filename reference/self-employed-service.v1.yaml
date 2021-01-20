@@ -42,20 +42,10 @@ paths:
       tags:
         - Self-employers
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}':
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
     get:
       summary: Get self-employer info
       tags:
@@ -311,20 +301,10 @@ paths:
         * FROM_LEGAL_ENTITY (Доход от Юридического Лица)
         * FROM_FOREIGN_AGENCY (Доход от Иностранной Организации)
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}/incomes/{id}':
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
       - schema:
           type: string
         name: id
@@ -371,12 +351,7 @@ paths:
       operationId: get-account
       description: ''
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}/accruals':
     get:
       summary: Get accruals and debts
@@ -398,12 +373,7 @@ paths:
                           $ref: '#/components/schemas/Accrual'
       operationId: get-account-accruals-and-debts
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}/payment-documents':
     get:
       summary: Get payment documents
@@ -412,12 +382,7 @@ paths:
       responses: {}
       operationId: get-payment-documents
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}/reference/{type}':
     parameters:
       - schema:
@@ -425,12 +390,7 @@ paths:
         name: type
         in: path
         required: true
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
     get:
       summary: Get reference
       tags:
@@ -456,18 +416,10 @@ paths:
       operationId: post-notifications
       description: ''
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}/notifications/{notif-id}':
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
+      - $ref: '#/components/parameters/Vatin'
       - schema:
           type: string
         name: notif-id
@@ -487,19 +439,10 @@ paths:
       responses: {}
       operationId: get-notifications-count
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
+      - $ref: '#/components/parameters/Vatin'
   '/self-employers/{vatin}/incomes-period/{id}':
     parameters:
-      - schema:
-          type: string
-        name: vatin
-        in: path
-        required: true
-        description: ИНН
+      - $ref: '#/components/parameters/Vatin'
       - schema:
           type: string
         name: id
@@ -973,3 +916,11 @@ components:
       type: object
   securitySchemes: {}
   responses: {}
+  parameters:
+    Vatin:
+      name: vatin
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: ИНН
