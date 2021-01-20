@@ -922,7 +922,7 @@ components:
   securitySchemes: {}
   responses: {}
   parameters:
-    SelfEmployerResourceId:
+    Vatin:
       name: vatin
       in: path
       required: true
