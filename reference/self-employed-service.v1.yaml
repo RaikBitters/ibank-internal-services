@@ -109,10 +109,11 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/SelfEmployerMutableInfo'
+                - $ref: '#/components/schemas/SelfEmployerMutable'
                 - required:
-                    - activity_code
-                    - region_code
+                    - activities
+                    - oktmo
+            examples: {}
       description: Обновление информации о видах деятельности самозанятого.
     patch:
       summary: ''
@@ -128,7 +129,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SelfEmployerMutableInfo'
+              $ref: '#/components/schemas/SelfEmployerMutable'
       description: Обновление информации о видах деятельности самозанятого.
   /self-employers:
     post:
@@ -542,14 +543,19 @@ components:
           description: Получаем если результат = DENY.
     SelfEmployerRegistration:
       title: Self-employer registration
-      description: Информация для постановки на учёт.
+      description: Данные для постановки на учёт по ИНН или Паспорту.
       x-examples: {}
       x-tags:
         - Models
-      allOf:
-        - $ref: '#/components/schemas/SelfEmployer'
-        - type: object
+      oneOf:
+        - description: Модель постановки на учёт по ИНН.
           properties:
+            user_id:
+              type: integer
+              format: int64
+            vatin:
+              type: integer
+              description: ИНН.
             first_name:
               type: string
             last_name:
@@ -557,48 +563,79 @@ components:
             birthday:
               type: string
               format: date
-            passport_series:
+            phone:
               type: string
-            passport_number:
+              description: Номер телефона.
+            activities:
+              type: array
+              items:
+                type: string
+            oktmo:
               type: string
           required:
+            - user_id
+            - vatin
             - first_name
             - last_name
             - birthday
+            - phone
+            - activities
+            - oktmo
+        - description: Модель постановки на учёт по паспорту.
+          properties:
+            user_id:
+              type: integer
+              format: int64
+            passport_series:
+              type: string
+              description: Серия паспорта (обязательное поле если не указан ИНН).
+            passport_number:
+              type: string
+              description: Номер паспорта (обязательное поле если не указан ИНН).
+            first_name:
+              type: string
+            last_name:
+              type: string
+            birthday:
+              type: string
+              format: date
+            phone:
+              type: string
+              description: Номер телефона.
+            activities:
+              type: array
+              items:
+                type: string
+            oktmo:
+              type: string
+          required:
+            - user_id
             - passport_series
             - passport_number
-        - $ref: '#/components/schemas/SelfEmployerMutableInfo'
-        - required:
-            - id
-            - vatin
-            - user_id
-            - activity_code
-            - region_code
-    SelfEmployerIds:
-      title: Self-employer id's
-      description: Уникальные идентификаторы для связки с внешними системами
-      x-tags:
-        - Models
+            - first_name
+            - last_name
+            - birthday
+            - phone
+            - activities
+            - oktmo
       type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        vatin:
-          type: integer
-          description: ИНН
-          format: int64
-        user_id:
-          type: integer
-          format: int64
-          description: GUID пользователя в Интернет банке
     SelfEmployer:
       title: Self-employer
       description: Профиль самозанятого в Интернет банке.
       allOf:
-        - $ref: '#/components/schemas/SelfEmployerIds'
         - type: object
           properties:
+            id:
+              type: integer
+              format: int64
+            user_id:
+              type: integer
+              format: int64
+              description: GUID пользователя в Интернет банке.
+            vatin:
+              type: integer
+              format: int64
+              description: ИНН.
             status:
               type: string
               enum:
@@ -771,21 +808,21 @@ components:
         - Models
       description: Информация о выписанном чеке с несколькими услугами
       x-examples: {}
-    SelfEmployerMutableInfo:
+    SelfEmployerMutable:
       title: Self-employer mutable Information
       type: object
       description: ''
-      properties:
-        activity_code:
-          type: array
-          description: Список кодов экономической деятельности (ОКВЭД)
-          items:
-            type: string
-        region_code:
-          type: string
-          description: Код региона деятельности (ОКАТО)
       x-tags:
         - Models
+      properties:
+        activities:
+          type: array
+          description: Список кодов экономической деятельности (ОКВЭД).
+          items:
+            type: string
+        oktmo:
+          type: string
+          description: Код региона деятельности (ОКАТО).
     Account:
       title: Account
       type: object
@@ -871,8 +908,8 @@ components:
           type: integer
           format: int64
           description: Внутренний идентификатор налогового начисления в ПП НПД.
-    Krsb:
-      title: Krsb
+    CalculationCard:
+      title: Calculation card with budget
       type: object
       description: Карточка расчета с бюджетом (КРСБ) по данным АИС Налог 3.
       properties:
@@ -880,5 +917,27 @@ components:
           type: integer
           format: int64
           description: Внутренний идентификатор карточки в ПП НПД.
+        debt:
+          type: number
+          description: Сумма задолженности по карточке.
+        penalty:
+          type: number
+          description: Сумма пени по карточке.
+        overpayment:
+          type: number
+          description: Сумма переплаты по карточке.
+        oktmo:
+          type: string
+          description: 'ОКТМО региона ведения деятельности, связанного с КРСБ.'
+        kbk:
+          type: string
+          description: 'Код бюджетной классификации, связанный с КРСБ.'
+        tax_organ_code:
+          type: string
+          description: 'Код налогового органа, связанного с КРСБ.'
+        timestamp_update:
+          type: string
+          description: Время обновления информации по карточке в ПП НПД.
+          format: date-time
   securitySchemes: {}
   responses: {}
