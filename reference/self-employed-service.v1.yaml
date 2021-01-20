@@ -379,7 +379,9 @@ paths:
       summary: Get payment documents
       tags:
         - Account
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: get-payment-documents
     parameters:
       - $ref: '#/components/parameters/Vatin'
@@ -917,7 +919,7 @@ components:
   securitySchemes: {}
   responses: {}
   parameters:
-    Vatin:
+    SelfEmployerResourceId:
       name: vatin
       in: path
       required: true
