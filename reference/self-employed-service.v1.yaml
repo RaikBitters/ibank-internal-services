@@ -156,7 +156,6 @@ paths:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/SelfEmployerRegistration'
-                - $ref: '#/components/schemas/SelfEmployerIds'
         description: Данные для регистрация или привязки пользователя.
       tags:
         - Self-employers
@@ -624,6 +623,7 @@ components:
       description: Профиль самозанятого в Интернет банке.
       allOf:
         - type: object
+          description: Данные самозанятого хранимые в Интернет банке.
           properties:
             id:
               type: integer
@@ -642,16 +642,20 @@ components:
                 - ACTIVE
                 - UNACTIVE
                 - PENDING
+              description: Статус пользователь как самозанятого в Интернет банке.
             timestamp_create:
               type: string
               format: date-time
+              description: Дата создания.
             timestamp_update:
               type: string
               format: date-time
+              description: Дата последнего обновления.
             last_order_id:
               type: integer
               format: int64
-        - $ref: '#/components/schemas/SelfEmployerMutableInfo'
+              description: ID последней заявки в ФНС у самозанятого.
+        - $ref: '#/components/schemas/SelfEmployerMutable'
       x-examples: {}
       x-tags:
         - Models
@@ -817,12 +821,12 @@ components:
       properties:
         activities:
           type: array
-          description: Список кодов экономической деятельности (ОКВЭД).
+          description: Список кодов экономической деятельности (ОКВЭД)
           items:
             type: string
         oktmo:
           type: string
-          description: Код региона деятельности (ОКАТО).
+          description: Код региона деятельности (ОКАТО)
     Account:
       title: Account
       type: object
@@ -939,5 +943,33 @@ components:
           type: string
           description: Время обновления информации по карточке в ПП НПД.
           format: date-time
+    SelfEmployerBinding:
+      title: Self-employer binding information
+      oneOf:
+        - description: Данные для привязки по ИНН.
+          properties:
+            user_id:
+              type: integer
+              format: int64
+              description: GUID пользователя интернет банка.
+            vatin:
+              type: integer
+              description: ИНН.
+          required:
+            - user_id
+            - vatin
+        - description: Данные для привязки по номеру телефона.
+          properties:
+            user_id:
+              type: integer
+              description: GUID пользователя интернет банка.
+            phone:
+              type: string
+              description: Номер телефона.
+          required:
+            - user_id
+            - phone
+      description: Информация для привязки самозанятого к платформе банка-партнёра.
+      type: object
   securitySchemes: {}
   responses: {}
