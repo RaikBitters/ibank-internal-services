@@ -42,10 +42,10 @@ paths:
       tags:
         - Self-employers
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}':
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
     get:
       summary: Get self-employer info
       tags:
@@ -302,10 +302,10 @@ paths:
         * FROM_LEGAL_ENTITY (Доход от Юридического Лица)
         * FROM_FOREIGN_AGENCY (Доход от Иностранной Организации)
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/incomes/{id}':
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
       - schema:
           type: string
         name: id
@@ -352,7 +352,7 @@ paths:
       operationId: get-account
       description: ''
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/accruals':
     get:
       summary: Get accruals and debts
@@ -374,7 +374,7 @@ paths:
                           $ref: '#/components/schemas/Accrual'
       operationId: get-account-accruals-and-debts
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/payment-documents':
     get:
       summary: Get payment documents
@@ -385,15 +385,15 @@ paths:
           description: OK
       operationId: get-payment-documents
     parameters:
-      - $ref: '#/components/parameters/Vatin'
-  '/self-employers/{vatin}/reference/{type}':
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
+  '/self-employers/reference/{type}':
     parameters:
       - schema:
           type: string
         name: type
         in: path
         required: true
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
     get:
       summary: Get reference
       tags:
@@ -419,10 +419,10 @@ paths:
       operationId: post-notifications
       description: ''
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/notifications/{notif-id}':
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
       - schema:
           type: string
         name: notif-id
@@ -442,10 +442,10 @@ paths:
       responses: {}
       operationId: get-notifications-count
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/incomes-period/{id}':
     parameters:
-      - $ref: '#/components/parameters/Vatin'
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
       - schema:
           type: string
         name: id
@@ -998,7 +998,7 @@ components:
   securitySchemes: {}
   responses: {}
   parameters:
-    Vatin:
+    SelfEmployerResourceId:
       name: vatin
       in: path
       required: true
