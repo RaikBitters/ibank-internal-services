@@ -469,7 +469,7 @@ paths:
               schema:
                 type: string
                 format: binary
-                description: PDF файл справки.
+                description: PDF файл.
         '':
           content:
             application/pdf:
@@ -479,19 +479,22 @@ paths:
           description: PDF файл справки
       description: |-
         Типы справок:
-        * registration
-        * income
+        * registration - получение справки о постановке на учет в качестве НП НПД в новом формате.
+        * income - получение справки о доходах НП НПД в новом формате.
       parameters:
         - schema:
             type: string
+            format: date-time
           in: query
           name: request_time
           description: Дата запроса.
+          required: true
         - schema:
             type: string
           in: query
           name: request_year
           description: 'Год, за который запрашивается справка.'
+          required: true
 components:
   schemas:
     Restriction:
@@ -1032,4 +1035,4 @@ components:
       required: true
       schema:
         type: integer
-      description: ИНН
+      description: ИНН.
