@@ -386,24 +386,6 @@ paths:
       operationId: get-payment-documents
     parameters:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
-  '/self-employers/reference/{type}':
-    parameters:
-      - schema:
-          type: string
-        name: type
-        in: path
-        required: true
-      - $ref: '#/components/parameters/SelfEmployerResourceId'
-    get:
-      summary: Get reference
-      tags:
-        - Reference
-      responses: {}
-      operationId: get-reference-type
-      description: |-
-        Reference type:
-        * Registration
-        * Income
   '/self-employers/{vatin}/notifications/':
     get:
       summary: Get notifications
@@ -464,6 +446,52 @@ paths:
                 $ref: '#/components/schemas/IncomeForPeriod'
       operationId: get-self-employers-vatin-incomes-period
       description: Получение информации по доходу НП НПД за период.
+  '/self-employers/{vatin}/references/{type}':
+    parameters:
+      - schema:
+          type: string
+          enum:
+            - income
+            - registration
+        name: type
+        in: path
+        required: true
+        description: Тип справки
+      - $ref: '#/components/parameters/SelfEmployerResourceId'
+    get:
+      summary: Get reference
+      operationId: get-self-employers-vatin-reference
+      responses:
+        '200':
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+                description: PDF файл справки.
+        '':
+          content:
+            application/pdf:
+              schema:
+                type: object
+                description: PDF файл справки.
+          description: PDF файл справки
+      description: |-
+        Типы справок:
+        * registration
+        * income
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: request_time
+          description: Дата запроса.
+        - schema:
+            type: string
+          in: query
+          name: request_year
+          description: 'Год, за который запрашивается справка.'
 components:
   schemas:
     Restriction:
