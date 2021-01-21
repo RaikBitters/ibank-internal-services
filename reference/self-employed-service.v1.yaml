@@ -22,6 +22,7 @@ tags:
   - name: Dictionaries
   - name: Incomes
   - name: Reference
+  - name: References
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -241,7 +242,7 @@ paths:
         description: Тип справочника
   '/self-employers/{vatin}/incomes':
     get:
-      summary: Get incomes
+      summary: '[In progress] Get incomes'
       tags:
         - Incomes
       responses:
@@ -313,7 +314,7 @@ paths:
         required: true
         description: ID чека
     get:
-      summary: Get income
+      summary: '[In progress] Get income'
       tags:
         - Incomes
       responses:
@@ -388,7 +389,7 @@ paths:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/notifications/':
     get:
-      summary: Get notifications
+      summary: '[In progress] Get notifications'
       tags:
         - Notifications
       responses: {}
@@ -411,14 +412,14 @@ paths:
         in: path
         required: true
     put:
-      summary: Update notification
+      summary: '[In progress] Update notification'
       tags:
         - Notifications
       responses: {}
       operationId: put-notifications-id
   '/self-employers/{vatin}/notifications/count':
     get:
-      summary: Get notifications count
+      summary: '[In progress] Get notifications count'
       tags:
         - Notifications
       responses: {}
@@ -436,7 +437,8 @@ paths:
         description: ID налогового периода (YYYYMM)
     get:
       summary: GET info by incomes for period
-      tags: []
+      tags:
+        - Incomes
       responses:
         '200':
           description: OK
@@ -495,6 +497,8 @@ paths:
           name: request_year
           description: 'Год, за который запрашивается справка.'
           required: true
+      tags:
+        - References
 components:
   schemas:
     Restriction:
@@ -818,6 +822,8 @@ components:
         debt_amount:
           type: number
           description: Сумма задолжности (включена в общая сумму неоплаченных платежей).
+      x-tags:
+        - Models
     GeoPoint:
       title: GeoPoint
       type: object
@@ -828,6 +834,8 @@ components:
         longitude:
           type: number
           description: Долгота.
+      x-tags:
+        - Models
     IncomeForPeriod:
       title: IncomeForPeriod
       type: object
@@ -841,6 +849,8 @@ components:
         tax:
           type: number
           description: Рассчитанный налог за период.
+      x-tags:
+        - Models
     Accrual:
       title: Accrual
       type: object
@@ -860,6 +870,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CalculationCard'
+      x-tags:
+        - Models
     TaxCharge:
       title: Tax charge
       type: object
@@ -892,6 +904,8 @@ components:
           type: integer
           format: int64
           description: Внутренний идентификатор налогового начисления в ПП НПД.
+      x-tags:
+        - Models
     CalculationCard:
       title: Calculation card with budget
       type: object
@@ -923,6 +937,8 @@ components:
           type: string
           description: Время обновления информации по карточке в ПП НПД.
           format: date-time
+      x-tags:
+        - Models
     SelfEmployerBinding:
       title: Self-employer binding information
       oneOf:
@@ -951,6 +967,8 @@ components:
             - phone
       description: Информация для привязки самозанятого к платформе банка-партнёра.
       type: object
+      x-tags:
+        - Models
     PaymentDocument:
       title: Payment document
       type: object
@@ -1026,6 +1044,8 @@ components:
           type: integer
           format: int64
           description: Внутренний идентификатор источника документа в ПП НПД.
+      x-tags:
+        - Models
   securitySchemes: {}
   responses: {}
   parameters:
