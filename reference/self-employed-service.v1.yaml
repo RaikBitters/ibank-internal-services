@@ -392,8 +392,33 @@ paths:
       summary: '[In progress] Get notifications'
       tags:
         - Notifications
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ../models/CollectionCursor.v1.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: ''
       operationId: get-notifications
+      description: Получение списка оповещений для НП НПД.
+      parameters:
+        - schema:
+            type: boolean
+          in: query
+          name: acknowleged
+          description: Показывать прочитанные.
+        - schema:
+            type: boolean
+          in: query
+          name: archived
+          description: Показывать заархивированные.
     post:
       summary: Change all notifications
       tags:
@@ -1046,6 +1071,30 @@ components:
           description: Внутренний идентификатор источника документа в ПП НПД.
       x-tags:
         - Models
+    Notification:
+      title: Notification
+      type: object
+      description: Схема уведомления для самозанятого.
+      properties:
+        id:
+          type: string
+          description: Идентификатор уведомления.
+        title:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+        timestamp_create:
+          type: string
+          format: date-time
+        timestamp_update:
+          type: string
+          format: date-time
+        partner_id:
+          type: string
+        application_id:
+          type: string
   securitySchemes: {}
   responses: {}
   parameters:
