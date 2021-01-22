@@ -251,7 +251,6 @@ paths:
     get:
       summary: '[In progress] Get incomes'
       tags:
-        - Incomes
         - Inprogress
       responses:
         '200':
@@ -289,9 +288,9 @@ paths:
           in: query
           name: offset
     post:
-      summary: Registering income
+      summary: '[In progress] Registering income'
       tags:
-        - Incomes
+        - Inprogress
       responses:
         '200':
           description: OK
@@ -558,7 +557,7 @@ paths:
       operationId: get-self-employers-vatin-orders
       description: Заявки самозанятого.
       tags:
-        - Self-employer
+        - Orders
 components:
   schemas:
     Restriction:
