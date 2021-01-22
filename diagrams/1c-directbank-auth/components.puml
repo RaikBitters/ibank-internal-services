@@ -39,7 +39,7 @@
 
 @startuml 1c-directbank-proposal-auth-components
 
-left to right direction
+'left to right direction
 
 ' Import 1C DirectBank components
 !include ../.library/components/internet-bank/1c-directbank-gateway.puml
