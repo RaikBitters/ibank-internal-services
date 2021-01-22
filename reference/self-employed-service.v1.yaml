@@ -468,7 +468,7 @@ paths:
         required: true
         description: ID налогового периода (YYYYMM)
     get:
-      summary: GET info by incomes for period
+      summary: Get info by incomes for period
       tags:
         - Incomes
       responses:
