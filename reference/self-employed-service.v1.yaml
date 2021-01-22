@@ -26,6 +26,7 @@ tags:
   - name: Self-employers collection
   - name: Inprogress
   - name: Notifications
+  - name: Registration
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -69,9 +70,15 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Order'
+                  - $ref: '#/components/schemas/SelfEmployer'
       description: |-
         Отвязка от банка, опционально cо снятием с учёта в ФНС.
-        Пользователь числится в системе как UNACTIVE. Можно считать сущность удаленной и возвращать 404 при попытках обратиться к ней.
+        Пользователь числится в системе как UNACTIVE.
 
         Если unregistartion = true, обязательно указывается код в reasons.
       parameters:
@@ -111,24 +118,6 @@ paths:
       description: Обновление информации о видах деятельности самозанятого.
       tags:
         - Self-employer
-    patch:
-      summary: Update part of self-employer
-      operationId: patch-self-employers-id
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SelfEmployer'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SelfEmployerMutable'
-      description: Обновление информации о видах деятельности самозанятого.
-      tags:
-        - Self-employer
   /self-employers:
     post:
       summary: Add self-employer
@@ -139,25 +128,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SelfEmployer'
+                $ref: '#/components/schemas/Order'
       description: |-
-        #### Добавление самозанятого
-        Возможно два варианта:
-        * Добавление через регистрацию самозанятого в ФНС.
-        * Добавление через привязку к платформе банке при условии что самозанятый есть в ФНС. В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE, после проверок в ФНС.
+        Добавление самозанятого через привязку к платформе банка при условии что самозанятый стоит на учёте в ФНС. 
 
-        #### Статусы пользователя
+        В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE.
+
         В случаи добавления статус самозанятого переходит в ACTIVE через промежуточный статус PENDING.
       requestBody:
         content:
           application/json:
             schema:
               oneOf:
-                - $ref: '#/components/schemas/SelfEmployerRegistration'
                 - $ref: '#/components/schemas/SelfEmployerBinding'
         description: Данные для регистрация или привязки пользователя.
       tags:
         - Self-employers collection
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: type
     get:
       summary: Get self-employers
       operationId: get-self-employers
@@ -199,7 +190,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
       operationId: get-orders
-      description: Получение заявки по id.
+      description: Получение информации о выполнении заявки по id.
       tags:
         - Orders
     parameters:
@@ -567,6 +558,32 @@ paths:
       description: Заявки самозанятого.
       tags:
         - Orders
+  /registration-application:
+    post:
+      summary: Create registration application
+      operationId: post-application-registration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '':
+          description: Информация о созданной заявке.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      description: Создание заявки на постановку на учёт в ФНС как самозанятого.
+      tags:
+        - Registration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationApplication'
+    parameters: []
 components:
   schemas:
     Restriction:
@@ -589,7 +606,7 @@ components:
         rejection_code:
           type: string
           description: Получаем если результат = DENY.
-    SelfEmployerRegistration:
+    RegistrationApplication:
       title: Self-employer registration
       description: Данные для постановки на учёт по ИНН или Паспорту.
       x-examples: {}

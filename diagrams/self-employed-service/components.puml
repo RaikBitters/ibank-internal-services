@@ -5,61 +5,71 @@
 @startuml self-employer-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
-interface "GetTaxpayerRestrictionsRequest" as taxpayerRestrictions
-interface "PostRegistrationRequest\nGetRegistrationStatusRequest" as taxpayerRegistration
-interface "GetTaxpayerStatusRequest" as taxpayerStatus
-interface "PutTaxpayerDataRequest" as taxpayerData
+interface "GetTaxpayerRestrictionsRequest" as getTaxpayerRestrictions
+interface "PostRegistrationRequest\nGetRegistrationStatusRequest" as postTaxpayerRegistration
+interface "GetTaxpayerStatusRequest" as getTaxpayerStatus
+interface "PutTaxpayerDataRequest" as putTaxpayerData
 interface "GetGrantedPermissionsRequest" as getGrantedPermission
 interface "GetInnByPersonalInfoRequestV3" as getInnByPersonalInfo
-interface "PostBindPartnerWithInnRequest\nGetBindPartnerStatusRequest" as partnerBindInn
-interface "PostBindPartnerWithPhoneRequest\nGetBindPartnerStatusRequest" as partnerBindPhone
-interface "PostUnbindPartnerRequest" as partnerUnbind
-interface "PostUnregistrationRequestV2\nGetUnregistrationStatusRequest" as taxpayerUnregistration
-interface "GetTaxpayerUnregistrationReasonsListRequest" as getTaxpayerUnregistrationReasonsList
+interface "PostBindPartnerWithInnRequest\nGetBindPartnerStatusRequest" as postPartnerBindInn
+interface "PostBindPartnerWithPhoneRequest\nGetBindPartnerStatusRequest" as postPartnerBindPhone
+interface "PostUnbindPartnerRequest" as postPartnerUnbind
+interface "PostUnregistrationRequestV2\nGetUnregistrationStatusRequest" as postTaxpayerUnregistration
 
-Tax3 --() taxpayerRestrictions
-Tax3 --() taxpayerRegistration
-Tax3 --() taxpayerStatus
-Tax3 --() taxpayerData
-Tax3 --() partnerBindInn
-Tax3 --() partnerBindPhone
-Tax3 --() taxpayerUnregistration
-Tax3 --() partnerUnbind
+Tax3 --() getTaxpayerRestrictions
+Tax3 --() postTaxpayerRegistration
+Tax3 --() getTaxpayerStatus
+Tax3 --() putTaxpayerData
+Tax3 --() postPartnerBindInn
+Tax3 --() postPartnerBindPhone
+Tax3 --() postTaxpayerUnregistration
+Tax3 --() postPartnerUnbind
 Tax3 --() getGrantedPermission
 Tax3 --() getInnByPersonalInfo
-Tax3 --() getTaxpayerUnregistrationReasonsList
 
 component "Self-employed service" as SelfEmplService <<service>> {
 
-component "Registration" as Registration <<component>>
+component "Add self-employer" as Add <<component>>
 interface "GET /restrictions/{vatin}" as getRestrictions
 interface "POST /self-employers/" as postSelfEmpls
-interface "DELETE /self-employers/{id}" as delSelfEmplsId
 
-component "Information" as Information <<component>>
+Add --() getRestrictions
+Add --() postSelfEmpls
+
+Add -up-( getTaxpayerRestrictions
+Add -up-( postTaxpayerRegistration
+Add -up-( postPartnerBindInn
+Add -up-( postPartnerBindPhone
+
+
+component "Get information" as Information <<component>>
 interface "GET /self-employers/" as getSelfEmpls
-interface "GET /self-employers/{id}" as getSelfEmplsId
-
-Component "Change" as Update <<component>>
-interface "PATCH /self-employers/{id}" as patchSelfEmplsId
+interface "GET /self-employers/{vatin}" as getSelfEmplsId
+interface "GET /self-employers/{vatin}/permissions" as getSelfEmplsIdPermission
+interface "GET /self-employers/{vatin}/orders" as getSelfEmplsIdOrders
 interface "GET /orders/{id}" as getOrdersId
 
+Information --() getSelfEmpls
+Information --() getSelfEmplsId
+Information --() getOrdersId
+Information --() getSelfEmplsIdOrders
+Information --() getSelfEmplsIdPermission
+
+Information -up-( getGrantedPermission
+
+
+Component "Modification self-employer" as Modification <<component>>
+interface "PUT /self-employers/{vatin}" as putSelfEmplsId
+interface "DELETE /self-employers/{vatin}" as delSelfEmplsId
+
+Modification --() putSelfEmplsId
+Modification --() delSelfEmplsId
+
+Modification -up-( putTaxpayerData
+Modification -up-( postPartnerUnbind
+Modification -up-( postTaxpayerUnregistration
+
 }
-
-SelfEmplService --() getRestrictions
-SelfEmplService --() getSelfEmpls
-SelfEmplService --() postSelfEmpls
-SelfEmplService --() getSelfEmplsId
-SelfEmplService --() patchSelfEmplsId
-SelfEmplService --() delSelfEmplsId
-SelfEmplService --() getOrdersId
-
-SelfEmplService -up-( taxpayerRestrictions
-SelfEmplService -up-( taxpayerRegistration
-SelfEmplService -up-( taxpayerStatus
-SelfEmplService -up-( taxpayerData
-SelfEmplService -up-( partnerBind
-SelfEmplService -up-( taxpayerUnregistration
 
 @enduml
 
