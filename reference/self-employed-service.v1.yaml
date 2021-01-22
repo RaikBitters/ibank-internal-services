@@ -26,6 +26,7 @@ tags:
   - name: Self-employer
   - name: Self-employers collection
   - name: Inprogress
+  - name: Notifications
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -252,6 +253,7 @@ paths:
       summary: '[In progress] Get incomes'
       tags:
         - Inprogress
+        - Incomes
       responses:
         '200':
           description: OK
@@ -291,6 +293,7 @@ paths:
       summary: '[In progress] Registering income'
       tags:
         - Inprogress
+        - Incomes
       responses:
         '200':
           description: OK
@@ -324,6 +327,7 @@ paths:
       summary: '[In progress] Get income'
       tags:
         - Incomes
+        - Inprogress
       responses:
         '200':
           description: OK
@@ -333,7 +337,7 @@ paths:
                 $ref: '#/components/schemas/Receipt'
       operationId: get-incomes-id
     delete:
-      summary: Cancellation income
+      summary: '[In progress] Cancellation income'
       operationId: delete-incomes-id
       responses:
         '200':
@@ -344,6 +348,7 @@ paths:
                 $ref: '#/components/schemas/Receipt'
       tags:
         - Incomes
+        - Inprogress
       description: ''
   '/self-employers/{vatin}/account':
     get:
@@ -399,6 +404,7 @@ paths:
       summary: '[In progress] Get notifications'
       tags:
         - Notifications
+        - Inprogress
       responses:
         '200':
           description: OK
@@ -427,9 +433,10 @@ paths:
           name: archived
           description: Показывать заархивированные.
     post:
-      summary: Change all notifications
+      summary: '[In progress] Change all notifications'
       tags:
         - Notifications
+        - Inprogress
       responses: {}
       operationId: post-notifications
       description: ''
@@ -448,6 +455,7 @@ paths:
       summary: '[In progress] Update notification'
       tags:
         - Notifications
+        - Inprogress
       responses: {}
       operationId: put-notifications-id
   '/self-employers/{vatin}/notifications/count':
@@ -455,6 +463,7 @@ paths:
       summary: '[In progress] Get notifications count'
       tags:
         - Notifications
+        - Inprogress
       responses: {}
       operationId: get-notifications-count
     parameters:
@@ -540,7 +549,7 @@ paths:
         in: path
         required: true
     get:
-      summary: GET Self-employer orders
+      summary: Get self-employer orders
       responses:
         '200':
           description: OK
