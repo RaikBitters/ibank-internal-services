@@ -17,8 +17,6 @@ info:
     name: Reinhold Shekhtel
     email: raikbitters@gmail.com
 tags:
-  - name: Self-employers
-    description: Self-employers collection
   - name: Dictionaries
   - name: Incomes
   - name: Reference
@@ -88,7 +86,7 @@ paths:
           name: reasons
           description: Код причины снятия с учёта
       tags:
-        - Self-employers
+        - Self-employer
     put:
       summary: Update self-employer
       operationId: put-self-employers-id
@@ -541,9 +539,6 @@ paths:
         required: true
     get:
       summary: GET Self-employer orders
-      tags:
-        - Self-employers
-        - Orders
       responses:
         '200':
           description: OK
@@ -560,6 +555,8 @@ paths:
                           $ref: '#/components/schemas/Order'
       operationId: get-self-employers-vatin-orders
       description: Заявки самозанятого.
+      tags:
+        - Self-employer
 components:
   schemas:
     Restriction:
