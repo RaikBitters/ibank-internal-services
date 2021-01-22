@@ -24,6 +24,8 @@ tags:
   - name: Reference
   - name: References
   - name: Orders
+  - name: Information
+  - name: Self-employer
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -42,7 +44,7 @@ paths:
         Первичная проверка существующих ограничений для регистрации налогоплательщика. Обязательна перед регистрацией.
         Полный набор проверок делается только в момент постановки на учет в ПП ЦУН АИС «Налог-3». То есть, при успешном прохождении первичной проверки на наличие ограничений при постановке на учет, нет гарантии, что при фактической постановке на учет не последует отказа.
       tags:
-        - Self-employers
+        - Information
     parameters:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}':
@@ -50,8 +52,6 @@ paths:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
     get:
       summary: Get self-employer info
-      tags:
-        - Self-employers
       responses:
         '200':
           description: OK
@@ -61,15 +61,17 @@ paths:
                 $ref: '#/components/schemas/SelfEmployer'
       operationId: get-self-employers-id
       description: Получение детальной информации о самозанятом.
+      tags:
+        - Self-employer
     delete:
-      summary: Unregistration self-employer
+      summary: Unactivate self-employer
       operationId: delete-self-employers-id
       responses:
         '200':
           description: OK
       description: |-
-        Отвязка от банка или снятие с учёта в ФНС.
-        Пользователь числится в системе как UNACTIVE.
+        Отвязка от банка, опционально cо снятием с учёта в ФНС.
+        Пользователь числится в системе как UNACTIVE. Можно считать сущность удаленной и возвращать 404 при попытках обратиться к ней.
 
         Если unregistartion = true, обязательно указывается код в reasons.
       parameters:
@@ -87,7 +89,7 @@ paths:
       tags:
         - Self-employers
     put:
-      summary: ''
+      summary: Update self-employer
       operationId: put-self-employers-id
       responses:
         '200':
@@ -107,8 +109,10 @@ paths:
                     - oktmo
             examples: {}
       description: Обновление информации о видах деятельности самозанятого.
+      tags:
+        - Self-employer
     patch:
-      summary: ''
+      summary: Update part of self-employer
       operationId: patch-self-employers-id
       responses:
         '200':
@@ -123,6 +127,8 @@ paths:
             schema:
               $ref: '#/components/schemas/SelfEmployerMutable'
       description: Обновление информации о видах деятельности самозанятого.
+      tags:
+        - Self-employer
   /self-employers:
     post:
       summary: Create self-employer
@@ -185,8 +191,6 @@ paths:
   '/orders/{id}':
     get:
       summary: Get order by id
-      tags:
-        - Self-employers
       responses:
         '200':
           description: OK
@@ -196,6 +200,8 @@ paths:
                 $ref: '#/components/schemas/Order'
       operationId: get-orders
       description: Получение заявки по id.
+      tags:
+        - Orders
     parameters:
       - schema:
           type: integer
