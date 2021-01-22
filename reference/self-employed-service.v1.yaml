@@ -775,8 +775,8 @@ components:
           description: Дата последнего обновления заявки.
         structure:
           oneOf:
-            - $ref: '#/components/schemas/SelfEmployerRegistration'
-            - $ref: '#/components/schemas/SelfEmployer'
+            - $ref: '#/components/schemas/RegistrationApplication'
+            - $ref: '#/components/schemas/SelfEmployerBinding'
           description: Состав заявки отправленной в ФНС.
     Dictionary:
       type: array
