@@ -1,28 +1,50 @@
+@startuml initialization-in-tax-3
+
+@enduml
+
 @startuml self-employer-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
-interface "GetTaxpayerRestrictionsRequest" as TaxpayerRestrictions
-interface "PostRegistrationRequest\nGetRegistrationStatusRequest" as Registration
-interface "GetTaxpayerStatusRequest" as TaxpayerStatus
-interface "PutTaxpayerDataRequest" as TaxpayerData
-interface "PostBindPartnerWithInnRequest\nGetBindPartnerStatusRequest" as BindPartner
-interface "PostUnregistrationRequestV2\nGetUnregistrationStatusRequest" as Unregistration
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+interface "GetTaxpayerRestrictionsRequest" as taxpayerRestrictions
+interface "PostRegistrationRequest\nGetRegistrationStatusRequest" as taxpayerRegistration
+interface "GetTaxpayerStatusRequest" as taxpayerStatus
+interface "PutTaxpayerDataRequest" as taxpayerData
+interface "GetGrantedPermissionsRequest" as getGrantedPermission
+interface "GetInnByPersonalInfoRequestV3" as getInnByPersonalInfo
+interface "PostBindPartnerWithInnRequest\nGetBindPartnerStatusRequest" as partnerBindInn
+interface "PostBindPartnerWithPhoneRequest\nGetBindPartnerStatusRequest" as partnerBindPhone
+interface "PostUnbindPartnerRequest" as partnerUnbind
+interface "PostUnregistrationRequestV2\nGetUnregistrationStatusRequest" as taxpayerUnregistration
+interface "GetTaxpayerUnregistrationReasonsListRequest" as getTaxpayerUnregistrationReasonsList
 
-Tax3 --() TaxpayerRestrictions
-Tax3 --() Registration
-Tax3 --() TaxpayerStatus
-Tax3 --() TaxpayerData
-Tax3 --() BindPartner
-Tax3 --() Unregistration
+Tax3 --() taxpayerRestrictions
+Tax3 --() taxpayerRegistration
+Tax3 --() taxpayerStatus
+Tax3 --() taxpayerData
+Tax3 --() partnerBindInn
+Tax3 --() partnerBindPhone
+Tax3 --() taxpayerUnregistration
+Tax3 --() partnerUnbind
+Tax3 --() getGrantedPermission
+Tax3 --() getInnByPersonalInfo
+Tax3 --() getTaxpayerUnregistrationReasonsList
 
-component "Self-employed service" as SelfEmplService <<Component>>
+component "Self-employed service" as SelfEmplService <<service>> {
+
+component "Registration" as Registration <<component>>
 interface "GET /restrictions/{vatin}" as getRestrictions
-interface "GET /self-employers/{id}" as getSelfEmplsId
-interface "DELETE /self-employers/{id}" as delSelfEmplsId
-interface "PATCH /self-employers/{id}" as patchSelfEmplsId
 interface "POST /self-employers/" as postSelfEmpls
+interface "DELETE /self-employers/{id}" as delSelfEmplsId
+
+component "Information" as Information <<component>>
 interface "GET /self-employers/" as getSelfEmpls
+interface "GET /self-employers/{id}" as getSelfEmplsId
+
+Component "Change" as Update <<component>>
+interface "PATCH /self-employers/{id}" as patchSelfEmplsId
 interface "GET /orders/{id}" as getOrdersId
+
+}
 
 SelfEmplService --() getRestrictions
 SelfEmplService --() getSelfEmpls
@@ -32,12 +54,12 @@ SelfEmplService --() patchSelfEmplsId
 SelfEmplService --() delSelfEmplsId
 SelfEmplService --() getOrdersId
 
-SelfEmplService -up-( TaxpayerRestrictions
-SelfEmplService -up-( Registration
-SelfEmplService -up-( TaxpayerStatus
-SelfEmplService -up-( TaxpayerData
-SelfEmplService -up-( BindPartner
-SelfEmplService -up-( Unregistration
+SelfEmplService -up-( taxpayerRestrictions
+SelfEmplService -up-( taxpayerRegistration
+SelfEmplService -up-( taxpayerStatus
+SelfEmplService -up-( taxpayerData
+SelfEmplService -up-( partnerBind
+SelfEmplService -up-( taxpayerUnregistration
 
 @enduml
 
@@ -176,7 +198,7 @@ component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>\
 interface "GetRegionsListRequest" as GetRegionsList
 interface "GetActivitiesListRequestV2" as GetActivitiesList
 interface "GetRejectionReasonsListRequest" as GetRejectionReasonsList
-interface "GetUnregistrationReasonsListRequest" as GetUnregistrationReasonsList
+interface "GetTaxpayerUnregistrationReasonsListRequest" as GetTaxpayerUnregistrationReasonsList
 interface "GetCancelIncomeReasonsListRequest" as GetCancelIncomeReasonsList
 
 Tax3 --() GetRegionsList
