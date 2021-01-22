@@ -29,20 +29,19 @@ Tax3 --() getInnByPersonalInfo
 
 component "Self-employed service" as SelfEmplService <<service>> {
 
-component "Add self-employer" as Add <<component>>
-interface "GET /restrictions/{vatin}" as getRestrictions
+component "Registration self-employer" as Registration <<component>>
+interface "POST /registration-application" as postRegistrationApplication
+Registration --() postRegistrationApplication
+Registration -up-( postTaxpayerRegistration
+
+component "Bind self-employer" as Bind <<component>>
 interface "POST /self-employers/" as postSelfEmpls
-
-Add --() getRestrictions
-Add --() postSelfEmpls
-
-Add -up-( getTaxpayerRestrictions
-Add -up-( postTaxpayerRegistration
-Add -up-( postPartnerBindInn
-Add -up-( postPartnerBindPhone
-
+Bind --() postSelfEmpls
+Bind -up-( postPartnerBindInn
+Bind -up-( postPartnerBindPhone
 
 component "Get information" as Information <<component>>
+interface "GET /restrictions/{vatin}" as getRestrictions
 interface "GET /self-employers/" as getSelfEmpls
 interface "GET /self-employers/{vatin}" as getSelfEmplsId
 interface "GET /self-employers/{vatin}/permissions" as getSelfEmplsIdPermission
@@ -54,7 +53,9 @@ Information --() getSelfEmplsId
 Information --() getOrdersId
 Information --() getSelfEmplsIdOrders
 Information --() getSelfEmplsIdPermission
+Information --() getRestrictions
 
+Information -up-( getTaxpayerRestrictions
 Information -up-( getGrantedPermission
 
 

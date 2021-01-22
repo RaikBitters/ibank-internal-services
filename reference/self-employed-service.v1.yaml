@@ -79,8 +79,6 @@ paths:
       description: |-
         Отвязка от банка, опционально cо снятием с учёта в ФНС.
         Пользователь числится в системе как UNACTIVE.
-
-        Если unregistartion = true, обязательно указывается код в reasons.
       parameters:
         - schema:
             type: boolean
@@ -88,11 +86,6 @@ paths:
           in: query
           description: Признак необходимости снятия пользователя с учёта в ФНС
           name: unregistartion
-        - schema:
-            type: string
-          in: query
-          name: reasons
-          description: Код причины снятия с учёта
       tags:
         - Self-employer
     put:
@@ -584,6 +577,26 @@ paths:
             schema:
               $ref: '#/components/schemas/RegistrationApplication'
     parameters: []
+  '/self-employers/{vatin}/permissions':
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
+    get:
+      summary: Get self-employer permissions
+      tags:
+        - Self-employer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionsList'
+      operationId: get-self-employers-vatin-permission
+      description: ''
 components:
   schemas:
     Restriction:
@@ -773,11 +786,6 @@ components:
           type: string
           format: date-time
           description: Дата последнего обновления заявки.
-        structure:
-          oneOf:
-            - $ref: '#/components/schemas/RegistrationApplication'
-            - $ref: '#/components/schemas/SelfEmployerBinding'
-          description: Состав заявки отправленной в ФНС.
     Dictionary:
       type: array
       description: Справочник кодов.
@@ -1163,6 +1171,15 @@ components:
           type: string
       x-tags:
         - Models
+    PermissionsList:
+      title: PermissionsList
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            type: string
+      x-examples: {}
   securitySchemes: {}
   responses: {}
   parameters:
