@@ -26,6 +26,7 @@ tags:
   - name: Orders
   - name: Information
   - name: Self-employer
+  - name: Self-employers collection
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -131,7 +132,7 @@ paths:
         - Self-employer
   /self-employers:
     post:
-      summary: Create self-employer
+      summary: Add self-employer
       operationId: post-self-employers
       responses:
         '200':
@@ -141,13 +142,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/SelfEmployer'
       description: |-
-        Добавление ресурса возможно в виде двух операций:
+        #### Добавление самозанятого
+        Возможно два варианта:
         * Добавление через регистрацию самозанятого в ФНС.
-        * Добавление через привязку к платформе банке при условии что самозанятый есть в ФНС. В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE.
+        * Добавление через привязку к платформе банке при условии что самозанятый есть в ФНС. В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE, после проверок в ФНС.
 
-        Статусы пользователя:
-        * В случаи добавления статус самозанятого переходит в ACTIVE.
-        * Изменение статуса происходит через промежуточный статус PENDING.
+        #### Статусы пользователя
+        В случаи добавления статус самозанятого переходит в ACTIVE через промежуточный статус PENDING.
       requestBody:
         content:
           application/json:
@@ -157,9 +158,9 @@ paths:
                 - $ref: '#/components/schemas/SelfEmployerBinding'
         description: Данные для регистрация или привязки пользователя.
       tags:
-        - Self-employers
+        - Self-employers collection
     get:
-      summary: Get self-employers list
+      summary: Get self-employers
       operationId: get-self-employers
       responses:
         '200':
@@ -187,7 +188,7 @@ paths:
         Получения списка самозанятых.
         Доступна фильтрация по user_id.
       tags:
-        - Self-employers
+        - Self-employers collection
   '/orders/{id}':
     get:
       summary: Get order by id
