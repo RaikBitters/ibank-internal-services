@@ -25,6 +25,7 @@ tags:
   - name: Information
   - name: Self-employer
   - name: Self-employers collection
+  - name: Inprogress
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -251,6 +252,7 @@ paths:
       summary: '[In progress] Get incomes'
       tags:
         - Incomes
+        - Inprogress
       responses:
         '200':
           description: OK
