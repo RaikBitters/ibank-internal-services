@@ -23,6 +23,7 @@ tags:
   - name: Incomes
   - name: Reference
   - name: References
+  - name: Orders
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -673,14 +674,20 @@ components:
         * Регистрация пользователя.
         * Снятие с учёта пользователя.
         * Привязка пользователя к интернет банку.
+      x-tags:
+        - Models
       properties:
         id:
           type: integer
           format: int64
           description: ''
-        fts_order_id:
+        guid_id:
           type: string
-          description: ID заявки в ФНС
+          description: ID заявки в ФНС.
+        self-employer_id:
+          type: integer
+          format: int64
+          description: ID самозанятого.
         order_type:
           type: string
           description: Тип заявки
@@ -688,17 +695,17 @@ components:
             - REGISTRATION
             - UNREGISTRATION
             - BINDING
-        result:
+        state:
           type: string
           enum:
             - COMPLETED
             - FAILED
             - IN_PROGRESS
             - ORDER_REGISTERED
-          description: Текущий результат заявки
+          description: Текущее состояние заявки.
         rejection_code:
           type: string
-          description: Причина отказа
+          description: Код причины отказа.
         timestamp_create:
           type: string
           format: date-time
@@ -709,9 +716,7 @@ components:
           oneOf:
             - $ref: '#/components/schemas/SelfEmployerRegistration'
             - $ref: '#/components/schemas/SelfEmployer'
-          description: Состав заявки отправленной в ФНС
-      x-tags:
-        - Models
+          description: Состав заявки отправленной в ФНС.
     Dictionary:
       type: array
       description: Справочник кодов.
