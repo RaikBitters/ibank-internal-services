@@ -555,7 +555,7 @@ paths:
                         items:
                           $ref: '#/components/schemas/Order'
       operationId: get-self-employers-vatin-orders
-      description: Заявки самозанятого.
+      description: Получение информации о заявках самозанятого.
       tags:
         - Orders
   /registration-application:
