@@ -1095,6 +1095,8 @@ components:
           type: string
         application_id:
           type: string
+      x-tags:
+        - Models
   securitySchemes: {}
   responses: {}
   parameters:
