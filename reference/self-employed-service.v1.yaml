@@ -525,6 +525,34 @@ paths:
           required: true
       tags:
         - References
+  '/self-employers/{vatin}/orders/':
+    parameters:
+      - schema:
+          type: string
+        name: vatin
+        in: path
+        required: true
+    get:
+      summary: GET Self-employer orders
+      tags:
+        - Self-employers
+        - Orders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: ../models/CollectionCursor.v1.yaml
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Order'
+      operationId: get-self-employers-vatin-orders
+      description: Заявки самозанятого.
 components:
   schemas:
     Restriction:
@@ -690,7 +718,7 @@ components:
           description: ID самозанятого.
         order_type:
           type: string
-          description: Тип заявки
+          description: Тип заявки.
           enum:
             - REGISTRATION
             - UNREGISTRATION
@@ -709,9 +737,11 @@ components:
         timestamp_create:
           type: string
           format: date-time
+          description: Дата создания заявки.
         timestamp_update:
           type: string
           format: date-time
+          description: Дата последнего обновления заявки.
         structure:
           oneOf:
             - $ref: '#/components/schemas/SelfEmployerRegistration'
