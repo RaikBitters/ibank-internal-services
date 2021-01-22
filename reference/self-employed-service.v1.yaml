@@ -440,9 +440,10 @@ paths:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
       - schema:
           type: string
-        name: notif-id
+        name: id
         in: path
         required: true
+        description: ID нотификации.
     put:
       summary: '[In progress] Update notification'
       tags:
