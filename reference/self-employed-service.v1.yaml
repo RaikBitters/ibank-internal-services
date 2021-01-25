@@ -140,6 +140,7 @@ paths:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/SelfEmployerBinding'
+                - $ref: '#/components/schemas/SelfEmployerBinding'
         description: Данные для регистрация или привязки пользователя.
       tags:
         - Self-employers collection
