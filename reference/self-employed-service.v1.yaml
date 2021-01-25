@@ -123,7 +123,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
       description: |-
-        Добавление самозанятого через привязку к платформе банка при условии что самозанятый стоит на учёте в ФНС. 
+        Добавление (активация) пользователя как самозантого происходит двумя способами:
+        * Регистрация пользователя интернет банка в ФНС как самозанятого.
+        * Привязка пользователя как самозанятого к платформе банка.
+
+        Оба способа создают заявки на стороне ФНС которые можно отследить по order id.
+
+        В первом случаи 
 
         В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE.
 
@@ -551,32 +557,6 @@ paths:
       description: Получение информации о заявках самозанятого.
       tags:
         - Orders
-  /registration-application:
-    post:
-      summary: Create registration application
-      operationId: post-application-registration
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '':
-          description: Информация о созданной заявке.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-      description: Создание заявки на постановку на учёт в ФНС как самозанятого.
-      tags:
-        - Registration
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegistrationApplication'
-    parameters: []
   '/self-employers/{vatin}/permissions':
     parameters:
       - schema:
