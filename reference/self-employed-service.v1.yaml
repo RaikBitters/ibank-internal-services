@@ -498,7 +498,7 @@ paths:
         description: Тип справки
       - $ref: '#/components/parameters/SelfEmployerResourceId'
     get:
-      summary: Get reference
+      summary: Get reference for self-employer
       operationId: get-self-employers-vatin-reference
       responses:
         '200':
@@ -583,6 +583,57 @@ paths:
                 $ref: '#/components/schemas/PermissionsList'
       operationId: get-self-employers-vatin-permission
       description: ''
+  /references/vatin:
+    get:
+      summary: Get VATIN information for user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vatin:
+                    type: integer
+                    format: int64
+      operationId: get-user-vatin
+      description: |
+        Получение ИНН пользователя по персональным данным.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: first_name
+          required: true
+          description: Имя.
+        - schema:
+            type: string
+          in: query
+          name: second_name
+          required: true
+          description: Фамилия.
+        - schema:
+            type: string
+            format: date
+          in: query
+          name: birthday
+          required: true
+          description: День рождения.
+        - schema:
+            type: string
+          in: query
+          name: passport_series
+          required: true
+          description: Серия паспорта.
+        - schema:
+            type: string
+          in: query
+          name: passport_number
+          required: true
+          description: Номер паспорта.
+    parameters: []
 components:
   schemas:
     Restriction:
@@ -1129,6 +1180,8 @@ components:
           items:
             type: string
       x-examples: {}
+      x-tags:
+        - Models
   securitySchemes: {}
   responses: {}
   parameters:
