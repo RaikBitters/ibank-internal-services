@@ -1,7 +1,3 @@
-@startuml initialization-in-tax-3
-
-@enduml
-
 @startuml self-employer-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
@@ -29,19 +25,17 @@ Tax3 --() getInnByPersonalInfo
 
 component "Self-employed service" as SelfEmplService <<service>> {
 
-component "Registration self-employer" as Registration <<component>>
-interface "POST /registration-application" as postRegistrationApplication
-Registration --() postRegistrationApplication
-Registration -up-( postTaxpayerRegistration
-
-component "Bind self-employer" as Bind <<component>>
+component "Create self-employer" as CreateSelfEmpl <<component>>
 interface "POST /self-employers/" as postSelfEmpls
-Bind --() postSelfEmpls
-Bind -up-( postPartnerBindInn
-Bind -up-( postPartnerBindPhone
+CreateSelfEmpl --() postSelfEmpls
+
+CreateSelfEmpl -up-( postTaxpayerRegistration
+CreateSelfEmpl -up-( postPartnerBindInn
+CreateSelfEmpl -up-( postPartnerBindPhone
 
 component "Get information" as Information <<component>>
 interface "GET /restrictions/{vatin}" as getRestrictions
+interface "POST /vatin-request/" as postVatinRequest
 interface "GET /self-employers/" as getSelfEmpls
 interface "GET /self-employers/{vatin}" as getSelfEmplsId
 interface "GET /self-employers/{vatin}/permissions" as getSelfEmplsIdPermission
@@ -54,8 +48,11 @@ Information --() getOrdersId
 Information --() getSelfEmplsIdOrders
 Information --() getSelfEmplsIdPermission
 Information --() getRestrictions
+Information --() postVatinRequest
 
 Information -up-( getTaxpayerRestrictions
+Information -up-( getTaxpayerStatus
+Information -up-( getInnByPersonalInfo
 Information -up-( getGrantedPermission
 
 
@@ -202,9 +199,9 @@ SelfEmplService -up-( PostNotificationsDeliveredRequest
 
 
 
-@startuml dictionaries-components
+@startuml reference-data-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>\
+component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 
 interface "GetRegionsListRequest" as GetRegionsList
 interface "GetActivitiesListRequestV2" as GetActivitiesList
@@ -215,18 +212,18 @@ interface "GetCancelIncomeReasonsListRequest" as GetCancelIncomeReasonsList
 Tax3 --() GetRegionsList
 Tax3 --() GetActivitiesList
 Tax3 --() GetRejectionReasonsList
-Tax3 --() GetUnregistrationReasonsList
 Tax3 --() GetCancelIncomeReasonsList
+Tax3 --() GetTaxpayerUnregistrationReasonsList
 
 component "Self-employed service" as SelfEmplService <<Component>>
-interface "GET /dictionaries/{type}" as getDictionary
+interface "GET /reference-data/{type}" as getDictionary
 
 SelfEmplService --() getDictionary
 
 SelfEmplService -up-( GetRegionsList
 SelfEmplService -up-( GetActivitiesList
 SelfEmplService -up-( GetRejectionReasonsList
-SelfEmplService -up-( GetUnregistrationReasonsList
 SelfEmplService -up-( GetCancelIncomeReasonsList
+SelfEmplService -up-( GetTaxpayerUnregistrationReasonsList
 
 @enduml

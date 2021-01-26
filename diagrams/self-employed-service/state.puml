@@ -1,0 +1,16 @@
+@startuml
+
+[*] --> Pending
+
+Pending -> Active
+Active --> Pending
+
+Pending -> Unactive
+Unactive -> Pending
+
+Active -> Unactive
+
+'Pending: entry /
+'Pending: exit /
+
+@enduml
