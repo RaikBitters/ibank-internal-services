@@ -45,8 +45,8 @@ tags: [adr]
 ### Операции с уведомлениями
 ![notifications-components.png](../../assets/images/diagrams/self-employed-service/components/notifications-components.png)
 
-### Операции со словорями
-![dictionaries-components.png](../../assets/images/diagrams/self-employed-service/components/references-data-components.png)
+### Операции с справочниками
+![reference-data-components.png](../../assets/images/diagrams/self-employed-service/components/reference-data-components.png)
 
 ### Операции со справками
-![reference-components.png](../../assets/images/diagrams/self-employed-service/components/reference-components.png)
+![reference-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
