@@ -23,13 +23,15 @@ tags: [adr]
 Потребность клиентов банка применяющих НПД использовать сервисы ФНС через приложение банка.
 
 ### Цель
+
 Предоставление сервисов АИС ФНС для самозанятых через REST API.
 
 ### Аннотация
 
 1. При каждой авторизации происходит проверка пользователя на актуальность его статуса в системе ИБ.
 2. ИНН налогоплательщика является id ресурса в коллекции `self-employers`.
-
+3. Для регистрации пользователя в ФНС как самозанято формируется запрос с `XMLDSig` используя УКЭП.
+4. Все полученные справочники хранятся не менее суток.
 
 ## Компонентная модель решения
 
@@ -40,7 +42,7 @@ tags: [adr]
 ![incomes-components.png](../../assets/images/diagrams/self-employed-service/components/incomes-components.png)
 
 ### Операции со счётом
-![account-components.png](../../assets/images/diagrams/self-employed-service/components/account-components.png)
+![account-components.png](../../assets/images/diagrams/**XMLDSig**/components/account-components.png)
 
 ### Операции с уведомлениями
 ![notifications-components.png](../../assets/images/diagrams/self-employed-service/components/notifications-components.png)
