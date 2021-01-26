@@ -42,7 +42,7 @@ tags: [adr]
 ![incomes-components.png](../../assets/images/diagrams/self-employed-service/components/incomes-components.png)
 
 ### Операции со счётом
-![account-components.png](../../assets/images/diagrams/**XMLDSig**/components/account-components.png)
+![account-components.png](../../assets/images/diagrams/self-employed-service/components/account-components.png)
 
 ### Операции с уведомлениями
 ![notifications-components.png](../../assets/images/diagrams/self-employed-service/components/notifications-components.png)
