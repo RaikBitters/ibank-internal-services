@@ -136,7 +136,7 @@ SelfEmplService -up-( GetPaymentDocuments
 
 
 
-@startuml reference-components
+@startuml references-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
 interface "GetRegistrationReferenceRequestV2" as GetRegistrationReference
@@ -146,7 +146,7 @@ Tax3 --() GetRegistrationReference
 Tax3 --() GetIncomeReference
 
 component "Self-employed service" as SelfEmplService <<Component>>
-interface "GET /self-employers/{id}/reference/{type}" as getReference
+interface "GET /self-employers/{id}/references/{type}" as getReference
 
 SelfEmplService --() getReference
 
