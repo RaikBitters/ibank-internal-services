@@ -242,7 +242,7 @@ paths:
         name: type
         in: path
         required: true
-        description: Тип справочника
+        description: Тип справочника.
   '/self-employers/{vatin}/incomes':
     get:
       summary: '[In progress] Get incomes'
@@ -583,10 +583,11 @@ paths:
                 $ref: '#/components/schemas/PermissionsList'
       operationId: get-self-employers-vatin-permission
       description: ''
-  /references/vatin:
-    get:
-      summary: Get VATIN information for user
-      tags: []
+  /vatin-request:
+    parameters: []
+    post:
+      summary: Create VATIN request
+      operationId: post-references-vatin
       responses:
         '200':
           description: OK
@@ -598,42 +599,13 @@ paths:
                   vatin:
                     type: integer
                     format: int64
-      operationId: get-user-vatin
-      description: |
-        Получение ИНН пользователя по персональным данным.
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: first_name
-          required: true
-          description: Имя.
-        - schema:
-            type: string
-          in: query
-          name: second_name
-          required: true
-          description: Фамилия.
-        - schema:
-            type: string
-            format: date
-          in: query
-          name: birthday
-          required: true
-          description: День рождения.
-        - schema:
-            type: string
-          in: query
-          name: passport_series
-          required: true
-          description: Серия паспорта.
-        - schema:
-            type: string
-          in: query
-          name: passport_number
-          required: true
-          description: Номер паспорта.
-    parameters: []
+                    description: ИНН.
+      description: Запрос на получение ИНН пользователя по персональным данным.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VatinRequest'
 components:
   schemas:
     Restriction:
@@ -1182,6 +1154,33 @@ components:
       x-examples: {}
       x-tags:
         - Models
+    VatinRequest:
+      title: Vatin request
+      type: object
+      description: Данные для запроса информации о ИНН.
+      properties:
+        first_name:
+          type: string
+          description: Имя.
+        second_name:
+          type: string
+          description: Фамилия.
+        birthday:
+          type: string
+          description: Дата рождения.
+          format: date
+        passport_series:
+          type: string
+          description: Номер паспорта.
+        passport_number:
+          type: string
+          description: Серия паспорта.
+      required:
+        - first_name
+        - second_name
+        - birthday
+        - passport_series
+        - passport_number
   securitySchemes: {}
   responses: {}
   parameters:
