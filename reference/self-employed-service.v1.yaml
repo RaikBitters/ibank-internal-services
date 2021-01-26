@@ -213,11 +213,14 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: ../models/Collection.v1.yaml
+                  - $ref: ../models/CollectionCursor.v1.yaml
                   - type: object
                     properties:
                       items:
-                        $ref: '#/components/schemas/Dictionary'
+                        type: array
+                        minItems: 1
+                        items:
+                          $ref: '#/components/schemas/ReferenceData'
       operationId: get-reference-data
       description: |-
         Получение справочников со списком кодов применяемых в ФНС.
@@ -735,29 +738,25 @@ components:
           description: Дата последнего обновления заявки.
         structure:
           type: object
-    Dictionary:
-      type: array
-      description: Справочник кодов.
-      title: Dictionary
-      uniqueItems: true
-      minItems: 1
+    ReferenceData:
+      type: object
+      description: Справочная информация.
+      title: Reference data
       x-tags:
         - Models
-      items:
-        type: object
-        properties:
-          code:
-            type: string
-            description: Код.
-          description:
-            type: string
-            description: Описание.
-          parent_code:
-            type: string
-            description: 'Код родительского элемента, при наличии иерархии в списке.'
-          availability:
-            type: boolean
-            description: 'Признак доступности для пользователя, при наличии ограничений в списках.'
+      properties:
+        code:
+          type: string
+          description: Код.
+        description:
+          type: string
+          description: Описание.
+        parent_code:
+          type: string
+          description: 'Код родительского элемента, при наличии иерархии в списке.'
+        availability:
+          type: boolean
+          description: 'Признак доступности для пользователя, при наличии ограничений в списках.'
     Income:
       title: Income
       type: object
