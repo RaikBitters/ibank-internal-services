@@ -989,6 +989,9 @@ components:
         - Models
     BindingInfo:
       title: Self-employer binding
+      description: Информация для привязки пользователя как самозанятого.
+      x-tags:
+        - Models
       oneOf:
         - description: Данные для привязки по ИНН.
           properties:
@@ -1009,14 +1012,11 @@ components:
               description: GUID пользователя интернет банка.
             phone:
               type: string
-              description: Номер телефона.
+              description: Номер телефона указанный в ФНС.
           required:
             - user_id
             - phone
-      description: Информация для привязки пользователя как самозанятого.
       type: object
-      x-tags:
-        - Models
     PaymentDocument:
       title: Payment document
       type: object
