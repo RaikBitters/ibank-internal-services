@@ -17,7 +17,6 @@ info:
     name: Reinhold Shekhtel
     email: raikbitters@gmail.com
 tags:
-  - name: Dictionaries
   - name: Incomes
   - name: References
   - name: Orders
@@ -27,6 +26,7 @@ tags:
   - name: Inprogress
   - name: Notifications
   - name: Registration
+  - name: Reference-data
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -204,8 +204,6 @@ paths:
   '/reference-data/{type}':
     get:
       summary: Get reference data
-      tags:
-        - Dictionaries
       responses:
         '200':
           description: OK
@@ -230,6 +228,8 @@ paths:
         3. rejection - справочник причин отказа в регистрации;
         4. unregistration - справочник причин снятия с учёта;
         5. cancel-income - справочник причин отмены регистрации дохода.
+      tags:
+        - Reference-data
     parameters:
       - schema:
           type: string
