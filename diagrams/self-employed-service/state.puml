@@ -2,7 +2,7 @@
 
 [*] --> Pending
 
-Pending -> Active
+Pending -> Active: Creation order COMPLITED
 Active --> Pending
 
 Pending -> Unactive
@@ -10,7 +10,10 @@ Unactive -> Pending
 
 Active -> Unactive
 
-'Pending: entry /
-'Pending: exit /
+Pending: entry / Create self-employer
+Pending: entry / Unregistration self-employer
+
+Pending: exit / Order get state COMPLETED
+Pending: exit / Order get state FAILED
 
 @enduml
