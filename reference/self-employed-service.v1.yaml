@@ -733,7 +733,7 @@ components:
           type: integer
           format: int64
           description: ID самозанятого.
-        application_type:
+        order_type:
           type: string
           description: Тип заявки.
           enum:
