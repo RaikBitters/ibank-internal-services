@@ -20,13 +20,13 @@ tags:
   - name: Incomes
   - name: References
   - name: Orders
-  - name: Information
   - name: Self-employer
   - name: Self-employers collection
   - name: Inprogress
   - name: Notifications
   - name: Registration
   - name: Reference-data
+  - name: Registration info
 servers:
   - url: 'http://localhost:3000'
 paths:
@@ -45,7 +45,7 @@ paths:
         Первичная проверка существующих ограничений для регистрации налогоплательщика. Обязательна перед регистрацией.
         Полный набор проверок делается только в момент постановки на учет в ПП ЦУН АИС «Налог-3». То есть, при успешном прохождении первичной проверки на наличие ограничений при постановке на учет, нет гарантии, что при фактической постановке на учет не последует отказа.
       tags:
-        - Information
+        - Registration info
     parameters:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}':
@@ -606,6 +606,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/VatinRequest'
+      tags:
+        - Registration info
 components:
   schemas:
     Restriction:
@@ -760,7 +762,10 @@ components:
           format: date-time
           description: Дата последнего обновления заявки.
         structure:
-          type: object
+          oneOf:
+            - $ref: '#/components/schemas/BindingWithRegistrationInfo'
+            - $ref: '#/components/schemas/BindingInfo'
+            - $ref: '#/components/schemas/UnregistrationInfo'
     ReferenceData:
       type: object
       description: Справочная информация.
@@ -1015,31 +1020,18 @@ components:
       description: Информация для привязки пользователя как самозанятого.
       x-tags:
         - Models
-      oneOf:
-        - description: Данные для привязки по ИНН.
-          properties:
-            user_id:
-              type: integer
-              format: int64
-              description: GUID пользователя интернет банка.
-            vatin:
-              type: integer
-              description: ИНН.
-          required:
-            - user_id
-            - vatin
-        - description: Данные для привязки по номеру телефона.
-          properties:
-            user_id:
-              type: integer
-              description: GUID пользователя интернет банка.
-            phone:
-              type: string
-              description: Номер телефона указанный в ФНС.
-          required:
-            - user_id
-            - phone
       type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          description: GUID пользователя интернет банка.
+        vatin:
+          type: integer
+          description: ИНН.
+      required:
+        - user_id
+        - vatin
     PaymentDocument:
       title: Payment document
       type: object
@@ -1181,6 +1173,21 @@ components:
         - birthday
         - passport_series
         - passport_number
+      x-tags:
+        - Models
+    UnregistrationInfo:
+      title: UnregistrationInfo
+      type: object
+      properties:
+        vatin:
+          type: integer
+          format: int64
+          description: ИНН.
+        reason_code:
+          type: string
+          description: Код причины. Доступен только REFUSE (Отказываюсь от применения специального налогового режима).
+      x-tags:
+        - Models
   securitySchemes: {}
   responses: {}
   parameters:
