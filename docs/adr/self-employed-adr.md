@@ -36,19 +36,25 @@ tags: [adr]
 ## Компонентная модель решения
 
 ### Операции с налогоплательщиком
+
 ![self-employer-components.png](../../assets/images/diagrams/self-employed-service/components/self-employer-components.png)
 
 ### Операции с доходом
+
 ![incomes-components.png](../../assets/images/diagrams/self-employed-service/components/incomes-components.png)
 
 ### Операции со счётом
+
 ![account-components.png](../../assets/images/diagrams/self-employed-service/components/account-components.png)
 
 ### Операции с уведомлениями
+
 ![notifications-components.png](../../assets/images/diagrams/self-employed-service/components/notifications-components.png)
 
 ### Операции со словорями
+
 ![references-data-components.png](../../assets/images/diagrams/self-employed-service/components/reference-data-components.png)
 
 ### Операции со справками
+
 ![references-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
