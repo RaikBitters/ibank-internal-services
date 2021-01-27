@@ -25,47 +25,56 @@ Tax3 --() getInnByPersonalInfo
 
 component "Self-employed service" as SelfEmplService <<service>> {
 
+component "Registration info" as RegInfo <<component>>
+interface "GET /restrictions/{vatin}" as getRestrictions
+interface "POST /vatin-request/" as postVatinRequest
+
+RegInfo -up-( getTaxpayerRestrictions
+RegInfo -up-( getInnByPersonalInfo
+
+RegInfo --() getRestrictions
+RegInfo --() postVatinRequest
+
 component "Create self-employer" as CreateSelfEmpl <<component>>
 interface "POST /self-employers/" as postSelfEmpls
+
 CreateSelfEmpl --() postSelfEmpls
 
 CreateSelfEmpl -up-( postTaxpayerRegistration
 CreateSelfEmpl -up-( postPartnerBindInn
 CreateSelfEmpl -up-( postPartnerBindPhone
 
-component "Get information" as Information <<component>>
-interface "GET /restrictions/{vatin}" as getRestrictions
-interface "POST /vatin-request/" as postVatinRequest
+component "Local self-employers data" as Local <<component>>
 interface "GET /self-employers/" as getSelfEmpls
 interface "GET /self-employers/{vatin}" as getSelfEmplsId
-interface "GET /self-employers/{vatin}/permissions" as getSelfEmplsIdPermission
-interface "GET /self-employers/{vatin}/orders" as getSelfEmplsIdOrders
 interface "GET /orders/{id}" as getOrdersId
+interface "GET /self-employers/{vatin}/orders" as getSelfEmplsIdOrders
+interface "GET /self-employers/{vatin}/permissions" as getSelfEmplsIdPermission
 
-Information --() getSelfEmpls
-Information --() getSelfEmplsId
-Information --() getOrdersId
-Information --() getSelfEmplsIdOrders
-Information --() getSelfEmplsIdPermission
-Information --() getRestrictions
-Information --() postVatinRequest
-
-Information -up-( getTaxpayerRestrictions
-Information -up-( getTaxpayerStatus
-Information -up-( getInnByPersonalInfo
-Information -up-( getGrantedPermission
+Local --() getSelfEmpls
+Local --() getOrdersId
+Local --() getSelfEmplsIdOrders
 
 
-Component "Modification self-employer" as Modification <<component>>
+component "External self-employer data" as External <<component>>
+External --() getSelfEmplsId
+External --() getSelfEmplsIdPermission
+
+External -up-( getTaxpayerStatus
+External -up-( getGrantedPermission
+
+Component "Update self-employer" as Update <<component>>
 interface "PUT /self-employers/{vatin}" as putSelfEmplsId
+Update --() putSelfEmplsId
+Update -up-( putTaxpayerData
+
+
+Component "Delete self-employer" as Delete <<component>>
 interface "DELETE /self-employers/{vatin}" as delSelfEmplsId
 
-Modification --() putSelfEmplsId
-Modification --() delSelfEmplsId
-
-Modification -up-( putTaxpayerData
-Modification -up-( postPartnerUnbind
-Modification -up-( postTaxpayerUnregistration
+Delete --() delSelfEmplsId
+Delete -up-( postPartnerUnbind
+Delete -up-( postTaxpayerUnregistration
 
 }
 
