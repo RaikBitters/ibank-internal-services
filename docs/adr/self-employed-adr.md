@@ -23,30 +23,38 @@ tags: [adr]
 Потребность клиентов банка применяющих НПД использовать сервисы ФНС через приложение банка.
 
 ### Цель
+
 Предоставление сервисов АИС ФНС для самозанятых через REST API.
 
 ### Аннотация
 
 1. При каждой авторизации происходит проверка пользователя на актуальность его статуса в системе ИБ.
 2. ИНН налогоплательщика является id ресурса в коллекции `self-employers`.
-
+3. Для регистрации пользователя в ФНС как самозанято формируется запрос с `XMLDSig` используя УКЭП.
+4. Все справочники ФНС хранятся в базе интернет банка и обновляются раз в сутки.
 
 ## Компонентная модель решения
 
 ### Операции с налогоплательщиком
+
 ![self-employer-components.png](../../assets/images/diagrams/self-employed-service/components/self-employer-components.png)
 
 ### Операции с доходом
+
 ![incomes-components.png](../../assets/images/diagrams/self-employed-service/components/incomes-components.png)
 
 ### Операции со счётом
+
 ![account-components.png](../../assets/images/diagrams/self-employed-service/components/account-components.png)
 
 ### Операции с уведомлениями
+
 ![notifications-components.png](../../assets/images/diagrams/self-employed-service/components/notifications-components.png)
 
-### Операции с справочниками
-![reference-data-components.png](../../assets/images/diagrams/self-employed-service/components/reference-data-components.png)
+### Операции со словорями
+
+![references-data-components.png](../../assets/images/diagrams/self-employed-service/components/reference-data-components.png)
 
 ### Операции со справками
-![reference-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
+
+![references-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
