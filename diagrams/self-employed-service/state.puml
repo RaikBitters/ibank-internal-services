@@ -1,19 +1,19 @@
 @startuml
 
-[*] --> Pending
+[*] -> Pending
 
-Pending -> Active: Creation order COMPLITED
-Active --> Pending
+Pending -> Active: Order completed
+Active -> Pending: Order registered
 
-Pending -> Unactive
-Unactive -> Pending
+Pending -> Unactive: Order completed \n or failed
+Unactive --> Pending: Order registered
 
-Active -> Unactive
+Active -> Unactive: Default unbind
 
-Pending: entry / Create self-employer
-Pending: entry / Unregistration self-employer
+Pending: do / Show order status
 
-Pending: exit / Order get state COMPLETED
-Pending: exit / Order get state FAILED
+Active: do / Unbind self-employer
+
+Unactive: do / Bind self-employer
 
 @enduml
