@@ -12,8 +12,8 @@ Active -> Unactive: Default unbind
 
 Pending: do / Show order status
 
-Active: do / Unbind self-employer
+Active: do / Activate user as self-employer 
 
-Unactive: do / Bind self-employer
+Unactive: do / Disable user as self-employer 
 
 @enduml

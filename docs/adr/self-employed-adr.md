@@ -20,7 +20,7 @@ tags: [adr]
 
 ### Проблематика
 
-Потребность клиентов банка применяющих НПД использовать сервисы ФНС через приложение банка.
+Потребность клиентов банка регистрировать свои доходы в ФНС через приложение банка.
 
 ### Цель
 
@@ -58,3 +58,7 @@ tags: [adr]
 ### Операции со справками
 
 ![references-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
+
+## Диаграмма состояний
+
+![state.png](../../assets/images/diagrams/self-employed-service/state/state.png)
