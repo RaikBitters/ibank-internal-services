@@ -1,3 +1,18 @@
+@startuml hi-level-model-components
+
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "Self-employed service" as SelfEmplService <<component>>
+component "Auth service" as AuthService <<component>>
+component "Kafka Message bus" as  Kafka <<component>>
+
+SelfEmplService ..> Tax3: use APIs
+SelfEmplService ..> AuthService: change User role
+SelfEmplService .right.> Kafka: consume events
+
+@enduml 
+
+
+
 @startuml self-employer-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
