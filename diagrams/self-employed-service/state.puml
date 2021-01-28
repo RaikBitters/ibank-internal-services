@@ -2,13 +2,13 @@
 
 [*] -> PENDING: Bind
 
-PENDING -> ACTIVE: Bind completed
+PENDING -> ACTIVE: Bind completed \n Unbind failed
 ACTIVE -> PENDING: Unbind with unregistration
 
 PENDING -> DISABLED: Unbind completed \n Bind failed
 DISABLED --> PENDING: Bind
 
-ACTIVE -> DISABLED: Unbind \n Unbind failed
+ACTIVE -> DISABLED: Unbind
 
 PENDING: do / Check order status by time
 
