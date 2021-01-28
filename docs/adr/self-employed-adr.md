@@ -94,7 +94,7 @@ tags: [adr]
 
 ### Состояния Order
 
-[order-state.png](../../assets/images/diagrams/self-employed-service/state/order-state.png)
+![order-state.png](../../assets/images/diagrams/self-employed-service/state/order-state.png)
 
 В некоторых Заявках ФНС может вернуть статусы которые сопоставляются следующим образом:
 
