@@ -89,4 +89,4 @@ tags: [adr]
 
 ### Состояние у сущности Self-employer
 
-![state.png](../../assets/images/diagrams/self-employed-service/state/state.png)
+![self-employer-state.png](../../assets/images/diagrams/self-employed-service/state/self-employer-state.png)
