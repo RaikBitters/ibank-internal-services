@@ -22,6 +22,7 @@ tags: [adr]
     - [Операции со словорями](#операции-со-словорями)
     - [Операции со справками](#операции-со-справками)
   - [Диаграмма состояний](#диаграмма-состояний)
+    - [Состояние у сущности Self-employer](#состояние-у-сущности-self-employer)
 
 ## Глоссарий
 
@@ -85,5 +86,7 @@ tags: [adr]
 ![references-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
 
 ## Диаграмма состояний
+
+### Состояние у сущности Self-employer
 
 ![state.png](../../assets/images/diagrams/self-employed-service/state/state.png)
