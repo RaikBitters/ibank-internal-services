@@ -22,7 +22,8 @@ tags: [adr]
     - [Операции со словорями](#операции-со-словорями)
     - [Операции со справками](#операции-со-справками)
   - [Диаграмма состояний](#диаграмма-состояний)
-    - [Состояние у сущности Self-employer](#состояние-у-сущности-self-employer)
+    - [Состояния Self-employer](#состояния-self-employer)
+    - [Состояния Order](#состояния-order)
 
 ## Глоссарий
 
@@ -87,6 +88,17 @@ tags: [adr]
 
 ## Диаграмма состояний
 
-### Состояние у сущности Self-employer
+### Состояния Self-employer
 
 ![self-employer-state.png](../../assets/images/diagrams/self-employed-service/state/self-employer-state.png)
+
+### Состояния Order
+
+[order-state.png](../../assets/images/diagrams/self-employed-service/state/order-state.png)
+
+В некоторых Заявках ФНС может вернуть статусы которые сопоставляются следующим образом:
+
+* `ACCEPTED` = `COMPLETED`
+* `APPLIED` = `COMPLETED`
+* `REJECTED` = `FAILED`
+* `DENIED` = `FAILED`
