@@ -5,15 +5,17 @@
 Pending -> Active: Order completed
 Active -> Pending: Order registered
 
-Pending -> Unactive: Order completed \n or failed
-Unactive --> Pending: Order registered
+Pending -> Disabled: Order completed \n or failed
+Disabled --> Pending: Order registered
 
-Active -> Unactive: Default unbind
+Active -> Disabled: Default unbind
 
-Pending: do / Show order status
+Pending: enter / Check order status
+Pending: do / Check order status by time
 
-Active: do / Activate user as self-employer 
+Active: enter / Add taxpayer role to User
+Active: exit / Delete taxpayer role to User
 
-Unactive: do / Disable user as self-employer 
+Disabled: do / Returns a response about the user as "Not Found"
 
 @enduml
