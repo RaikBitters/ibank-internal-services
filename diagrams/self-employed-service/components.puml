@@ -1,4 +1,4 @@
-@startuml hi-level-model-components
+@startuml high-level-model-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
 component "Self-employed service" as SelfEmplService <<component>>

@@ -1,31 +1,34 @@
 @startuml 1c-directbank-actual-auth-components
 
+!import ../ibank-plantuml-library-0.1.zip
+!$library = 'ibank-plantuml-library-0.1'
+
 'left to right direction
 
 ' Import 1C DirectBank components
-!include ../.library/components/internet-bank/1c-directbank-gateway.puml
-!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logon
-!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logonOTP
-!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!logonCert
-!includesub ../.library/components/internet-bank/1c-directbank-gateway.puml!getSettings
+!include $library/.library/components/internet-bank/1c-directbank-gateway.puml
+!includesub $library/.library/components/internet-bank/1c-directbank-gateway.puml!logon
+!includesub $library/.library/components/internet-bank/1c-directbank-gateway.puml!logonOTP
+!includesub $library/.library/components/internet-bank/1c-directbank-gateway.puml!logonCert
+!includesub $library/.library/components/internet-bank/1c-directbank-gateway.puml!getSettings
 
 ' Import Auth service components
-!include ../.library/components/internet-bank/auth-service.puml
-!includesub ../.library/components/internet-bank/auth-service.puml!getCheckOTP
-!includesub ../.library/components/internet-bank/auth-service.puml!getCheckLogin
+!include $library/.library/components/internet-bank/auth-service.puml
+!includesub $library/.library/components/internet-bank/auth-service.puml!getCheckOTP
+!includesub $library/.library/components/internet-bank/auth-service.puml!getCheckLogin
 
 ' Import CA service components
-!include ../.library/components/internet-bank/ca-service.puml
-!includesub ../.library/components/internet-bank/ca-service.puml!getCerts
-!includesub ../.library/components/internet-bank/ca-service.puml!getCertificateRecordList
+!include $library/.library/components/internet-bank/ca-service.puml
+!includesub $library/.library/components/internet-bank/ca-service.puml!getCerts
+!includesub $library/.library/components/internet-bank/ca-service.puml!getCertificateRecordList
 
 ' Import Customer service components
-!include ../.library/components/internet-bank/customer-service.puml
-!includesub ../.library/components/internet-bank/customer-service.puml!getCustomers
+!include $library/.library/components/internet-bank/customer-service.puml
+!includesub $library/.library/components/internet-bank/customer-service.puml!getCustomers
 
 ' Import CryptoPro Certificate Authority components
-!include ../.library/components/bank-systems/cryptopro-ca.puml
-!includesub ../.library/components/bank-systems/cryptopro-ca.puml!getCertificateRecordList
+!include $library/.library/components/bank-systems/cryptopro-ca.puml
+!includesub $library/.library/components/bank-systems/cryptopro-ca.puml!getCertificateRecordList
 
 ' Case connectivity
 1CDirect -up-( getCheckOTP

@@ -60,7 +60,7 @@ tags: [adr]
 
 ### Высокоуровневая модель
 
-![hi-level-model-components.png](../../assets/images/diagrams/self-employed-service/components/hi-level-model-components.png)
+![high-level-model-components.png](../../assets/images/diagrams/self-employed-service/components/high-level-model-components.png)
 
 ### Операции с налогоплательщиком
 
