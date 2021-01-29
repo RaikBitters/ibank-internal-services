@@ -9,7 +9,7 @@ SelfEmplService ..> Tax3: use APIs
 SelfEmplService ..> AuthService: change User role
 SelfEmplService .right.> Kafka: consume events
 
-@enduml 
+@enduml
 
 
 
