@@ -21,7 +21,6 @@ tags:
   - name: References
   - name: Orders
   - name: Self-employer
-  - name: Self-employers collection
   - name: Inprogress
   - name: Notifications
   - name: Registration
@@ -133,7 +132,7 @@ paths:
 
         Оба способа создают заявки на стороне ФНС которые можно отследить по `order id`.
 
-        В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с UNACTIVE на ACTIVE. Статус самозанятого переходит в ACTIVE через промежуточный статус PENDING.
+        В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с DISABLED на ACTIVE. Статус самозанятого переходит в ACTIVE через промежуточный статус PENDING.
       requestBody:
         content:
           application/json:
@@ -143,7 +142,7 @@ paths:
                 - $ref: '#/components/schemas/BindingWithRegistrationInfo'
         description: Данные для регистрация или привязки пользователя.
       tags:
-        - Self-employers collection
+        - Self-employer
       parameters:
         - schema:
             type: boolean
@@ -180,7 +179,7 @@ paths:
         Получения списка самозанятых.
         Доступна фильтрация по user_id.
       tags:
-        - Self-employers collection
+        - Self-employer
   '/orders/{id}':
     get:
       summary: Get order by id
@@ -698,8 +697,8 @@ components:
           type: string
           enum:
             - ACTIVE
-            - UNACTIVE
             - PENDING
+            - DISABLED
           description: Статус пользователь как самозанятого в Интернет банке.
         timestamp_create:
           type: string
