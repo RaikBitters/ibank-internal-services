@@ -133,7 +133,7 @@ paths:
 
         Оба способа создают заявки на стороне ФНС которые можно отследить по `order id`.
 
-        В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с DEACTIVATED на ACTIVE. Статус самозанятого переходит в ACTIVE через промежуточный статус PENDING.
+        В случаи если пользователь уже есть в системе банка, был ранее отвязан, статус меняется с DISABLED на ACTIVE. Статус самозанятого переходит в ACTIVE через промежуточный статус PENDING.
       requestBody:
         content:
           application/json:
@@ -699,7 +699,7 @@ components:
           enum:
             - ACTIVE
             - PENDING
-            - DEACTIVATED
+            - DISABLED
           description: Статус пользователь как самозанятого в Интернет банке.
         timestamp_create:
           type: string
