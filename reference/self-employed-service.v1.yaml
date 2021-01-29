@@ -21,7 +21,6 @@ tags:
   - name: References
   - name: Orders
   - name: Self-employer
-  - name: Self-employers collection
   - name: Inprogress
   - name: Notifications
   - name: Registration
@@ -143,7 +142,7 @@ paths:
                 - $ref: '#/components/schemas/BindingWithRegistrationInfo'
         description: Данные для регистрация или привязки пользователя.
       tags:
-        - Self-employers collection
+        - Self-employer
       parameters:
         - schema:
             type: boolean
@@ -180,7 +179,7 @@ paths:
         Получения списка самозанятых.
         Доступна фильтрация по user_id.
       tags:
-        - Self-employers collection
+        - Self-employer
   '/orders/{id}':
     get:
       summary: Get order by id
