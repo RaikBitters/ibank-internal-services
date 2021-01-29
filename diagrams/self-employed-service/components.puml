@@ -1,6 +1,22 @@
+@startuml hi-level-model-components
+
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "Self-employed service" as SelfEmplService <<component>>
+component "Auth service" as AuthService <<component>>
+component "Kafka Message bus" as  Kafka <<component>>
+
+SelfEmplService ..> Tax3: use APIs
+SelfEmplService ..> AuthService: change User role
+SelfEmplService .right.> Kafka: consume events
+
+@enduml 
+
+
+
 @startuml self-employer-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
 interface "GetTaxpayerRestrictionsRequest" as getTaxpayerRestrictions
 interface "PostRegistrationRequest\nGetRegistrationStatusRequest" as postTaxpayerRegistration
 interface "GetTaxpayerStatusRequest" as getTaxpayerStatus
@@ -12,16 +28,17 @@ interface "PostBindPartnerWithPhoneRequest\nGetBindPartnerStatusRequest" as post
 interface "PostUnbindPartnerRequest" as postPartnerUnbind
 interface "PostUnregistrationRequestV2\nGetUnregistrationStatusRequest" as postTaxpayerUnregistration
 
-Tax3 --() getTaxpayerRestrictions
-Tax3 --() postTaxpayerRegistration
-Tax3 --() getTaxpayerStatus
-Tax3 --() putTaxpayerData
-Tax3 --() postPartnerBindInn
-Tax3 --() postPartnerBindPhone
-Tax3 --() postTaxpayerUnregistration
-Tax3 --() postPartnerUnbind
-Tax3 --() getGrantedPermission
-Tax3 --() getInnByPersonalInfo
+Tax3 -- OpenAPI
+OpenAPI --() getTaxpayerRestrictions
+OpenAPI --() postTaxpayerRegistration
+OpenAPI --() getTaxpayerStatus
+OpenAPI --() putTaxpayerData
+OpenAPI --() postPartnerBindInn
+OpenAPI --() postPartnerBindPhone
+OpenAPI --() postTaxpayerUnregistration
+OpenAPI --() postPartnerUnbind
+OpenAPI --() getGrantedPermission
+OpenAPI --() getInnByPersonalInfo
 
 component "Self-employed service" as SelfEmplService <<service>> {
 
@@ -84,16 +101,18 @@ Delete -up-( postTaxpayerUnregistration
 
 @startuml incomes-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
 interface "PostIncomeRequestV2" as PostIncome
 interface "PostCancelReceiptRequestV2" as PostCancelReceipt
 interface "GetIncomeRequestV2" as GetIncome
 interface "GetIncomeForPeriodRequest" as GetIncomeForPeriod
 
-Tax3 --() PostIncome
-Tax3 --() PostCancelReceipt
-Tax3 --() GetIncome
-Tax3 --() GetIncomeForPeriod
+Tax3 -- OpenAPI
+OpenAPI --() PostIncome
+OpenAPI --() PostCancelReceipt
+OpenAPI --() GetIncome
+OpenAPI --() GetIncomeForPeriod
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /self-employers/{id}/incomes" as getIncomes
@@ -119,14 +138,16 @@ SelfEmplService -up-( GetIncomeForPeriod
 
 @startuml account-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
 interface "GetTaxpayerAccountStatusRequest" as GetAccountStatus
 interface "GetAccrualsAndDebtsRequest" as GetAccrualsAndDebts
 interface "GetPaymentDocumentsRequest" as GetPaymentDocuments
 
-Tax3 --() GetAccountStatus
-Tax3 --() GetAccrualsAndDebts
-Tax3 --() GetPaymentDocuments
+Tax3 -- OpenAPI
+OpenAPI --() GetAccountStatus
+OpenAPI --() GetAccrualsAndDebts
+OpenAPI --() GetPaymentDocuments
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /self-employers/{id}/account" as getAccount
@@ -147,12 +168,14 @@ SelfEmplService -up-( GetPaymentDocuments
 
 @startuml references-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
 interface "GetRegistrationReferenceRequestV2" as GetRegistrationReference
 interface "GetIncomeReferenceRequestV2" as GetIncomeReference
 
-Tax3 --() GetRegistrationReference
-Tax3 --() GetIncomeReference
+Tax3 -- OpenAPI
+OpenAPI --() GetRegistrationReference
+OpenAPI --() GetIncomeReference
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /self-employers/{id}/references/{type}" as getReference
@@ -168,7 +191,8 @@ SelfEmplService -up-( GetIncomeReference
 
 @startuml notifications-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
 interface "GetNotificationsRequest" as GetNotifications
 interface "PostNotificationsAckRequest" as PostNotificationsAck
 interface "PostNotificationsArchRequest" as PostNotificationsArch
@@ -177,13 +201,14 @@ interface "PostNotificationsArchAllRequest" as PostNotificationsArchAllRequest
 interface "GetNotificationsCountRequest" as GetNotificationsCount
 interface "PostNotificationsDeliveredRequest" as PostNotificationsDeliveredRequest
 
-Tax3 --() GetNotifications
-Tax3 --() PostNotificationsAck
-Tax3 --() PostNotificationsArch
-Tax3 --() PostNotificationsAckAll
-Tax3 --() PostNotificationsArchAllRequest
-Tax3 --() GetNotificationsCount
-Tax3 --() PostNotificationsDeliveredRequest
+Tax3 -- OpenAPI
+OpenAPI --() GetNotifications
+OpenAPI --() PostNotificationsAck
+OpenAPI --() PostNotificationsArch
+OpenAPI --() PostNotificationsAckAll
+OpenAPI --() PostNotificationsArchAllRequest
+OpenAPI --() GetNotificationsCount
+OpenAPI --() PostNotificationsDeliveredRequest
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET  /self-employers/{id}/notifications" as getNotifications
@@ -210,19 +235,21 @@ SelfEmplService -up-( PostNotificationsDeliveredRequest
 
 @startuml reference-data-components
 
-component "АИС Налог-3\nПП НПД" as Tax3 <<Component>>
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
 
+Tax3 -- OpenAPI
 interface "GetRegionsListRequest" as GetRegionsList
 interface "GetActivitiesListRequestV2" as GetActivitiesList
 interface "GetRejectionReasonsListRequest" as GetRejectionReasonsList
 interface "GetTaxpayerUnregistrationReasonsListRequest" as GetTaxpayerUnregistrationReasonsList
 interface "GetCancelIncomeReasonsListRequest" as GetCancelIncomeReasonsList
 
-Tax3 --() GetRegionsList
-Tax3 --() GetActivitiesList
-Tax3 --() GetRejectionReasonsList
-Tax3 --() GetCancelIncomeReasonsList
-Tax3 --() GetTaxpayerUnregistrationReasonsList
+OpenAPI --() GetRegionsList
+OpenAPI --() GetActivitiesList
+OpenAPI --() GetRejectionReasonsList
+OpenAPI --() GetCancelIncomeReasonsList
+OpenAPI --() GetTaxpayerUnregistrationReasonsList
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /reference-data/{type}" as getDictionary

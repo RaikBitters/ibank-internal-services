@@ -1,16 +1,37 @@
-@startuml
+@startuml self-employer-state
 
-[*] --> Pending
+[*] -> PENDING: Bind
 
-Pending -> Active
-Active --> Pending
+PENDING -> ACTIVE: Bind completed \n Unbind failed
+ACTIVE -> PENDING: Unbind with unregistration
 
-Pending -> Unactive
-Unactive -> Pending
+PENDING -> DISABLED: Unbind completed \n Bind failed
+DISABLED --> PENDING: Bind
 
-Active -> Unactive
+ACTIVE -> DISABLED: Unbind
 
-'Pending: entry /
-'Pending: exit /
+PENDING: do / Check order status by time
+
+ACTIVE: entry / Add taxpayer role to User
+ACTIVE: exit / Delete taxpayer role to User
+
+DISABLED: do / Returns a response about the user as "Not Found"
+
+@enduml
+
+
+@startuml order-state
+
+[*] -->  ORDER_REGISTERED
+
+ORDER_REGISTERED -> IN_PROGRESS
+
+IN_PROGRESS --> COMPLETED
+
+COMPLETED --> [*]
+
+IN_PROGRESS --> FAILED
+
+FAILED --> [*]
 
 @enduml
