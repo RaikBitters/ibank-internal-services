@@ -1,23 +1,52 @@
 @startuml high-level-model-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+component "АИС Налог-3\nAuth service" as Tax3AuthService <<component>>
+component "OpenAPI Gateway" as OpenAPI <<component>>
+
 component "Self-employed service" as SelfEmplService <<component>>
 component "Auth service" as AuthService <<component>>
 component "Kafka Message bus" as  Kafka <<component>>
 
-SelfEmplService ..> Tax3: use APIs
+OpenAPI ..> Tax3: use internal API
+OpenAPI ..> Tax3AuthService: use authorize partner API
+
+SelfEmplService ..> OpenAPI: use public API
 SelfEmplService ..> AuthService: change User role
-SelfEmplService .right.> Kafka: consume events
+SelfEmplService ..> Kafka: consume & public events
 
 @enduml
 
+
+
+@startuml self-employer-gateway-messaging
+
+component "OpenAPI Gateway" as OpenAPI <<component>>
+interface "SendMessageRequest" as sendMessage
+interface "GetMessageRequest" as getMessage
+interface "GetMessagesRequest" as sendMessages
+
+component "Self-employed service" as SelfEmplService <<component>>
+
+OpenAPI --() sendMessage
+OpenAPI --() getMessage
+OpenAPI --() sendMessages
+
+SelfEmplService -up-( sendMessage
+SelfEmplService -up-( getMessage
+SelfEmplService -up-( sendMessages
+
+@enduml
+
+
+
 @startuml self-employer-authentication
 
-component "АИС Налог-3\n Open API" as OpenAPI <<component>>
+component "АИС Налог-3\nAuth service" as Tax3AuthService <<component>>
 interface "AuthRequest" as authRequest
 component "Self-employed service" as SelfEmplService <<service>>
 
-OpenAPI --() authRequest
+Tax3AuthService --() authRequest
 SelfEmplService -up-( authRequest
 
 @enduml
@@ -29,10 +58,9 @@ SelfEmplService -up-( authRequest
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
 interface "PostPlatformRegistrationRequest" as postPlatformRegistration
 component "Self-employed service" as SelfEmplService <<service>>
-component "GetRegistrationStatusResponse" as getRegistrationStatus
 
-Tax3 --() postPlatformRegistrationRequest
-SelfEmplService -up-( postPlatformRegistrationRequest
+Tax3 --() postPlatformRegistration
+SelfEmplService -up-( postPlatformRegistration
 
 @enduml
 
@@ -125,15 +153,17 @@ Delete -up-( postTaxpayerUnregistration
 @startuml incomes-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
-interface "PostIncomeRequestV2" as PostIncome
-interface "PostCancelReceiptRequestV2" as PostCancelReceipt
-interface "GetIncomeRequestV2" as GetIncome
-interface "GetIncomeForPeriodRequest" as GetIncomeForPeriod
+interface "PostIncomeRequestV2" as postIncomeRequestV2
+interface "PostCancelReceiptRequestV2" as postCancelReceipt
+interface "GetIncomeRequestV2" as getIncomeRequestV2
+interface "GetIncomeForPeriodRequest" as getIncomeForPeriod
+interface "GetKeysRequest" as getKeys
 
-Tax3 --() PostIncome
-Tax3 --() PostCancelReceipt
-Tax3 --() GetIncome
-Tax3 --() GetIncomeForPeriod
+Tax3 --() postIncomeRequestV2
+Tax3 --() postCancelReceipt
+Tax3 --() getIncomeRequestV2
+Tax3 --() getIncomeForPeriod
+Tax3 --() getKeys
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /self-employers/{id}/incomes" as getIncomes
@@ -148,10 +178,11 @@ SelfEmplService --() getIncomesId
 SelfEmplService --() delIncomesId
 SelfEmplService --() getIncomesStatistics
 
-SelfEmplService -up-( PostIncome
-SelfEmplService -up-( PostCancelReceipt
-SelfEmplService -up-( GetIncome
-SelfEmplService -up-( GetIncomeForPeriod
+SelfEmplService -up-( postIncomeRequestV2
+SelfEmplService -up-( postCancelReceipt
+SelfEmplService -up-( getIncomeRequestV2
+SelfEmplService -up-( getIncomeForPeriod
+SelfEmplService -up-( getKeys
 
 @enduml
 
@@ -160,13 +191,13 @@ SelfEmplService -up-( GetIncomeForPeriod
 @startuml account-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
-interface "GetTaxpayerAccountStatusRequest" as GetAccountStatus
-interface "GetAccrualsAndDebtsRequest" as GetAccrualsAndDebts
-interface "GetPaymentDocumentsRequest" as GetPaymentDocuments
+interface "GetTaxpayerAccountStatusRequest" as getAccountStatus
+interface "GetAccrualsAndDebtsRequest" as getAccrualsAndDebtsRequest
+interface "GetPaymentDocumentsRequest" as GetPaymentDocumentsRequest
 
-Tax3 --() GetAccountStatus
-Tax3 --() GetAccrualsAndDebts
-Tax3 --() GetPaymentDocuments
+Tax3 --() getAccountStatus
+Tax3 --() getAccrualsAndDebtsRequest
+Tax3 --() GetPaymentDocumentsRequest
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /self-employers/{id}/account" as getAccount
@@ -177,9 +208,9 @@ SelfEmplService --() getAccount
 SelfEmplService --() getAccrualsAndDebts
 SelfEmplService --() getPaymentDocuments
 
-SelfEmplService -up-( GetAccountStatus
-SelfEmplService -up-( GetAccrualsAndDebts
-SelfEmplService -up-( GetPaymentDocuments
+SelfEmplService -up-( getAccountStatus
+SelfEmplService -up-( getAccrualsAndDebtsRequest
+SelfEmplService -up-( GetPaymentDocumentsRequest
 
 @enduml
 
@@ -209,21 +240,21 @@ SelfEmplService -up-( GetIncomeReference
 @startuml notifications-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
-interface "GetNotificationsRequest" as GetNotifications
-interface "PostNotificationsAckRequest" as PostNotificationsAck
-interface "PostNotificationsArchRequest" as PostNotificationsArch
-interface "PostNotificationsAckAllRequest" as PostNotificationsAckAll
-interface "PostNotificationsArchAllRequest" as PostNotificationsArchAllRequest
-interface "GetNotificationsCountRequest" as GetNotificationsCount
-interface "PostNotificationsDeliveredRequest" as PostNotificationsDeliveredRequest
+interface "GetNotificationsRequest" as getNotificationsRequest
+interface "PostNotificationsAckRequest" as postNotificationsAck
+interface "PostNotificationsArchRequest" as postNotificationsArch
+interface "PostNotificationsAckAllRequest" as postNotificationsAckAll
+interface "PostNotificationsArchAllRequest" as postNotificationsArchAllRequest
+interface "GetNotificationsCountRequest" as getNotificationsCountRequest
+interface "PostNotificationsDeliveredRequest" as postNotificationsDeliveredRequest
 
-Tax3 --() GetNotifications
-Tax3 --() PostNotificationsAck
-Tax3 --() PostNotificationsArch
-Tax3 --() PostNotificationsAckAll
-Tax3 --() PostNotificationsArchAllRequest
-Tax3 --() GetNotificationsCount
-Tax3 --() PostNotificationsDeliveredRequest
+Tax3 --() getNotificationsRequest
+Tax3 --() postNotificationsAck
+Tax3 --() postNotificationsArch
+Tax3 --() postNotificationsAckAll
+Tax3 --() postNotificationsArchAllRequest
+Tax3 --() getNotificationsCountRequest
+Tax3 --() postNotificationsDeliveredRequest
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET  /self-employers/{id}/notifications" as getNotifications
@@ -236,13 +267,13 @@ SelfEmplService --() getNotificationsCount
 SelfEmplService --() postNotifications
 SelfEmplService --() putNotificationId
 
-SelfEmplService -up-( GetNotifications
-SelfEmplService -up-( PostNotificationsAck
-SelfEmplService -up-( PostNotificationsArch
-SelfEmplService -up-( PostNotificationsAckAll
-SelfEmplService -up-( PostNotificationsArchAllRequest
-SelfEmplService -up-( GetNotificationsCount
-SelfEmplService -up-( PostNotificationsDeliveredRequest
+SelfEmplService -up-( getNotificationsRequest
+SelfEmplService -up-( postNotificationsAck
+SelfEmplService -up-( postNotificationsArch
+SelfEmplService -up-( postNotificationsAckAll
+SelfEmplService -up-( postNotificationsArchAllRequest
+SelfEmplService -up-( getNotificationsCountRequest
+SelfEmplService -up-( postNotificationsDeliveredRequest
 
 @enduml
 
@@ -252,27 +283,27 @@ SelfEmplService -up-( PostNotificationsDeliveredRequest
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
 
-interface "GetRegionsListRequest" as GetRegionsList
-interface "GetActivitiesListRequestV2" as GetActivitiesList
-interface "GetRejectionReasonsListRequest" as GetRejectionReasonsList
-interface "GetTaxpayerUnregistrationReasonsListRequest" as GetTaxpayerUnregistrationReasonsList
-interface "GetCancelIncomeReasonsListRequest" as GetCancelIncomeReasonsList
+interface "GetRegionsListRequest" as getRegionsList
+interface "GetActivitiesListRequestV2" as getActivitiesList
+interface "GetRejectionReasonsListRequest" as getRejectionReasonsList
+interface "GetTaxpayerUnregistrationReasonsListRequest" as getTaxpayerUnregistrationReasonsList
+interface "GetCancelIncomeReasonsListRequest" as getCancelIncomeReasonsList
 
-Tax3 --() GetRegionsList
-Tax3 --() GetActivitiesList
-Tax3 --() GetRejectionReasonsList
-Tax3 --() GetCancelIncomeReasonsList
-Tax3 --() GetTaxpayerUnregistrationReasonsList
+Tax3 --() getRegionsList
+Tax3 --() getActivitiesList
+Tax3 --() getRejectionReasonsList
+Tax3 --() getTaxpayerUnregistrationReasonsList
+Tax3 --() getCancelIncomeReasonsList
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /reference-data/{type}" as getDictionary
 
 SelfEmplService --() getDictionary
 
-SelfEmplService -up-( GetRegionsList
-SelfEmplService -up-( GetActivitiesList
-SelfEmplService -up-( GetRejectionReasonsList
-SelfEmplService -up-( GetCancelIncomeReasonsList
-SelfEmplService -up-( GetTaxpayerUnregistrationReasonsList
+SelfEmplService -up-( getRegionsList
+SelfEmplService -up-( getActivitiesList
+SelfEmplService -up-( getRejectionReasonsList
+SelfEmplService -up-( getTaxpayerUnregistrationReasonsList
+SelfEmplService -up-( getCancelIncomeReasonsList
 
 @enduml
