@@ -19,7 +19,7 @@ SelfEmplService ..> Kafka: consume & public events
 
 
 
-@startuml self-employer-gateway-messaging
+@startuml gateway-messaging-components
 
 component "OpenAPI Gateway" as OpenAPI <<component>>
 interface "SendMessageRequest" as sendMessage
@@ -40,7 +40,7 @@ SelfEmplService -up-( sendMessages
 
 
 
-@startuml self-employer-authentication
+@startuml authentication-components
 
 component "АИС Налог-3\nAuth service" as Tax3AuthService <<component>>
 interface "AuthRequest" as authRequest
@@ -53,7 +53,7 @@ SelfEmplService -up-( authRequest
 
 
 
-@startuml self-employer-platform-registration
+@startuml platform-registration-components
 
 component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
 interface "PostPlatformRegistrationRequest" as postPlatformRegistration
