@@ -11,6 +11,31 @@ SelfEmplService .right.> Kafka: consume events
 
 @enduml
 
+@startuml self-employer-authentication
+
+component "АИС Налог-3\n Open API" as OpenAPI <<component>>
+interface "AuthRequest" as authRequest
+component "Self-employed service" as SelfEmplService <<service>>
+
+OpenAPI --() authRequest
+SelfEmplService -up-( authRequest
+
+@enduml
+
+
+
+@startuml self-employer-platform-registration
+
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+interface "PostPlatformRegistrationRequest" as postPlatformRegistration
+component "Self-employed service" as SelfEmplService <<service>>
+component "GetRegistrationStatusResponse" as getRegistrationStatus
+
+Tax3 --() postPlatformRegistrationRequest
+SelfEmplService -up-( postPlatformRegistrationRequest
+
+@enduml
+
 
 
 @startuml self-employer-components
