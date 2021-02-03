@@ -7,6 +7,7 @@ component "OpenAPI Gateway" as OpenAPI <<component>>
 component "Self-employed service" as SelfEmplService <<component>>
 component "Auth service" as AuthService <<component>>
 component "Kafka Message bus" as  Kafka <<component>>
+component "Object storage" as objectStorage <<Component>>
 
 OpenAPI ..> Tax3: use internal API
 OpenAPI ..> Tax3AuthService: use authorize partner API
@@ -14,6 +15,7 @@ OpenAPI ..> Tax3AuthService: use authorize partner API
 SelfEmplService ..> OpenAPI: use public API
 SelfEmplService ..> AuthService: change User role
 SelfEmplService ..> Kafka: consume & public events
+SelfEmplService ..> objectStorage: save static files
 
 @enduml
 
@@ -157,7 +159,6 @@ interface "PostIncomeRequestV2" as postIncomeRequestV2
 interface "PostCancelReceiptRequestV2" as postCancelReceipt
 interface "GetIncomeRequestV2" as getIncomeRequestV2
 interface "GetIncomeForPeriodRequest" as getIncomeForPeriod
-interface "GetKeysRequest" as getKeys
 
 Tax3 --() postIncomeRequestV2
 Tax3 --() postCancelReceipt
@@ -183,6 +184,24 @@ SelfEmplService -up-( postCancelReceipt
 SelfEmplService -up-( getIncomeRequestV2
 SelfEmplService -up-( getIncomeForPeriod
 SelfEmplService -up-( getKeys
+
+@enduml
+
+@startuml offline-incomes-components
+
+component "АИС Налог-3\nПП НПД" as Tax3 <<component>>
+interface "GetKeysRequest" as getKeys
+interface "PostIncomeRequestV2" as postIncomeRequestV2
+
+Tax3 --() getKeys
+Tax3 --() postIncomeRequestV2
+
+component "Self-employed service" as SelfEmplService <<Component>>
+component "Object storage" as objectStorage <<Component>>
+
+SelfEmplService -up-( getKeys
+SelfEmplService -up-( postIncomeRequestV2
+SelfEmplService ..> objectStorage: save receipt static file
 
 @enduml
 
