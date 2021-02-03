@@ -15,7 +15,7 @@ OpenAPI ..> Tax3AuthService: use authorize partner API
 SelfEmplService ..> OpenAPI: use public API
 SelfEmplService ..> AuthService: change User role
 SelfEmplService ..> Kafka: consume & public events
-SelfEmplService ..> objectStorage: save static files
+SelfEmplService ..> objectStorage: save media files
 
 @enduml
 
@@ -201,7 +201,7 @@ component "Object storage" as objectStorage <<Component>>
 
 SelfEmplService -up-( getKeys
 SelfEmplService -up-( postIncomeRequestV2
-SelfEmplService ..> objectStorage: save receipt static file
+SelfEmplService ..> objectStorage: save receipt image file
 
 @enduml
 
