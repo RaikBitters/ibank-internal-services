@@ -808,28 +808,32 @@ components:
             - FROM_LEGAL_ENTITY
             - FROM_FOREIGN_AGENCY
           description: Источник дохода.
-        customer_vatin:
+        payer_vatin:
           type: integer
           format: int64
           description: ИНН покупателя.
-        customer_name:
+        payer_name:
           type: string
           description: Наименование организации - покупателя.
         services:
           type: array
           items:
             $ref: '#/components/schemas/Service'
-        total_amount:
+        amount:
           type: string
           description: Общая стоимость оказанных услуг.
         geo_info:
           $ref: '#/components/schemas/GeoPoint'
+        transaction_id:
+          type: integer
+          format: int64
+          description: ID транзакции по которой произовдится регистрация дохода.
       required:
         - timestamp_request
         - timestamp_operation
         - income_type
         - services
-        - total_amount
+        - amount
     Service:
       title: Service
       type: object
@@ -862,9 +866,12 @@ components:
             link:
               type: string
               description: Ссылка на чек загрузки.
-            id:
+            receipt_guid:
               type: string
-              description: Id чека.
+              description: Id чека в ФНС.
+            id:
+              type: integer
+              format: int64
       x-tags:
         - Models
       description: Информация о выписанном чеке с несколькими услугами
