@@ -642,7 +642,7 @@ components:
           format: int64
           description: GUID пользователя интернет банка.
         vatin:
-          type: integer
+          type: string
           description: ИНН.
         first_name:
           type: string
@@ -690,7 +690,7 @@ components:
           format: int64
           description: GUID пользователя в Интернет банке.
         vatin:
-          type: integer
+          type: string
           format: int64
           description: ИНН.
         status:
@@ -930,9 +930,11 @@ components:
       title: Accrual
       type: object
       description: Налоговые начисления и задолженности налогоплательщика
+      x-tags:
+        - Models
       properties:
         vatin:
-          type: integer
+          type: string
           format: int64
           description: ИНН.
         tax_charge_list:
@@ -945,8 +947,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CalculationCard'
-      x-tags:
-        - Models
     TaxCharge:
       title: Tax charge
       type: object
@@ -1026,7 +1026,7 @@ components:
           format: int64
           description: GUID пользователя интернет банка.
         vatin:
-          type: integer
+          type: string
           description: ИНН.
       required:
         - user_id
@@ -1035,6 +1035,8 @@ components:
       title: Payment document
       type: object
       description: Данные платежного документа.
+      x-tags:
+        - Models
       properties:
         type:
           type: string
@@ -1049,7 +1051,7 @@ components:
           type: string
           description: Адрес места жительства.
         vatin:
-          type: integer
+          type: string
           format: int64
           description: ИНН налогоплательщика.
         amount:
@@ -1106,8 +1108,6 @@ components:
           type: integer
           format: int64
           description: Внутренний идентификатор источника документа в ПП НПД.
-      x-tags:
-        - Models
     Notification:
       title: Notification
       type: object
@@ -1177,16 +1177,16 @@ components:
     UnregistrationInfo:
       title: UnregistrationInfo
       type: object
+      x-tags:
+        - Models
       properties:
         vatin:
-          type: integer
+          type: string
           format: int64
           description: ИНН.
         reason_code:
           type: string
           description: Код причины. Доступен только REFUSE (Отказываюсь от применения специального налогового режима).
-      x-tags:
-        - Models
   securitySchemes: {}
   responses: {}
   parameters:
@@ -1195,5 +1195,5 @@ components:
       in: path
       required: true
       schema:
-        type: integer
+        type: string
       description: ИНН.
