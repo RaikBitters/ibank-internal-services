@@ -728,7 +728,7 @@ components:
           type: integer
           format: int64
           description: ''
-        guid_id:
+        guid:
           type: string
           description: ID заявки в ФНС.
         self-employer_id:
