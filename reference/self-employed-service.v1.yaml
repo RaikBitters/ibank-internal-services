@@ -596,9 +596,9 @@ paths:
                 type: object
                 properties:
                   vatin:
-                    type: integer
-                    format: int64
+                    type: string
                     description: ИНН.
+                    pattern: '^[0-9]+$'
       description: Запрос на получение ИНН пользователя по персональным данным.
       requestBody:
         content:
@@ -644,6 +644,7 @@ components:
         vatin:
           type: string
           description: ИНН.
+          pattern: '^[0-9]+$'
         first_name:
           type: string
           description: Имя.
@@ -691,8 +692,8 @@ components:
           description: GUID пользователя в Интернет банке.
         vatin:
           type: string
-          format: int64
           description: ИНН.
+          pattern: '^[0-9]+$'
         status:
           type: string
           enum:
@@ -935,8 +936,8 @@ components:
       properties:
         vatin:
           type: string
-          format: int64
           description: ИНН.
+          pattern: '^[0-9]+$'
         tax_charge_list:
           type: array
           description: Список налоговых начислений.
@@ -1028,6 +1029,7 @@ components:
         vatin:
           type: string
           description: ИНН.
+          pattern: '^[0-9]+$'
       required:
         - user_id
         - vatin
@@ -1052,8 +1054,8 @@ components:
           description: Адрес места жительства.
         vatin:
           type: string
-          format: int64
           description: ИНН налогоплательщика.
+          pattern: '^[0-9]+$'
         amount:
           type: number
           description: Сумма к оплате.
@@ -1182,8 +1184,8 @@ components:
       properties:
         vatin:
           type: string
-          format: int64
           description: ИНН.
+          pattern: '^[0-9]+$'
         reason_code:
           type: string
           description: Код причины. Доступен только REFUSE (Отказываюсь от применения специального налогового режима).
@@ -1196,4 +1198,5 @@ components:
       required: true
       schema:
         type: string
+        pattern: '^[0-9]+$'
       description: ИНН.
