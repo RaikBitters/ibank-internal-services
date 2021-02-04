@@ -694,7 +694,7 @@ components:
           type: string
           description: ИНН.
           pattern: '^[0-9]+$'
-        status:
+        state:
           type: string
           enum:
             - ACTIVE
