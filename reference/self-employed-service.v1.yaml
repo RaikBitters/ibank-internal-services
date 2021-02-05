@@ -820,7 +820,7 @@ components:
           items:
             $ref: '#/components/schemas/Service'
         amount:
-          type: string
+          type: number
           description: Общая стоимость оказанных услуг.
         geo_info:
           $ref: '#/components/schemas/GeoPoint'
