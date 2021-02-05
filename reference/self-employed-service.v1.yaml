@@ -229,6 +229,7 @@ paths:
         5. cancel-income - справочник причин отмены регистрации дохода.
       tags:
         - Reference-data
+      parameters: []
     parameters:
       - schema:
           type: string
