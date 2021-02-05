@@ -1,6 +1,14 @@
 @startuml identity-management-components
 
-!include ../.library/components/internet-bank/auth-service.puml!interfaces
+' Import common ibank plantuml library
+!import ../ibank-plantuml-library-0.1.1.zip
+!$library = 'ibank-plantuml-library-0.1.1'
+
+!include $library/components/internet-bank/auth-service.puml
+!includesub $library/components/internet-bank/auth-service.puml!postToken
+!includesub $library/components/internet-bank/auth-service.puml!getAuthorize
+!includesub $library/components/internet-bank/auth-service.puml!getUserinfo
+!includesub $library/components/internet-bank/auth-service.puml!getLogout
 
 component "Web site or Mobile app" as Client <<Client>>
 
