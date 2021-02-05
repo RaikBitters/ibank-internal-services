@@ -279,10 +279,12 @@ paths:
             type: integer
           in: query
           name: limit
+          required: true
         - schema:
             type: integer
           in: query
           name: offset
+          required: true
     post:
       summary: '[In progress] Registering income'
       tags:
