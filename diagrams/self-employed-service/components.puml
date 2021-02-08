@@ -164,7 +164,6 @@ Tax3 --() postIncomeRequestV2
 Tax3 --() postCancelReceipt
 Tax3 --() getIncomeRequestV2
 Tax3 --() getIncomeForPeriod
-Tax3 --() getKeys
 
 component "Self-employed service" as SelfEmplService <<Component>>
 interface "GET /self-employers/{id}/incomes" as getIncomes
@@ -183,7 +182,6 @@ SelfEmplService -up-( postIncomeRequestV2
 SelfEmplService -up-( postCancelReceipt
 SelfEmplService -up-( getIncomeRequestV2
 SelfEmplService -up-( getIncomeForPeriod
-SelfEmplService -up-( getKeys
 
 @enduml
 
