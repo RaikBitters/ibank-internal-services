@@ -57,17 +57,17 @@ entity Receipt {
     ..internal..
     id: int64
     self_employer_id: SelfEmployer.id
-    
+    transaction_id: int64
+
     ..external..
     receipt_guid: string
     vatin: string
-    transaction_id: int64
     timestamp_cancelation: string
 }
 
 Receipt ..> SelfEmployer
 
-entity OfflineIncome {
+entity Income {
     ..internal..
     id: int64
     self_employer_id: SelfEmployer.id
@@ -87,8 +87,6 @@ entity OfflineIncome {
     receipt_guid: string
     income_hash_code: string
     link: string
-    partner_id: Partner.id
-    source_device_id: string
 }
 
 enum IncomeType {
@@ -97,16 +95,16 @@ enum IncomeType {
     FROM_FOREIGN_AGENCY
 }
 
-Receipt .left.> OfflineIncome
+Receipt .left.> Income
 
-OfflineIncome ..> SelfEmployer
-OfflineIncome ..> IncomeType
-OfflineIncome ..> Partner
+Income ..> SelfEmployer
+Income ..> IncomeType
+Income ..> Partner
 
 entity OfflineKey {
     ..internal..
     id: int64
-    offline_income_id: OfflineIncome.id
+    income_id: Income.id
 
     ..external..
     sequence_number: string
@@ -114,6 +112,6 @@ entity OfflineKey {
     expire_time: date-time
 }
 
-OfflineKey .right.> OfflineIncome
+OfflineKey .right.> Income
 
 @enduml
