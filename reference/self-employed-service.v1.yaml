@@ -245,9 +245,8 @@ paths:
         description: Тип справочника.
   '/self-employers/{vatin}/incomes':
     get:
-      summary: '[In progress] Get incomes'
+      summary: Get incomes
       tags:
-        - Inprogress
         - Incomes
       responses:
         '200':
@@ -287,9 +286,8 @@ paths:
           name: offset
           required: true
     post:
-      summary: '[In progress] Registering income'
+      summary: Registering income
       tags:
-        - Inprogress
         - Incomes
       responses:
         '200':
@@ -321,10 +319,9 @@ paths:
         required: true
         description: ID чека
     get:
-      summary: '[In progress] Get income'
+      summary: Get income
       tags:
         - Incomes
-        - Inprogress
       responses:
         '200':
           description: OK
@@ -334,7 +331,7 @@ paths:
                 $ref: '#/components/schemas/Receipt'
       operationId: get-incomes-id
     delete:
-      summary: '[In progress] Cancellation income'
+      summary: Cancellation income
       operationId: delete-incomes-id
       responses:
         '200':
@@ -345,7 +342,6 @@ paths:
                 $ref: '#/components/schemas/Receipt'
       tags:
         - Incomes
-        - Inprogress
       description: ''
   '/self-employers/{vatin}/account':
     get:
