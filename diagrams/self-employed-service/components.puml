@@ -7,7 +7,8 @@ component "OpenAPI Gateway" as OpenAPI <<component>>
 component "Self-employed service" as SelfEmplService <<component>>
 component "Auth service" as AuthService <<component>>
 component "Kafka Message bus" as  Kafka <<component>>
-component "Object storage" as objectStorage <<Component>>
+component "Object storage" as ObjectStorage <<Component>>
+component "Report service" as ReportService <<Component>>
 
 OpenAPI ..> Tax3: use internal API
 OpenAPI ..> Tax3AuthService: use authorize partner API
@@ -15,7 +16,8 @@ OpenAPI ..> Tax3AuthService: use authorize partner API
 SelfEmplService ..> OpenAPI: use public API
 SelfEmplService ..> AuthService: change User role
 SelfEmplService ..> Kafka: consume & public events
-SelfEmplService ..> objectStorage: save media files
+SelfEmplService ..> ReportService: get pdf
+SelfEmplService ..> ObjectStorage: save pdf
 
 @enduml
 
