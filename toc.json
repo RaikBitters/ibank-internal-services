@@ -1,18 +1,42 @@
 {
   "items": [
     {
+      "type": "item",
+      "title": "List of internal iBank services",
+      "uri": "docs/list.md"
+    },
+    {
+      "type": "divider",
+      "title": "adr"
+    },
+    {
+      "type": "item",
+      "title": "1c-directbank-adr",
+      "uri": "docs/adr/1c-directbank-adr.md"
+    },
+    {
+      "type": "item",
+      "title": "Архитектурное решение сервиса самозанятых",
+      "uri": "docs/adr/self-employed-adr.md"
+    },
+    {
       "type": "divider",
       "title": "APIS"
     },
     {
       "type": "item",
-      "title": "Self-employed service",
-      "uri": "reference/self-employed-service.v1.yaml"
+      "title": "Anti-fraud service (deprecated)",
+      "uri": "reference/anti-fraud-service.v0.yml"
     },
     {
       "type": "item",
-      "title": "Architecture decision",
-      "uri": "docs/adr/self-employed-adr.md"
+      "title": "Deposit service (deprecated)",
+      "uri": "reference/deposit-service.v1.yml"
+    },
+    {
+      "type": "item",
+      "title": "Self-employed service",
+      "uri": "reference/self-employed-service.v1.yaml"
     },
     {
       "type": "divider",
@@ -21,26 +45,17 @@
     {
       "type": "item",
       "title": "Collection with cursor-based pagination",
-      "uri": "reference/models/Collection.v1.yaml"
+      "uri": "models/CollectionCursor.v1.yaml"
+    },
+    {
+      "type": "item",
+      "title": "CollectionOffset",
+      "uri": "models/CollectionOffset.v1.yaml"
     },
     {
       "type": "item",
       "title": "Error",
-      "uri": "reference/models/Error.v1.yaml"
-    },
-    {
-      "type": "divider",
-      "title": "Deprecated APIS"
-    },
-    {
-      "type": "item",
-      "title": "Anti-fraud API (deprecated)",
-      "uri": "reference/anti-fraud-api.v0.yml"
-    },
-    {
-      "type": "item",
-      "title": "Deposit service (deprecated)",
-      "uri": "reference/deposit-service.v1.yml"
+      "uri": "models/Error.v1.yaml"
     }
   ]
 }
