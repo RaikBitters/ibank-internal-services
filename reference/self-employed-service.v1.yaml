@@ -394,10 +394,9 @@ paths:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/notifications/':
     get:
-      summary: '[In progress] Get notifications'
+      summary: Get notifications
       tags:
         - Notifications
-        - Inprogress
       responses:
         '200':
           description: OK
@@ -426,14 +425,6 @@ paths:
           in: query
           name: archived
           description: Показывать заархивированные.
-    post:
-      summary: '[In progress] Change all notifications'
-      tags:
-        - Notifications
-        - Inprogress
-      responses: {}
-      operationId: post-notifications
-      description: ''
     parameters:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/notifications/{notif-id}':
@@ -450,7 +441,9 @@ paths:
       tags:
         - Notifications
         - Inprogress
-      responses: {}
+      responses:
+        '200':
+          description: OK
       operationId: put-notifications-id
   '/self-employers/{vatin}/notifications/count':
     get:
@@ -1202,6 +1195,34 @@ components:
         reason_code:
           type: string
           description: Код причины. Доступен только REFUSE (Отказываюсь от применения специального налогового режима).
+    NotificationAction:
+      title: NotificationAction
+      description: Данные для изменения уведомления.
+      x-examples: {}
+      x-tags:
+        - Models
+      oneOf:
+        - properties:
+            notification_id:
+              type: string
+              description: ID уведомления.
+            ack:
+              type: boolean
+              description: Признок прочтения уведомления.
+          required:
+            - notification_id
+            - ack
+        - properties:
+            notification_id:
+              type: string
+              description: ID уведомления.
+            archive:
+              type: boolean
+              description: Признак архивации уведомления.
+          required:
+            - notification_id
+            - archive
+      type: object
   securitySchemes: {}
   responses: {}
   parameters:
