@@ -1119,29 +1119,32 @@ components:
     Notification:
       title: Notification
       type: object
-      description: Схема уведомления для самозанятого.
+      x-tags:
+        - Models
+      description: Структура уведомления.
       properties:
         id:
           type: string
           description: Идентификатор уведомления.
         title:
           type: string
+          description: Заголовок уведомления.
         message:
           type: string
+          description: Уведомление.
         status:
           type: string
-        timestamp_create:
+          description: Статус уведомления.
+        timestamp_created:
           type: string
           format: date-time
-        timestamp_update:
-          type: string
-          format: date-time
+          description: Дата создания.
         partner_id:
           type: string
+          description: 'Идентификатор партнера, внесшего последние изменения.'
         application_id:
           type: string
-      x-tags:
-        - Models
+          description: 'Идентификатор приложения, внесшего последние изменения.'
     PermissionsList:
       title: PermissionsList
       type: object
