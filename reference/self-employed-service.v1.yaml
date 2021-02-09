@@ -412,6 +412,7 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Notification'
+              examples: {}
       operationId: get-notifications
       description: Получение списка оповещений для НП НПД.
       parameters:
@@ -453,12 +454,22 @@ paths:
       operationId: put-notifications-id
   '/self-employers/{vatin}/notifications/count':
     get:
-      summary: '[In progress] Get notifications count'
+      summary: Get notifications count
       tags:
         - Notifications
-        - Inprogress
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Кол-во не прочитанных сообщений.
       operationId: get-notifications-count
+      description: ''
     parameters:
       - $ref: '#/components/parameters/SelfEmployerResourceId'
   '/self-employers/{vatin}/incomes-period/{id}':
@@ -597,7 +608,6 @@ paths:
                   vatin:
                     type: string
                     description: ИНН.
-                    pattern: '^[0-9]+$'
       description: Запрос на получение ИНН пользователя по персональным данным.
       requestBody:
         content:
@@ -643,7 +653,6 @@ components:
         vatin:
           type: string
           description: ИНН.
-          pattern: '^[0-9]+$'
         first_name:
           type: string
           description: Имя.
@@ -692,7 +701,6 @@ components:
         vatin:
           type: string
           description: ИНН.
-          pattern: '^[0-9]+$'
         state:
           type: string
           enum:
@@ -943,7 +951,6 @@ components:
         vatin:
           type: string
           description: ИНН.
-          pattern: '^[0-9]+$'
         tax_charge_list:
           type: array
           description: Список налоговых начислений.
@@ -1035,7 +1042,6 @@ components:
         vatin:
           type: string
           description: ИНН.
-          pattern: '^[0-9]+$'
       required:
         - user_id
         - vatin
@@ -1061,7 +1067,6 @@ components:
         vatin:
           type: string
           description: ИНН налогоплательщика.
-          pattern: '^[0-9]+$'
         amount:
           type: number
           description: Сумма к оплате.
@@ -1194,7 +1199,6 @@ components:
         vatin:
           type: string
           description: ИНН.
-          pattern: '^[0-9]+$'
         reason_code:
           type: string
           description: Код причины. Доступен только REFUSE (Отказываюсь от применения специального налогового режима).
@@ -1207,5 +1211,4 @@ components:
       required: true
       schema:
         type: string
-        pattern: '^[0-9]+$'
       description: ИНН.
