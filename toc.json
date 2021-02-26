@@ -1,6 +1,10 @@
 {
   "items": [
     {
+      "type": "divider",
+      "title": "VISIONS"
+    },
+    {
       "type": "item",
       "title": "Архитектурное виденье сервиса самозанятых",
       "uri": "docs/self-employed-vision.md"
@@ -8,16 +12,6 @@
     {
       "type": "divider",
       "title": "APIS"
-    },
-    {
-      "type": "item",
-      "title": "Anti-fraud service (deprecated)",
-      "uri": "reference/anti-fraud-service.v0.yml"
-    },
-    {
-      "type": "item",
-      "title": "Deposit service (deprecated)",
-      "uri": "reference/deposit-service.v1.yml"
     },
     {
       "type": "item",
@@ -42,6 +36,20 @@
       "type": "item",
       "title": "Error",
       "uri": "models/Error.v1.yaml"
+    },
+    {
+      "type": "divider",
+      "title": "DEPRECATED"
+    },
+        {
+      "type": "item",
+      "title": "Anti-fraud service (deprecated)",
+      "uri": "reference/anti-fraud-service.v0.yml"
+    },
+    {
+      "type": "item",
+      "title": "Deposit service (deprecated)",
+      "uri": "reference/deposit-service.v1.yml"
     }
   ]
 }
