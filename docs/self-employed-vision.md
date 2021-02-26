@@ -1,8 +1,8 @@
 ---
-tags: [adr]
+tags: [vision]
 ---
 
-# Архитектурное решение сервиса самозанятых
+# Архитектурное виденье сервиса самозанятых
 
 ## Глоссарий
 
@@ -93,37 +93,37 @@ tags: [adr]
 
 ### Операции со счётом
 
-![account-components.png](../../assets/images/diagrams/self-employed-service/components/account-components.png)
+![account-components.png](../assets/images/diagrams/self-employed-service/components/account-components.png)
 
 ### Операции с уведомлениями
 
-![notifications-components.png](../../assets/images/diagrams/self-employed-service/components/notifications-components.png)
+![notifications-components.png](../assets/images/diagrams/self-employed-service/components/notifications-components.png)
 
 ### Операции со справочниками
 
-![references-data-components.png](../../assets/images/diagrams/self-employed-service/components/reference-data-components.png)
+![references-data-components.png](../assets/images/diagrams/self-employed-service/components/reference-data-components.png)
 
 ### Операции со справками
 
-![references-components.png](../../assets/images/diagrams/self-employed-service/components/references-components.png)
+![references-components.png](../assets/images/diagrams/self-employed-service/components/references-components.png)
 
 ## Диаграмма состояний
 
 ### Состояния Self-employer
 
-![self-employer-state.png](../../assets/images/diagrams/self-employed-service/state/self-employer-state.png)
+![self-employer-state.png](../assets/images/diagrams/self-employed-service/state/self-employer-state.png)
 
 ### Состояния Order
 
-![order-state.png](../../assets/images/diagrams/self-employed-service/state/order-state.png)
+![order-state.png](../assets/images/diagrams/self-employed-service/state/order-state.png)
 
 В некоторых Заявках ФНС может вернуть статусы которые сопоставляются следующим образом:
 
-* `ACCEPTED` = `COMPLETED`
-* `APPLIED` = `COMPLETED`
-* `REJECTED` = `FAILED`
-* `DENIED` = `FAILED`
+- `ACCEPTED` = `COMPLETED`
+- `APPLIED` = `COMPLETED`
+- `REJECTED` = `FAILED`
+- `DENIED` = `FAILED`
 
 ## Схема хранения данных
 
-![entities.png](../../assets/images/diagrams/self-employed-service/entities/entities.png)
+![entities.png](../assets/images/diagrams/self-employed-service/entities/entities.png)
