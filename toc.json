@@ -2,22 +2,8 @@
   "items": [
     {
       "type": "item",
-      "title": "List of internal iBank services",
-      "uri": "docs/list.md"
-    },
-    {
-      "type": "divider",
-      "title": "adr"
-    },
-    {
-      "type": "item",
-      "title": "1c-directbank-adr",
-      "uri": "docs/adr/1c-directbank-adr.md"
-    },
-    {
-      "type": "item",
-      "title": "Архитектурное решение сервиса самозанятых",
-      "uri": "docs/adr/self-employed-adr.md"
+      "title": "Архитектурное виденье сервиса самозанятых",
+      "uri": "docs/self-employed-vision.md"
     },
     {
       "type": "divider",
