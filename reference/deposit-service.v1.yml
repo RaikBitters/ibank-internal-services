@@ -20,8 +20,6 @@ tags:
   - name: corporate
     description: Операции для юридических лиц и индивидуальных предпринимателей.
 servers:
-  - description: SwaggerHub API Auto Mocking
-    url: 'https://virtserver.swaggerhub.com/bankspb/deposit-service/1.0'
   - description: Local server
     url: 'http://localhost:{port}'
     variables:
@@ -303,8 +301,8 @@ components:
   schemas:
     ErrorModel:
       required:
-      - code
-      - message
+        - code
+        - message
       type: object
       properties:
         code:
