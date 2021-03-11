@@ -45,9 +45,17 @@ paths:
                 items:
                   $ref: '#/components/schemas/DepositRate'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Error.v1.yaml
         '504':
-          $ref: '#/components/responses/GatewayTimeout'
+          description: Gateway Timeout
+          content:
+            application/json:
+              schema:
+                $ref: ../models/Error.v1.yaml
   /customers/corporate/rates:
     get:
       operationId: getRatesForCorporate
