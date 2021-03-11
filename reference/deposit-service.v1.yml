@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: Deposit service (deprecated)
+  title: Deposit service
   version: '1.0'
   description: |-
     ### Сервис для работы с депозитами клиентов интернет-банка
@@ -46,9 +46,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DepositRate'
-              examples:
-                PrivateRateExample:
-                  $ref: ./components/dataset.yml#/components/examples/PrivateRateExample
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -71,9 +68,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DepositRate'
-              examples:
-                CorporateRateExample:
-                  $ref: ./components/dataset.yml#/components/examples/CorporateRateExample
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -96,9 +90,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/DepositRate'
-              examples:
-                CorporateRateExample:
-                  $ref: ./components/dataset.yml#/components/examples/CorporateRateExample
         '400':
           $ref: '#/components/responses/BadRequest'
         '504':
@@ -310,6 +301,17 @@ paths:
           $ref: '#/components/responses/GatewayTimeout'
 components:
   schemas:
+    ErrorModel:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
     User:
       title: User
       type: object
@@ -435,11 +437,14 @@ components:
           description: dynamicRatesDescription.
           example: Ставка LIBOR overnight - 1.4%
         cancellationPenalties:
+          type: array
           description: Штрафная процентная ставка при досрочном  закрытии вклада.
+          items:
+            type: number
         validSince:
           type: string
           description: 'Дата, с которой можно открывать вклад.'
-          example: '2020-01-25T00:00:00.000'
+          format: date
         prolongationTypeCode:
           type: string
           description: Код вида договора для автоматической  пролонгации.
@@ -509,7 +514,6 @@ components:
         cancellationReason:
           type: string
           description: Значение уточняется.
-          example: null
           deprecated: true
         interestPayoutPeriod:
           type: string
@@ -855,7 +859,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: ./components/models.yml#/components/schemas/ErrorModel
+            $ref: '#/components/schemas/ErrorModel'
           example:
             code: 504
             message: Remote services are unavailable
@@ -864,7 +868,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: ./components/models.yml#/components/schemas/ErrorModel
+            $ref: '#/components/schemas/ErrorModel'
           example:
             code: 400
             message: Request parameter is missing
@@ -873,4 +877,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: ./components/models.yml#/components/schemas/ErrorModel
+            $ref: '#/components/schemas/ErrorModel'
