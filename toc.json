@@ -1,10 +1,6 @@
 {
   "items": [
     {
-      "type": "divider",
-      "title": "VISIONS"
-    },
-    {
       "type": "item",
       "title": "Архитектурное виденье сервиса самозанятых",
       "uri": "docs/self-employed-vision.md"
@@ -20,7 +16,7 @@
     },
     {
       "type": "item",
-      "title": "Deposit service (deprecated)",
+      "title": "Deposit service",
       "uri": "reference/deposit-service.v1.yml"
     },
     {
