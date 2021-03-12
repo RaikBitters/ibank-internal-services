@@ -446,7 +446,8 @@ components:
           type: array
           description: Штрафная процентная ставка при досрочном  закрытии вклада.
           items:
-            type: number
+            type: object
+            additionalProperties: true
         validSince:
           type: string
           description: 'Дата, с которой можно открывать вклад.'
