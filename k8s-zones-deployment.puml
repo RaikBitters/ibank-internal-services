@@ -1,0 +1,127 @@
+@startuml
+
+Title Abstraction
+
+left to right direction
+
+frame "DMZ network" as DMZNetwork {
+    node "Edge node" <<DMZ k8s cluster>> {
+        component GatewayA
+        component ServiceA
+    }
+}
+
+frame "Cloud intranet" as CorpNetwork {
+    node "Worker node" <<Cloud intranet k8s cluster>> {
+        component GatewayB
+        component ServiceB
+    }
+}
+
+actor Client
+
+Client --> GatewayA
+GatewayA ..> ServiceA
+
+ServiceA --> GatewayB
+GatewayB ..> ServiceB
+ServiceB --> GatewayA
+
+@enduml
+
+
+@startuml k8s-clusters-separation-single-ingress
+
+Title Single ingress
+
+left to right direction
+
+frame "DMZ network" as DMZ {
+    node "Edge node" <<DMZ k8s cluster>> {
+        collections "Ingress gateway" as IngressGatewayDMZ <<Load balancer>>
+        collections "API gateway web-site" as APIGatewayWS <<Cluster IP>>
+        collections "Middleware privet mobile" as MiddlePrivateMobile <<Cluster IP>>
+        collections "Middleware corporate mobile" as MiddleCorpMobile <<Cluster IP>>
+        collections "Public service" as PublicService <<Cluster IP>>
+
+        IngressGatewayDMZ ..> APIGatewayWS
+        IngressGatewayDMZ ..> MiddleCorpMobile
+        IngressGatewayDMZ ..> MiddlePrivateMobile
+        IngressGatewayDMZ ..> PublicService
+        MiddleCorpMobile ..> PublicService
+        MiddlePrivateMobile ..> PublicService
+        APIGatewayWS ..> PublicService
+
+    }
+}
+
+frame "Cloud intranet" as CorpZone {
+    node "Worker node" <<Cloud intranet k8s cluster>> {
+        collections "Ingress gateway" as IngressGatewayCorpZ <<Load balancer>>
+        collections "Private service" as PrivetService <<Cluster IP>>
+        collections "Egress gateway" as EgressService <<Cluster IP>>
+
+        IngressGatewayCorpZ ..> PrivetService
+        IngressGatewayCorpZ ..> EgressService
+        PrivetService .left.> EgressService
+    }
+}
+
+:Client: --> IngressGatewayDMZ
+APIGatewayWS --> IngressGatewayCorpZ
+MiddlePrivateMobile --> IngressGatewayCorpZ
+MiddleCorpMobile --> IngressGatewayCorpZ
+PublicService --> IngressGatewayCorpZ
+
+cloud "Local bank network" as KSPD
+EgressService -left-> KSPD
+
+@enduml
+
+@startuml k8s-clusters-separation-multi-ingress
+
+Title Multi ingress
+
+left to right direction
+
+frame "DMZ network" as DMZ {
+    node "Edge node" <<DMZ k8s cluster>> {
+        collections "Ingress gateway" as IngressGatewayDMZ <<Load balancer>>
+        collections "API gateway web-site" as APIGatewayWS <<Load balancer>>
+        collections "Middleware privet mobile" as MiddlePrivateMobile <<Load balancer>>
+        collections "Middleware corporate mobile" as MiddleCorpMobile <<Load balancer>>
+        collections "Public service" as PublicService <<Cluster IP>>
+
+        IngressGatewayDMZ ..> PublicService
+        MiddleCorpMobile ..> PublicService
+        MiddlePrivateMobile ..> PublicService
+        APIGatewayWS ..> PublicService
+    }
+}
+
+frame "Cloud intranet" as CorpZone {
+    node "Worker node" <<Cloud intranet k8s cluster>> {
+        collections "Ingress gateway" as IngressGatewayCorpZ <<Load balancer>>
+        collections "Private service" as PrivetService <<Cluster IP>>
+        collections "Egress gateway" as EgressService <<Cluster IP>>
+
+        IngressGatewayCorpZ ..> PrivetService
+        IngressGatewayCorpZ ..> EgressService
+        PrivetService .left.> EgressService
+    }
+}
+
+:Client: --> IngressGatewayDMZ
+:Client: --> APIGatewayWS
+:Client: --> MiddlePrivateMobile
+:Client: --> MiddleCorpMobile
+
+APIGatewayWS --> IngressGatewayCorpZ
+MiddlePrivateMobile --> IngressGatewayCorpZ
+MiddleCorpMobile --> IngressGatewayCorpZ
+PublicService --> IngressGatewayCorpZ
+
+cloud "Local bank network" as KSPD
+EgressService -left-> KSPD
+
+@enduml
